@@ -1,0 +1,165 @@
+# Compiled source files
+*.dll
+*.exe
+*.so
+*.dylib
+*.pdb
+*.mdb
+*.cache
+
+# Folders
+bin/
+obj/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Auto-generated files
+Generated/
+*.designer.cs
+*.g.cs
+*.g.i.cs
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]uild/
+[Bb]in/
+[Oo]bj/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+
+# Rider
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+.vscode/*
+!.vscode/tasks.json
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+
+# User-specific files (Mono Auto Generated)
+mono_crash.*
+*.pidb
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code workspace
+*.code-workspace
+
+# Local history for Visual Studio
+.localhistory/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Entity Framework
+*.edmx.sql
+
+# Microsoft Azure Web App publish settings. 
+# These settings are still created if you publish to Azure, but will 
+# no longer be updated automatically, because this is a default setting 
+# and changing it requires admin permissions on your machine.
+*.Publish.xml
+*.pubxml
+*.publishproj
+
+# IIS Logs
+IISExpress/
+
+# dotnet runtime directories
+/.dotnet/
+.dotnet/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Auto-generated file lists
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# dotnet user secrets
+secrets.json
+
+# Visual Studio for Mac
+.vscode/
+
+# Coverlet
+coverage.opencover.xml
+coverage.json
+
+# StyleCop
+StyleCopReport.xml
+
+# Paket
+.paket/
+paket-files/
+
+# Azure Functions
+local.settings.json
+
+# Application Insights
+ApplicationInsights.config
+ApplicationInsights.json
+
+# DocFX
+_.cache/
+.site/
+
+# node.js directories
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# NuGet
+.nuget/
+
+# Tye
+.tye/
+
+# Serverless
+serverless/
+
+# Generated .NET files
+*.nupkg
+*.snupkg
+.project/
+.ijwb/
+.ipr/
+.iws/
+.idea/
+/TPDDSBackend/.vs
+/.vs
