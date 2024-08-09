@@ -2,6 +2,7 @@
 {
     public class FoodDonation : Contribution
     {
-        public Food Food { get; set; }
+        public virtual Food Food { get; set; }
+        public int FoodId { get; set; }
     }
 }

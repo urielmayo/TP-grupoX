@@ -2,6 +2,7 @@
 {
     public enum DonationFrequency
     {
+        None,
         Weekly,
         Monthly,
         Annually

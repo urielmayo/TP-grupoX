@@ -3,6 +3,7 @@
     public class Contribution : AuditableEntity
     {
         public DateTime Date { get; set; }
-        public Collaborator Collaborator { get; set; }
+        public virtual Collaborator Collaborator { get; set; }
+        public int CollaboratorId { get; set; }
     }
 }

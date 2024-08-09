@@ -4,7 +4,10 @@ namespace TPDDSBackend.Domain.Entitites
 {
     public class FoodXDelivery : AuditableEntity
     {
-        public Food Food { get; set; }
-        public FoodDelivery Delivery { get; set; }
+        public virtual Food Food { get; set; }
+
+        public int FoodId { get; set; }
+        public virtual FoodDelivery Delivery { get; set; }
+        public int DeliveryId { get; set; }
     }
 }

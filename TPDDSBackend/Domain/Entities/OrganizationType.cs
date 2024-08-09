@@ -1,6 +1,6 @@
 ﻿namespace TPDDSBackend.Domain.Entitites
 {
-    public class BusinessType : AuditableEntity
+    public class OrganizationType : AuditableEntity
     {
         public string Description { get; set; }
     }

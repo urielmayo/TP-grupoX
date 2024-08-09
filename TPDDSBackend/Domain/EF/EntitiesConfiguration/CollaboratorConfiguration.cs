@@ -10,10 +10,9 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
         {
             builder.HasKey(c => c.Id);
 
-            // Configura la relación uno a uno con ContactMediumXPerson
-            builder.HasOne(c => c.ContactMediumXPerson)
+            builder.HasMany(c => c.MeansOfContact)
                    .WithOne(cmp => cmp.Collaborator)
-                   .HasForeignKey<ContactMediumXPerson>(cmp => cmp.CollaboratorId)
+                   .HasForeignKey(cmp => cmp.CollaboratorId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }
