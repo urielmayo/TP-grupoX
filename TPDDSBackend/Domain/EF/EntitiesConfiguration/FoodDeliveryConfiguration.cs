@@ -8,8 +8,6 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<FoodDelivery> builder)
         {
-            builder.HasKey(c => c.Id);
-
             builder.HasOne(x => x.OriginFridge)
                .WithMany()
                .HasForeignKey(p => p.OriginFridgeId);

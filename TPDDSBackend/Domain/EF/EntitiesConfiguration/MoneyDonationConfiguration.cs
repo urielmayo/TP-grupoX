@@ -8,9 +8,7 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
     public class MoneyDonationConfiguration : IEntityTypeConfiguration<MoneyDonation>
     {
         public void Configure(EntityTypeBuilder<MoneyDonation> builder)
-        {
-            builder.HasKey(c => c.Id);
-            
+        {          
             builder.Property(c => c.Frequency)
                 .HasConversion<string>(); 
         }

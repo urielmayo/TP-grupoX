@@ -4,6 +4,6 @@
     {
         public DateTime Date { get; set; }
         public virtual Collaborator Collaborator { get; set; }
-        public int CollaboratorId { get; set; }
+        public string CollaboratorId { get; set; }
     }
 }

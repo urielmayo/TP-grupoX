@@ -8,7 +8,7 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<HumanPerson> builder)
         {
-            builder.HasKey(c => c.Id);
+
         }
     }
 }
