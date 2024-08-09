@@ -2,7 +2,7 @@
 
 namespace TPDDSBackend.Domain.Entitites
 {
-    public class IDType : AuditableEntity
+    public class DocumentType : AuditableEntity
     {
         public string Description { get; set; }
     }

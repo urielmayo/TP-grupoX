@@ -9,6 +9,6 @@
         public string Address { get; set; }
         public int MinorsInCare { get; set; }
         public string IDNumber { get; set; }
-        public IDType IDType { get; set; }
+        public DocumentType? IDType { get; set; }
     }
 }

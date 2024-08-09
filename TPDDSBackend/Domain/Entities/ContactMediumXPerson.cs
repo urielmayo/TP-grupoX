@@ -2,7 +2,8 @@
 {
     public class ContactMediumXPerson : AuditableEntity
     {
-        public Collaborator Collaborator { get; set; }
+        public virtual Collaborator Collaborator { get; set; }
+        public string CollaboratorId { get; set; }
         public ContactMedium ContactMedium { get; set; }
         public int Value { get; set; }
     }

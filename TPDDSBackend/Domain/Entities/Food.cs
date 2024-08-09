@@ -7,9 +7,10 @@ namespace TPDDSBackend.Domain.Entitites
         public string Description { get; set; }
         public DateTime ExpirationDate { get; set; }
         public DateTime DonationDate { get; set; }
-        public State State { get; set; }
-        public int Collaborator { get; set; }
-        public Fridge Fridge { get; set; }
+        public FoodState State { get; set; }
+        public Collaborator Donor { get; set; }
+        public int FridgeId { get; set; }
+        public virtual Fridge Fridge { get; set; }
         public decimal Calories { get; set; }
         public decimal Weight { get; set; }
     }

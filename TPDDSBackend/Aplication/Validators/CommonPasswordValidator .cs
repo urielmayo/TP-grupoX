@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Aplication.Validators
 {
-    public class CommonPasswordValidator : IPasswordValidator<IdentityUser>
+    public class CommonPasswordValidator : IPasswordValidator<Collaborator>
     {
         private readonly HashSet<string> _commonPasswords;
 
@@ -12,7 +13,7 @@ namespace TPDDSBackend.Aplication.Validators
             _commonPasswords = new HashSet<string>(File.ReadAllLines("10-million-password-list-top-10000.txt"));
         }
 
-        public Task<IdentityResult> ValidateAsync(UserManager<IdentityUser> manager, IdentityUser user, string password)
+        public Task<IdentityResult> ValidateAsync(UserManager<Collaborator> manager, Collaborator user, string password)
         {
             if (_commonPasswords.Contains(password))
             {
