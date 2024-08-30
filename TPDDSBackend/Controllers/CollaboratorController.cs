@@ -21,14 +21,14 @@ namespace TPDDSBackend.Controllers
         [HttpPost("human-person")]
         public async Task<IActionResult> CreateHumanPerson([FromBody] CreateHumanPersonRequest request)
         {
-            var result = await _mediator.Send(new CreateCollaboratorCommand(request));
+            var result = await _mediator.Send(new CreateHumanPersonCommand(request));
             return Created($"{HttpContext.Request.Host.Value}/api/collaborator/{result.Data.Id}", result);
         }
 
         [HttpPost("legal-person")]
-        public async Task<IActionResult> CreateLegalPerson([FromBody] CreateHumanPersonRequest request)
+        public async Task<IActionResult> CreateLegalPerson([FromBody] CreateLegalPersonRequest request)
         {
-            var result = await _mediator.Send(new CreateCollaboratorCommand(request));
+            var result = await _mediator.Send(new CreateLegalPersonCommand(request));
             return Created($"{HttpContext.Request.Host.Value}/api/collaborator/{result.Data.Id}", result);
         }
 
