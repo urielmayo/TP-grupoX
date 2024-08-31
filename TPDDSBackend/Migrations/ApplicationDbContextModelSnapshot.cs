@@ -154,29 +154,6 @@ namespace TPDDSBackend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TPDDSBackend.Domain.Entitites.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("LastModificationAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Category");
-                });
-
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.Collaborator", b =>
                 {
                     b.Property<string>("Id")
@@ -257,29 +234,6 @@ namespace TPDDSBackend.Migrations
                     b.HasDiscriminator().HasValue("Collaborator");
 
                     b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("TPDDSBackend.Domain.Entitites.ContactMediaType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("LastModificationAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ContactMediaType");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.Contribution", b =>
@@ -417,7 +371,7 @@ namespace TPDDSBackend.Migrations
 
                     b.HasIndex("StateId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Foods");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.FoodState", b =>
@@ -506,62 +460,6 @@ namespace TPDDSBackend.Migrations
                     b.ToTable("Fridge");
                 });
 
-            modelBuilder.Entity("TPDDSBackend.Domain.Entitites.MeanOfContact", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CollaboratorId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("ContactMediaTypeId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("LastModificationAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CollaboratorId");
-
-                    b.HasIndex("ContactMediaTypeId");
-
-                    b.ToTable("MeanOfContact");
-                });
-
-            modelBuilder.Entity("TPDDSBackend.Domain.Entitites.OrganizationType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("LastModificationAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OrganizationType");
-                });
-
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.PersonInVulnerableSituation", b =>
                 {
                     b.Property<int>("Id")
@@ -635,15 +533,13 @@ namespace TPDDSBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("integer");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<int>("OrganizationTypeId")
-                        .HasColumnType("integer");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("OrganizationTypeId");
+                    b.Property<string>("OrganizationType")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasDiscriminator().HasValue("LegalPerson");
                 });
@@ -831,25 +727,6 @@ namespace TPDDSBackend.Migrations
                     b.Navigation("Food");
                 });
 
-            modelBuilder.Entity("TPDDSBackend.Domain.Entitites.MeanOfContact", b =>
-                {
-                    b.HasOne("TPDDSBackend.Domain.Entitites.Collaborator", "Collaborator")
-                        .WithMany("MeansOfContact")
-                        .HasForeignKey("CollaboratorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TPDDSBackend.Domain.Entitites.ContactMediaType", "Type")
-                        .WithMany()
-                        .HasForeignKey("ContactMediaTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Collaborator");
-
-                    b.Navigation("Type");
-                });
-
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.PersonInVulnerableSituation", b =>
                 {
                     b.HasOne("TPDDSBackend.Domain.Entitites.DocumentType", "DocumentType")
@@ -859,25 +736,6 @@ namespace TPDDSBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("DocumentType");
-                });
-
-            modelBuilder.Entity("TPDDSBackend.Domain.Entitites.LegalPerson", b =>
-                {
-                    b.HasOne("TPDDSBackend.Domain.Entitites.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TPDDSBackend.Domain.Entitites.OrganizationType", "Type")
-                        .WithMany()
-                        .HasForeignKey("OrganizationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.FoodDelivery", b =>
@@ -927,11 +785,6 @@ namespace TPDDSBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("Fridge");
-                });
-
-            modelBuilder.Entity("TPDDSBackend.Domain.Entitites.Collaborator", b =>
-                {
-                    b.Navigation("MeansOfContact");
                 });
 #pragma warning restore 612, 618
         }

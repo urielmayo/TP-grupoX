@@ -9,8 +9,8 @@ namespace TPDDSBackend.Domain.EF.DBContexts
     {
         private readonly DateTime _now = DateTime.UtcNow;
 
-        public DbSet<Collaborator> Cards { get; set; }
-        public DbSet<Food> Transactions { get; set; }
+        public DbSet<Collaborator> Collaborators { get; set; }
+        public DbSet<Food> Foods { get; set; }
 
         //TODO agregar las otras entidades
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :

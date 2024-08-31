@@ -39,6 +39,8 @@ namespace TPDDSBackend.Controllers
             return Ok(result);
         }
 
+
+
         [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCollaborator(string id)
@@ -50,15 +52,10 @@ namespace TPDDSBackend.Controllers
 
         [Authorize]
         [HttpPut("{id}")]
-        public IActionResult UpdateCollaborator(string id)
+        public async Task<IActionResult> UpdateCollaborator(string id,UpdateCollaboratorRequest updateCollaboratorRequest)
         {
-            var collaborator = new Collaborator()
-            {
-                UserName = "dummyUpdated",
-                Id = id
-            };
-
-            return Ok(collaborator);
+            var result = await _mediator.Send(new UpdateCollaboratorCommand(id,updateCollaboratorRequest));
+            return Ok(result);
         }
 
         [Authorize]
