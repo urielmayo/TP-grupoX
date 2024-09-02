@@ -63,6 +63,7 @@ namespace TPDDSBackend.Aplication.Commands
             var responsedTO = new CreateCollaboratorResponse()
             {
                 Id = user.Id,
+                UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber
             };

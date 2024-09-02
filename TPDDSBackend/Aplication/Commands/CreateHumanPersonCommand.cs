@@ -56,6 +56,7 @@ namespace TPDDSBackend.Aplication.Commands
              var responsedTO= new CreateCollaboratorResponse()
               {
                  Id = entity.Id,
+                 UserName = entity.UserName,
                  Email = entity.Email,
                  PhoneNumber = entity.PhoneNumber
               };
