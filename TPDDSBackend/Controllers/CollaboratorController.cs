@@ -58,7 +58,7 @@ namespace TPDDSBackend.Controllers
             return Ok(result);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCollaborator(string id)
         {

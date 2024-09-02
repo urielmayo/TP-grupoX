@@ -50,10 +50,12 @@ namespace TPDDSBackend.Aplication.Commands
 
             if (!result.Succeeded)
             {
-                throw new ApiCustomException("Error Registrando Usuario", HttpStatusCode.InternalServerError);
+                throw new ApiCustomException(result.Errors.FirstOrDefault()?.Description ?? "Error Registrando Usuario", HttpStatusCode.InternalServerError);
             }
-            
-             var responsedTO= new CreateCollaboratorResponse()
+
+            await _userManager.AddToRoleAsync(entity, "Collaborator");
+
+            var responsedTO= new CreateCollaboratorResponse()
               {
                  Id = entity.Id,
                  UserName = entity.UserName,

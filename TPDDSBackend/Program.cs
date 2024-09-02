@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using TPDDSBackend;
 using TPDDSBackend.Aplication;
 using TPDDSBackend.Aplication.Validators;
 using TPDDSBackend.Domain.EF.DBContexts;
@@ -120,6 +121,6 @@ app.UseAuthorization();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.MapControllers();
 
-//await app.InitializeRolesAsync();
+await app.InitializeAsync();
 
 app.Run();

@@ -39,13 +39,15 @@ namespace TPDDSBackend.Aplication.Queries
             {
                throw new ApiCustomException("usuario no encontrado", HttpStatusCode.NotFound);
             }
+            var rol = await _userManager.GetRolesAsync(user);
 
             var userResponse = new GetCollaboratorResponse()
             {
                 Id = user.Id,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                Name = user.UserName
+                UserName = user.UserName!,
+                Rol = rol.FirstOrDefault()
             };
 
             return new CustomResponse<GetCollaboratorResponse>("usuario encontrado", userResponse);
