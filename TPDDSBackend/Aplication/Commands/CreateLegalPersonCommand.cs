@@ -9,29 +9,29 @@ using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Aplication.Commands
 {
-    public class CreateCollaboratorCommand : IRequest<CustomResponse<CreateCollaboratorResponse>>
+    public class CreateLegalPersonCommand : IRequest<CustomResponse<CreateCollaboratorResponse>>
     {
-        public CreateHumanPersonRequest Request { get; set; }
-        public CreateCollaboratorCommand(CreateHumanPersonRequest request)
+        public CreateLegalPersonRequest Request { get; set; }
+        public CreateLegalPersonCommand(CreateLegalPersonRequest request)
         {
             Request = request;
         }
     }
 
-    public class CreateCollaboratorCommandHandler : IRequestHandler<CreateCollaboratorCommand, CustomResponse<CreateCollaboratorResponse>>
+    public class CreateLegalPersonCommandHandler : IRequestHandler<CreateLegalPersonCommand, CustomResponse<CreateCollaboratorResponse>>
     {
         private readonly IMapper _mapper;
         private readonly UserManager<Collaborator> _userManager;
-        public CreateCollaboratorCommandHandler(IMapper mapper, 
+        public CreateLegalPersonCommandHandler(IMapper mapper, 
             UserManager<Collaborator> userManager)
         {
             _mapper = mapper;
             _userManager = userManager;
         }
 
-        public async Task<CustomResponse<CreateCollaboratorResponse>> Handle(CreateCollaboratorCommand command, CancellationToken ct)
+        public async Task<CustomResponse<CreateCollaboratorResponse>> Handle(CreateLegalPersonCommand command, CancellationToken ct)
         {
-            var entity = _mapper.Map<Collaborator>(command.Request);
+            var entity = _mapper.Map<LegalPerson>(command.Request);
        
             var passwordResults = await Task.WhenAll( _userManager.PasswordValidators
                 .Select(validator => validator.ValidateAsync(_userManager, entity, command.Request.Password)));
@@ -50,12 +50,15 @@ namespace TPDDSBackend.Aplication.Commands
 
             if (!result.Succeeded)
             {
-                throw new ApiCustomException("Error Registrando Usuario", HttpStatusCode.InternalServerError);
+                throw new ApiCustomException(result.Errors.FirstOrDefault()?.Description ?? "Error Registrando Usuario", HttpStatusCode.InternalServerError);
             }
             
-             var responsedTO= new CreateCollaboratorResponse()
+            await _userManager.AddToRoleAsync(entity, "Collaborator");
+            
+            var responsedTO= new CreateCollaboratorResponse()
               {
                  Id = entity.Id,
+                 UserName = entity.UserName,
                  Email = entity.Email,
                  PhoneNumber = entity.PhoneNumber
               };

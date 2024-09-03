@@ -3,9 +3,9 @@ using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend
 {
-    public static class RoleInitializer
+    public static class UserInitializer
     {
-        public static async Task InitializeRolesAsync(this WebApplication app)
+        public static async Task InitializeAsync(this WebApplication app)
         {
             using (var scope = app.Services.CreateScope())
             {
@@ -20,7 +20,7 @@ namespace TPDDSBackend
 
         private static async Task CreateRolesAsync(RoleManager<IdentityRole> roleManager)
         {
-            string[] roleNames = { "Admin", "User", "Manager" };
+            string[] roleNames = { "Admin", "Collaborator" };
             foreach (var roleName in roleNames)
             {
                 var roleExist = await roleManager.RoleExistsAsync(roleName);
@@ -33,8 +33,8 @@ namespace TPDDSBackend
 
         private static async Task CreateAdminUserAsync(UserManager<Collaborator> userManager)
         {
-            var adminEmail = "admin@example.com";
-            var adminPassword = "Admin@1234"; // defaultAdmin
+            var adminEmail = "ONGAdmin@admin.com";
+            var adminPassword = "Admin@1234"; 
 
             var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
             if (existingAdmin == null)

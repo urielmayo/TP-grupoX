@@ -53,7 +53,8 @@ namespace TPDDSBackend.Aplication.Commands
 
             var response = new LoginCollaboratorResponse()
             {
-                Jwt = token
+                Jwt = token,
+                Id = user.Id
             };
             return new CustomResponse<LoginCollaboratorResponse>("iniciado correctamente", response);
         }

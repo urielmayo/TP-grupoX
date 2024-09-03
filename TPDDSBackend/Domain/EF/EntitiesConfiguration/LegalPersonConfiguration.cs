@@ -8,13 +8,6 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<LegalPerson> builder)
         {
-            builder.HasOne(x => x.Category)
-            .WithMany()
-            .HasForeignKey(x => x.CategoryId);
-
-            builder.HasOne(x => x.Type)
-                .WithMany()
-                .HasForeignKey(x => x.OrganizationTypeId);
         }
     }
 }

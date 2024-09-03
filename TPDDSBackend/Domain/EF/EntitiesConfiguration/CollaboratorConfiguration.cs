@@ -10,10 +10,6 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
         {
             builder.HasKey(c => c.Id);
 
-            builder.HasMany(c => c.MeansOfContact)
-                   .WithOne(cmp => cmp.Collaborator)
-                   .HasForeignKey(cmp => cmp.CollaboratorId)
-                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
