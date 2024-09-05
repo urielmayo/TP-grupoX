@@ -19,13 +19,12 @@ namespace TPDDSBackend.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateFridgePerson([FromBody] CreateFridgeRequest request)
+        public async Task<IActionResult> CreateFridge([FromBody] CreateFridgeRequest request)
         {
             var result = await _mediator.Send(new CreateFridgeCommand(request));
             return Created($"{HttpContext.Request.Host.Value}/api/fridge/{result.Data.Id}", result);
         }
 
-        //[Authorize]
         //[HttpGet("{id}")]
         //public async Task<IActionResult> GetCollaborator(string id)
         //{

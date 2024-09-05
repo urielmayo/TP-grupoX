@@ -5,15 +5,21 @@ namespace TPDDSBackend.Aplication.Managers
 {
     public class BaseManager<T> where T : class
     {
-        private static ApplicationDbContext contextInstance = null;
-        public static ApplicationDbContext contextSingleton
-        {
-            get
-            {
-                if (contextInstance == null)
-                    contextInstance = new ApplicationDbContext(new Microsoft.EntityFrameworkCore.DbContextOptions<ApplicationDbContext>());
-                return contextInstance;
-            }
+        private readonly ApplicationDbContext _dbContext;
+
+        //private static ApplicationDbContext contextInstance = null;
+        //public static ApplicationDbContext contextSingleton
+        //{
+        //    get
+        //    {
+        //        if (contextInstance == null)
+        //            contextInstance = new ApplicationDbContext();
+        //        return contextInstance;
+        //    }
+        //}
+
+        public BaseManager(ApplicationDbContext dbContext) {
+            _dbContext = dbContext;
         }
 
         public async Task<bool> Save(T entity, int id = 0)
@@ -21,12 +27,12 @@ namespace TPDDSBackend.Aplication.Managers
             try
             {
                 if (id == 0)
-                    contextSingleton.Entry(entity).State = EntityState.Added;
+                    _dbContext.Entry(entity).State = EntityState.Added;
                 else
-                    contextSingleton.Entry(entity).State = EntityState.Modified;
+                    _dbContext.Entry(entity).State = EntityState.Modified;
 
-                var result = await contextSingleton.SaveChangesAsync() > 0;
-                contextSingleton.Entry(entity).State = EntityState.Detached;
+                var result = await _dbContext.SaveChangesAsync() > 0;
+                _dbContext.Entry(entity).State = EntityState.Detached;
                 return result;
             }
             catch (Exception ex)

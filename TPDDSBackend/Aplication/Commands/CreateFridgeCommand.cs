@@ -5,6 +5,7 @@ using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Aplication.Managers;
+using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Aplication.Commands
@@ -22,10 +23,13 @@ namespace TPDDSBackend.Aplication.Commands
     {
         private readonly IMapper _mapper;
         private readonly FridgeManager _manager;
+        private readonly ApplicationDbContext _dbContext;
 
-        public CreateFridgeCommandHandler(IMapper mapper)
+
+        public CreateFridgeCommandHandler(IMapper mapper, ApplicationDbContext dbContext)
         {
-            _manager = new FridgeManager();
+            _dbContext = dbContext;
+            _manager = new FridgeManager(_dbContext);
             _mapper = mapper;
         }
 

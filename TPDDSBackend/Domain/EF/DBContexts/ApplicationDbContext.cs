@@ -11,8 +11,7 @@ namespace TPDDSBackend.Domain.EF.DBContexts
 
         public DbSet<Collaborator> Cards { get; set; }
         public DbSet<Food> Transactions { get; set; }
-
-        public DbSet<Fridge> Fridges { get; set; }
+        public DbSet<Fridge> Fridge { get; set; }
 
         //TODO agregar las otras entidades
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
