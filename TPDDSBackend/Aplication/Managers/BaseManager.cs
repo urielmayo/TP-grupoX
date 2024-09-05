@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TPDDSBackend.Domain.EF.DBContexts;
+using TPDDSBackend.Domain.Entitites;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TPDDSBackend.Aplication.Managers
 {
     public class BaseManager<T> where T : class
     {
-        private readonly ApplicationDbContext _dbContext;
+        protected readonly ApplicationDbContext _dbContext;
 
         //private static ApplicationDbContext contextInstance = null;
         //public static ApplicationDbContext contextSingleton
@@ -41,5 +43,6 @@ namespace TPDDSBackend.Aplication.Managers
             }
         }
 
+        
     }
 }

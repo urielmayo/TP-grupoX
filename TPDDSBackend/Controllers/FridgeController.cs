@@ -25,13 +25,13 @@ namespace TPDDSBackend.Controllers
             return Created($"{HttpContext.Request.Host.Value}/api/fridge/{result.Data.Id}", result);
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetCollaborator(string id)
-        //{
-        //    var result = await _mediator.Send(new GetCollaboratorQuery(id));
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetFridge(string id)
+        {
+            var result = await _mediator.Send(new GetFridgeQuery(int.Parse(id)));
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
         //[Authorize]
         //[HttpPut("{id}")]
