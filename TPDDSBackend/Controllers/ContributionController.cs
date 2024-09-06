@@ -1,7 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 using TPDDSBackend.Aplication.Commands;
+using TPDDSBackend.Aplication.Commands.Contributions;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Queries;
 
@@ -17,10 +19,14 @@ namespace TPDDSBackend.Controllers
             _mediator = mediator;
         }
 
+        
         [HttpPost("money")]
-        public async Task<IActionResult> DonateMoney()
+        [Authorize]
+        public async Task<IActionResult> DonateMoney([FromBody] MoneyDonationRequest request)
         {
-            return Ok();
+            var result = await _mediator.Send(new MoneyContributionCommand(request));
+
+            return Ok(result);
         }
 
         [HttpPost("food")]

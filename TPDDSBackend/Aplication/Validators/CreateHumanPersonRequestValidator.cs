@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Identity;
 using TPDDSBackend.Aplication.Dtos.Requests;
 
 namespace TPDDSBackend.Aplication.Validators

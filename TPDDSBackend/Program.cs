@@ -10,6 +10,7 @@ using TPDDSBackend.Aplication;
 using TPDDSBackend.Aplication.Validators;
 using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
 using TPDDSBackend.Middlewares;
 
@@ -57,6 +58,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddTransient<IEmailSender<Collaborator>, DummyEmailSender>();
 builder.Services.AddScoped<IJwtFactory, JwtFactory>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
 
 builder.Services.AddSwaggerGen(c =>
 {

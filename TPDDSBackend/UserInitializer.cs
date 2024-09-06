@@ -1,18 +1,23 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Infrastructure.Repositories;
 
 namespace TPDDSBackend
 {
     public static class UserInitializer
     {
+
         public static async Task InitializeAsync(this WebApplication app)
         {
+            
+
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                 var userManager = services.GetRequiredService<UserManager<Collaborator>>();
-
+   
                 await CreateRolesAsync(roleManager);
                 await CreateAdminUserAsync(userManager);
             }
@@ -39,7 +44,7 @@ namespace TPDDSBackend
             var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
             if (existingAdmin == null)
             {
-                var adminUser = new Collaborator
+                var adminUser = new Collaborator()
                 {
                     UserName = adminEmail,
                     Email = adminEmail

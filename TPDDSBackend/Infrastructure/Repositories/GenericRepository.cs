@@ -5,7 +5,7 @@ using TPDDSBackend.Domain.EF.DBContexts;
 
 namespace TPDDSBackend.Infrastructure.Repositories
 {
-    public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
 
         private readonly ApplicationDbContext _dbContext;
@@ -35,6 +35,7 @@ namespace TPDDSBackend.Infrastructure.Repositories
         public async Task<T> Insert(T value)
         {
             var insertedValue = await Entities.AddAsync(value);
+            await _dbContext.SaveChangesAsync();
             return insertedValue.Entity;
         }
 
