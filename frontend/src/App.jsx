@@ -12,6 +12,7 @@ import ContributionList, {
 import NewContribution from "./pages/NewContribution";
 import ErrorPage from "./pages/Error";
 import RewardsList, { rewardsLoader } from "./pages/RewardsList";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -30,22 +31,34 @@ const router = createBrowserRouter([
           { path: "logout", action: LogoutAction },
           {
             path: "contributions",
+            element: <ProtectedRoute />,
             children: [
               {
                 index: true,
                 element: <ContributionList />,
                 loader: contributionsLoader,
               },
-              { path: "new", element: <NewContribution /> },
+              {
+                path: "new",
+                element: <NewContribution />,
+              },
             ],
           },
         ],
       },
       {
         path: "rewards",
+        element: <ProtectedRoute />,
         children: [
-          { index: true, element: <RewardsList />, loader: rewardsLoader },
-          { path: ":rewardId", element: <p>Premio</p> },
+          {
+            index: true,
+            element: <RewardsList />,
+            loader: rewardsLoader,
+          },
+          {
+            path: ":rewardId",
+            element: <p>Premio</p>,
+          },
         ],
       },
     ],
