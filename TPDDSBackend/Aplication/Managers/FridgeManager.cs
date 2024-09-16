@@ -4,7 +4,7 @@ using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Aplication.Managers
 {
-    public class FridgeManager : BaseManager<Fridge>
+    public class FridgeManager : BaseManager<Fridge>, IFridgeManager
     {
         public FridgeManager(ApplicationDbContext dbContext) : base (dbContext)
         {}
@@ -13,5 +13,7 @@ namespace TPDDSBackend.Aplication.Managers
         {
             return await _dbContext.Fridge.Where(x => x.Id == Id).FirstOrDefaultAsync();
         }
+
+        
     }
 }

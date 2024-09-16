@@ -9,6 +9,7 @@ namespace TPDDSBackend.Aplication.Mappers
         public FridgeProfile()
         {
             CreateMap<CreateFridgeRequest, Fridge>();
+            CreateMap<UpdateFridgeRequest, Fridge>();
         }
     }
 }

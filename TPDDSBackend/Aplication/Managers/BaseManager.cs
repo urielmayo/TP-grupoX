@@ -1,24 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TPDDSBackend.Domain.EF.DBContexts;
-using TPDDSBackend.Domain.Entitites;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TPDDSBackend.Aplication.Managers
 {
     public class BaseManager<T> where T : class
     {
         protected readonly ApplicationDbContext _dbContext;
-
-        //private static ApplicationDbContext contextInstance = null;
-        //public static ApplicationDbContext contextSingleton
-        //{
-        //    get
-        //    {
-        //        if (contextInstance == null)
-        //            contextInstance = new ApplicationDbContext();
-        //        return contextInstance;
-        //    }
-        //}
 
         public BaseManager(ApplicationDbContext dbContext) {
             _dbContext = dbContext;
@@ -37,12 +24,23 @@ namespace TPDDSBackend.Aplication.Managers
                 _dbContext.Entry(entity).State = EntityState.Detached;
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
         }
 
-        
+        public async Task<bool> DeleteAsync(T entity)
+        {
+            try
+            {
+                _dbContext.Remove(entity);
+                return await _dbContext.SaveChangesAsync() > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

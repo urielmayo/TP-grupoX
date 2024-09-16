@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using TPDDSBackend.Aplication;
+using TPDDSBackend.Aplication.Managers;
 using TPDDSBackend.Aplication.Validators;
 using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entitites;
@@ -55,6 +56,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 builder.Services.AddTransient<IEmailSender<Collaborator>, DummyEmailSender>();
+builder.Services.AddTransient<IFridgeManager, FridgeManager>();
 builder.Services.AddScoped<IJwtFactory, JwtFactory>();
 
 builder.Services.AddSwaggerGen(c =>

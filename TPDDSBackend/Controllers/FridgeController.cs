@@ -33,25 +33,19 @@ namespace TPDDSBackend.Controllers
             return Ok(result);
         }
 
-        //[Authorize]
-        //[HttpPut("{id}")]
-        //public IActionResult UpdateCollaborator(string id)
-        //{
-        //    var collaborator = new Collaborator()
-        //    {
-        //        UserName = "dummyUpdated",
-        //        Id = id
-        //    };
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateFridge([FromBody]UpdateFridgeRequest request, string id)
+        {
+            var result = await _mediator.Send(new UpdateFridgeCommand(request, int.Parse(id)));
 
-        //    return Ok(collaborator);
-        //}
+            return Ok(result);
+        }
 
-        //[Authorize]
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteCollaborator(string id)
-        //{
-        //    await _mediator.Send(new DeleteCollaboratorCommand(id));
-        //    return NoContent();
-        //}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFridge(string id)
+        {
+            await _mediator.Send(new DeleteFridgeCommand(int.Parse(id)));
+            return NoContent();
+        }
     }
 }

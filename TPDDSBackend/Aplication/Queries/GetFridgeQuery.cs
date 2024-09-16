@@ -21,9 +21,9 @@ namespace TPDDSBackend.Aplication.Queries
     public class GetFridgeQueryHandler : IRequestHandler<GetFridgeQuery, CustomResponse<GetFridgeResponse>>
     {
         private readonly IMapper _mapper;
-        private readonly FridgeManager _fridgeManager;
+        private readonly IFridgeManager _fridgeManager;
         public GetFridgeQueryHandler(IMapper mapper,
-            FridgeManager fridgeManager)
+            IFridgeManager fridgeManager)
         {
             _mapper = mapper;
             _fridgeManager = fridgeManager;
