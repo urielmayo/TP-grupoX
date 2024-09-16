@@ -118,3 +118,26 @@ export const DUMMY_CONTRIBUTIONS = [
     recurrencia: "mensual",
   },
 ];
+
+export const DUMMY_LOCATIONS = [
+  {
+    id: 1,
+    name: "UTN sede medrano",
+    coordinates: [-34.59887, -58.42015],
+  },
+  {
+    id: 2,
+    name: "UTN sede campus",
+    coordinates: [-34.659702935892284, -58.468196728323214],
+  },
+  {
+    id: 3,
+    name: "Parque centenario",
+    coordinates: [-34.606381963412225, -58.437045036197816],
+  },
+  {
+    id: 4,
+    name: "Plaza aristobulo del valle",
+    coordinates: [-34.6054742328525, -58.492937591704134],
+  },
+];

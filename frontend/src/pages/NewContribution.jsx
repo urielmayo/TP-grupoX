@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { redirect } from "react-router-dom";
 import FormTitle from "../components/UI/FormTitle";
 import MoneyContribForm from "../components/Contributions/MoneyContribForm";
 import ContributionType from "../components/Contributions/ContributionType";
@@ -7,7 +8,8 @@ import DistributionContribForm from "../components/Contributions/DistributionCon
 import PersonContribForm from "../components/Contributions/PersonContribForm";
 import FridgeContribForm from "../components/Contributions/FridgeContribForm";
 import ProductContribForm from "../components/Contributions/ProductContribForm";
-export default function NewContribution() {
+
+export default function NewContributionPage() {
   const [contributionType, setContributionType] = useState("money");
 
   return (
@@ -27,3 +29,11 @@ export default function NewContribution() {
     </div>
   );
 }
+
+export const action = async ({ request }) => {
+  const form = await request.formData();
+  const data = Object.fromEntries(form.entries());
+  console.log(data);
+
+  return redirect("..");
+};

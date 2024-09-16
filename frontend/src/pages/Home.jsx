@@ -1,6 +1,11 @@
-import Map from "../components/Map";
+import { useLoaderData } from "react-router-dom";
 
-export default function Home() {
+import Map from "../components/Map";
+import { DUMMY_LOCATIONS } from "../dummy_data";
+
+export default function HomePage() {
+  const fridges = useLoaderData();
+
   return (
     <div className="flex items-start justify-center">
       <div className="bg-white shadow-lg rounded-2xl p-8 min-w-full text-center">
@@ -21,8 +26,12 @@ export default function Home() {
         </p>
 
         <br />
-        <Map />
+        <Map fridges={fridges} />
       </div>
     </div>
   );
+}
+
+export function loader() {
+  return DUMMY_LOCATIONS;
 }

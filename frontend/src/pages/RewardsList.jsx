@@ -1,10 +1,10 @@
 import { useLoaderData } from "react-router-dom";
 
 import { DUMMY_PRODUCTS } from "../dummy_data.js";
-import Product from "../components/Product.jsx";
+import Product from "../components/UI/Product.jsx";
 import Grid from "../components/UI/Grid.jsx";
 
-export default function RewardsList() {
+export default function RewardsListPage() {
   const products = useLoaderData();
   return (
     <div className="flex items-start justify-center">
@@ -25,6 +25,6 @@ export default function RewardsList() {
   );
 }
 
-export function rewardsLoader() {
+export function loader() {
   return DUMMY_PRODUCTS;
 }

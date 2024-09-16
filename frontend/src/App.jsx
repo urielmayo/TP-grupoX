@@ -1,17 +1,18 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import HomePage, { loader as fridgesLoader } from "./pages/Home";
+import LoginPage, { action as loginFormAction } from "./pages/Login";
+import SignupPage from "./pages/Signup";
 import { userLoader } from "./utils/auth";
-import { loginFormAction } from "./pages/Login";
 import LogoutAction from "./pages/Logout";
-import ContributionList, {
-  contributionsLoader,
+import ContributionListPage, {
+  loader as contributionsLoader,
 } from "./pages/ContributionList";
-import NewContribution from "./pages/NewContribution";
+import NewContributionPage, {
+  action as newContribAction,
+} from "./pages/NewContribution";
 import ErrorPage from "./pages/Error";
-import RewardsList, { rewardsLoader } from "./pages/RewardsList";
+import RewardsListPage, { loader as rewardsLoader } from "./pages/RewardsList";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
@@ -22,12 +23,12 @@ const router = createBrowserRouter([
     loader: userLoader,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <Home /> },
+      { index: true, element: <HomePage />, loader: fridgesLoader },
       {
         path: "users",
         children: [
-          { path: "login", element: <Login />, action: loginFormAction },
-          { path: "signup", element: <Signup /> },
+          { path: "login", element: <LoginPage />, action: loginFormAction },
+          { path: "signup", element: <SignupPage /> },
           { path: "logout", action: LogoutAction },
           {
             path: "contributions",
@@ -35,12 +36,13 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <ContributionList />,
+                element: <ContributionListPage />,
                 loader: contributionsLoader,
               },
               {
                 path: "new",
-                element: <NewContribution />,
+                element: <NewContributionPage />,
+                action: newContribAction,
               },
             ],
           },
@@ -52,12 +54,8 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <RewardsList />,
+            element: <RewardsListPage />,
             loader: rewardsLoader,
-          },
-          {
-            path: ":rewardId",
-            element: <p>Premio</p>,
           },
         ],
       },

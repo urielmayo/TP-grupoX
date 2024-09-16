@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Field from "../UI/Field";
 import SubmitButton from "../UI/SubmitButton";
+import { Form } from "react-router-dom";
 
 export default function FridgeContribForm() {
   const [address, setAddress] = useState("");
@@ -42,7 +43,7 @@ export default function FridgeContribForm() {
     }
   };
   return (
-    <div>
+    <Form method="post">
       <Field
         label={"Nombre"}
         name={"name"}
@@ -68,7 +69,7 @@ export default function FridgeContribForm() {
             name={"longitude"}
             type={"text"}
             value={coordinates.lng}
-            disabled
+            readOnly
           />
         </div>
         <div>
@@ -77,7 +78,7 @@ export default function FridgeContribForm() {
             name={"latitude"}
             type={"text"}
             value={coordinates.lat}
-            disabled
+            readOnly
           />
         </div>
       </div>
@@ -89,6 +90,6 @@ export default function FridgeContribForm() {
         required
       />
       <SubmitButton text={"Cargar heladera"} />
-    </div>
+    </Form>
   );
 }

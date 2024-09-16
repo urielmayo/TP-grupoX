@@ -1,7 +1,7 @@
 import { redirect } from "react-router-dom";
 import LoginForm from "../components/LoginForm";
 
-export default function Login() {
+export default function LoginPage() {
   return (
     <div className="flex items-center justify-center">
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
@@ -11,7 +11,7 @@ export default function Login() {
   );
 }
 
-export async function loginFormAction({ request }) {
+export async function action({ request }) {
   const data = await request.formData();
 
   const loginData = {

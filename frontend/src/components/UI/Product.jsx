@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export default function Product({ product }) {
   return (
     <div className="max-w-sm overflow-hidden rounded-2xl shadow-lg bg-white">

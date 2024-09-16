@@ -4,23 +4,21 @@ import SubmitButton from "../UI/SubmitButton";
 
 export default function ProductContribForm() {
   return (
-    <div>
-      <Form method="post">
-        <Field
-          label={"Nombre del producto"}
-          name={"name"}
-          type={"text"}
-          required
-        />
-        <Field
-          label={"Cantidad de puntos necesarios"}
-          name={"points"}
-          type={"number"}
-          required
-        />
-        <Field label={"URL de la imagen"} name={"image-url"} type={"url"} />
-        <SubmitButton text={"Publicar"} />
-      </Form>
-    </div>
+    <Form method="post">
+      <Field
+        label={"Nombre del producto"}
+        name={"name"}
+        type={"text"}
+        required
+      />
+      <Field
+        label={"Cantidad de puntos necesarios"}
+        name={"points"}
+        type={"number"}
+        required
+      />
+      <Field label={"URL de la imagen"} name={"image-url"} type={"url"} />
+      <SubmitButton text={"Publicar"} />
+    </Form>
   );
 }

@@ -1,9 +1,9 @@
 import { Link, useLoaderData } from "react-router-dom";
 import { DUMMY_CONTRIBUTIONS } from "../dummy_data";
 import Grid from "../components/UI/Grid";
-import ContributionCard from "../components/Contributions/ContributionCard";
+import ContributionCard from "../components/UI/ContributionCard";
 
-export default function ContributionList() {
+export default function ContributionListPage() {
   const contributions = useLoaderData();
   return (
     <div className="flex items-start justify-center">
@@ -29,6 +29,6 @@ export default function ContributionList() {
   );
 }
 
-export function contributionsLoader() {
+export function loader() {
   return DUMMY_CONTRIBUTIONS;
 }

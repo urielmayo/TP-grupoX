@@ -12,7 +12,6 @@ export default function ContributionType({ onSelect }) {
         name="money"
         className={buttonCssClass}
         onClick={(e) => onSelect(e.target.name)}
-        onFocus={"hola"}
       >
         Donar dinero
       </button>
