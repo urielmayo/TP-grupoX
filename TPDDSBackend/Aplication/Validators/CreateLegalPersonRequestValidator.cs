@@ -12,7 +12,7 @@ namespace TPDDSBackend.Aplication.Validators
             RuleFor(x => x.BusinessName)
                 .NotEmpty().WithMessage("la razon social es obligatorio.");
 
-            RuleFor(x => x.Type)
+            RuleFor(x => x.OrganizationType)
                 .NotEmpty().WithMessage("El tipo de organizacion es obligatorio.");
 
             RuleFor(x => x.Category)

@@ -21,14 +21,14 @@ namespace TPDDSBackend.Controllers
         [HttpPost("human-person")]
         public async Task<IActionResult> CreateHumanPerson([FromBody] CreateHumanPersonRequest request)
         {
-            var result = await _mediator.Send(new CreateCollaboratorCommand(request));
+            var result = await _mediator.Send(new CreateHumanPersonCommand(request));
             return Created($"{HttpContext.Request.Host.Value}/api/collaborator/{result.Data.Id}", result);
         }
 
         [HttpPost("legal-person")]
-        public async Task<IActionResult> CreateLegalPerson([FromBody] CreateHumanPersonRequest request)
+        public async Task<IActionResult> CreateLegalPerson([FromBody] CreateLegalPersonRequest request)
         {
-            var result = await _mediator.Send(new CreateCollaboratorCommand(request));
+            var result = await _mediator.Send(new CreateLegalPersonCommand(request));
             return Created($"{HttpContext.Request.Host.Value}/api/collaborator/{result.Data.Id}", result);
         }
 
@@ -38,6 +38,8 @@ namespace TPDDSBackend.Controllers
             var result = await _mediator.Send(new LoginCollaboratorCommand(request));
             return Ok(result);
         }
+
+
 
         [Authorize]
         [HttpGet("{id}")]
@@ -50,18 +52,13 @@ namespace TPDDSBackend.Controllers
 
         [Authorize]
         [HttpPut("{id}")]
-        public IActionResult UpdateCollaborator(string id)
+        public async Task<IActionResult> UpdateCollaborator(string id,UpdateCollaboratorRequest updateCollaboratorRequest)
         {
-            var collaborator = new Collaborator()
-            {
-                UserName = "dummyUpdated",
-                Id = id
-            };
-
-            return Ok(collaborator);
+            var result = await _mediator.Send(new UpdateCollaboratorCommand(id,updateCollaboratorRequest));
+            return Ok(result);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCollaborator(string id)
         {
