@@ -493,9 +493,6 @@ namespace TPDDSBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("RegistratedAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("text");
@@ -504,7 +501,7 @@ namespace TPDDSBackend.Migrations
 
                     b.HasIndex("DocumentTypeId");
 
-                    b.ToTable("PersonInVulnerableSituation");
+                    b.ToTable("PersonInVulnerableSituations");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.HumanPerson", b =>
@@ -542,6 +539,22 @@ namespace TPDDSBackend.Migrations
                         .HasColumnType("text");
 
                     b.HasDiscriminator().HasValue("LegalPerson");
+                });
+
+            modelBuilder.Entity("TPDDSBackend.Domain.Entities.Card", b =>
+                {
+                    b.HasBaseType("TPDDSBackend.Domain.Entitites.Contribution");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("PersonInVulnerableSituationId")
+                        .HasColumnType("integer");
+
+                    b.HasIndex("PersonInVulnerableSituationId");
+
+                    b.HasDiscriminator().HasValue("Card");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.FoodDelivery", b =>
@@ -736,6 +749,17 @@ namespace TPDDSBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("DocumentType");
+                });
+
+            modelBuilder.Entity("TPDDSBackend.Domain.Entities.Card", b =>
+                {
+                    b.HasOne("TPDDSBackend.Domain.Entitites.PersonInVulnerableSituation", "Owner")
+                        .WithMany()
+                        .HasForeignKey("PersonInVulnerableSituationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.FoodDelivery", b =>

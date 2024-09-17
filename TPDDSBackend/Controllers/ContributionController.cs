@@ -42,11 +42,14 @@ namespace TPDDSBackend.Controllers
         }
 
         [HttpPost("person-registration")]
-        public async Task<IActionResult> Register()
+        [Authorize]
+        public async Task<IActionResult> Register(CreatePersonInVulnerableSituationRequest request)
         {
-            return Ok();
+            var result = await _mediator.Send(new PersonRegistrationContributionCommand(request));
+
+            return Ok(result);
         }
 
 
     }
-    }
+ }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TPDDSBackend.Domain.Entitites;
 using System;
+using TPDDSBackend.Domain.Entities;
 namespace TPDDSBackend.Domain.EF.DBContexts
 {
     public class ApplicationDbContext : IdentityDbContext<Collaborator>
@@ -11,6 +12,10 @@ namespace TPDDSBackend.Domain.EF.DBContexts
 
         public DbSet<Collaborator> Collaborators { get; set; }
         public DbSet<Food> Foods { get; set; }
+
+        public DbSet<Card> Cards { get; set; }
+
+        public DbSet<PersonInVulnerableSituation> PersonInVulnerableSituations { get; set; }
 
         //TODO agregar las otras entidades
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :

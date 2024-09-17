@@ -1,22 +1,30 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System.Drawing;
-using System;
+using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Domain.Entitites;
-using TPDDSBackend.Infrastructure.Services;
 using TPDDSBackend.Domain.Enums;
 using TPDDSBackend.Infrastructure.Repositories;
+using TPDDSBackend.Infrastructure.Services;
 
 namespace TPDDSBackend.Aplication.Commands.Contributions
 {
-    public class MoneyContributionCommandHandler : IRequestHandler<MoneyContributionCommand, CustomResponse<Contribution>>
+    public class PersonRegistrationContributionCommand: IRequest<CustomResponse<Contribution>>
+    {
+        public CreatePersonInVulnerableSituationRequest? Request { get; set; }
+        public PersonRegistrationContributionCommand(CreatePersonInVulnerableSituationRequest? request)
+        {
+            Request = request;
+        }
+    }
+
+    public class PersonRegistrationContributionCommandHandler : IRequestHandler<PersonRegistrationContributionCommand, CustomResponse<Contribution>>
     {
         private readonly UserManager<Collaborator> _userManager;
         private readonly IJwtFactory _jwtFactory;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IGenericRepository<MoneyDonation> _moneyDonationRepository;
-        public MoneyContributionCommandHandler(UserManager<Collaborator> userManager,
+        public PersonRegistrationContributionCommandHandler(UserManager<Collaborator> userManager,
             IJwtFactory jwtFactory,
             IHttpContextAccessor httpContextAccessor,
             IGenericRepository<MoneyDonation> moneyDonationRepository)
@@ -26,20 +34,16 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             _httpContextAccessor = httpContextAccessor;
             _moneyDonationRepository = moneyDonationRepository;
         }
-        public async Task<CustomResponse<Contribution>> Handle(MoneyContributionCommand command, CancellationToken cancellationToken)
+        public async Task<CustomResponse<Contribution>> Handle(PersonRegistrationContributionCommand command, CancellationToken cancellationToken)
         {
+
             var jwt = _httpContextAccessor.HttpContext.Request.Headers.Authorization;
 
             (string collaboradorId, _) = _jwtFactory.GetClaims(jwt);
 
-            var collaborador = await _userManager.FindByIdAsync(collaboradorId);
-            
-            DonationFrequency frequency = (DonationFrequency)Enum.Parse(typeof(DonationFrequency), command.Request.Frequency);
-            DateTime date = DateTime.Parse(command.Request.Date).ToUniversalTime();
-            
-            var donation =  await collaborador.DonateMoney(command.Request.Amount, date, frequency);
+            //Insertar nueva persona en situacion vulnerable
 
-            await _moneyDonationRepository.Insert(donation);
+            //Insertar nueva tarjeta como contribucion
 
             return new CustomResponse<Contribution>("Se ha realizado con exito la donacion");
         }
