@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { redirect } from "react-router-dom";
+import { redirect, Link } from "react-router-dom";
 import FormTitle from "../components/UI/FormTitle";
 import MoneyContribForm from "../components/Contributions/MoneyContribForm";
 import ContributionType from "../components/Contributions/ContributionType";
@@ -15,6 +15,9 @@ export default function NewContributionPage() {
   return (
     <div className="flex items-start justify-center">
       <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg ">
+        <Link to={".."} className="text-blue-500 hover:underline">
+          Volver
+        </Link>
         <FormTitle text={"Realizar una contribucion"} />
         <br />
         <ContributionType onSelect={setContributionType} />
@@ -33,7 +36,5 @@ export default function NewContributionPage() {
 export const action = async ({ request }) => {
   const form = await request.formData();
   const data = Object.fromEntries(form.entries());
-  console.log(data);
-
   return redirect("..");
 };
