@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 
 namespace TPDDSBackend
 {
-    public static class UserInitializer
+    public static class DatabaseInitializer
     {
 
         public static async Task InitializeAsync(this WebApplication app)
@@ -20,7 +22,9 @@ namespace TPDDSBackend
    
                 await CreateRolesAsync(roleManager);
                 await CreateAdminUserAsync(userManager);
+                await CreateDocumentTypeAsync(scope.ServiceProvider.GetRequiredService<ApplicationDbContext>());
             }
+            
         }
 
         private static async Task CreateRolesAsync(RoleManager<IdentityRole> roleManager)
@@ -59,6 +63,27 @@ namespace TPDDSBackend
                 {
                     throw new Exception("No se pudo crear el usuario admin.");
                 }
+            }
+        }
+
+        private static async Task CreateDocumentTypeAsync(ApplicationDbContext dbContext)
+        {
+            if (!dbContext.DocumentTypes.Any())
+            {
+                var tiposDeDocumentos = new List<DocumentType>
+            {
+                new DocumentType { Description = "DNI" },
+                new DocumentType { Description = "CUIL" },
+                new DocumentType { Description = "CUIT" },
+                new DocumentType { Description = "Pasaporte" },
+                new DocumentType { Description = "Libreta Cívica" },
+                new DocumentType { Description = "Libreta de Enrolamiento" }
+            };
+
+                dbContext.DocumentTypes.AddRange(tiposDeDocumentos);
+                await dbContext.SaveChangesAsync();
+
+                Console.WriteLine("Se dieron de alta los tipos de documentos correctamente.");
             }
         }
     }

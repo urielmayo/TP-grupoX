@@ -1,11 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
-using TPDDSBackend.Aplication.Commands;
 using TPDDSBackend.Aplication.Commands.Contributions;
 using TPDDSBackend.Aplication.Dtos.Requests;
-using TPDDSBackend.Aplication.Queries;
 
 namespace TPDDSBackend.Controllers
 {
@@ -43,7 +40,7 @@ namespace TPDDSBackend.Controllers
 
         [HttpPost("person-registration")]
         [Authorize]
-        public async Task<IActionResult> Register(CreatePersonInVulnerableSituationRequest request)
+        public async Task<IActionResult> Register(PersonRegistrationContributionRequest request)
         {
             var result = await _mediator.Send(new PersonRegistrationContributionCommand(request));
 

@@ -10,14 +10,12 @@ namespace TPDDSBackend.Domain.EF.DBContexts
     {
         private readonly DateTime _now = DateTime.UtcNow;
 
-        public DbSet<Collaborator> Cards { get; set; }
-        public DbSet<Food> Transactions { get; set; }
-        public DbSet<Fridge> Fridge { get; set; }
-
         public DbSet<Card> Cards { get; set; }
-
+        public DbSet<Fridge> Fridge { get; set; }
+        public DbSet<MoneyDonation> MoneyDonations { get; set; }
         public DbSet<PersonInVulnerableSituation> PersonInVulnerableSituations { get; set; }
 
+        public DbSet<DocumentType> DocumentTypes { get; set; }
         //TODO agregar las otras entidades
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
             base(options)

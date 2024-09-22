@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using TPDDSBackend.Aplication.Dtos.Requests;
+using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Aplication.Mappers
@@ -8,7 +9,10 @@ namespace TPDDSBackend.Aplication.Mappers
     {
         public PersonInVulnerableSituationProfile()
         {
-            CreateMap<CreatePersonInVulnerableSituationRequest, PersonInVulnerableSituation>();
+            CreateMap<PersonRegistrationContributionRequest, PersonInVulnerableSituation>();
+
+            CreateMap<PersonRegistrationContributionRequest, Card>()
+                .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.CardCode));
         }
     }
 }
