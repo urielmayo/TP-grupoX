@@ -17,7 +17,7 @@ namespace TPDDSBackend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -316,7 +316,7 @@ namespace TPDDSBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DocumentType");
+                    b.ToTable("DocumentTypes");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.Food", b =>
@@ -371,7 +371,7 @@ namespace TPDDSBackend.Migrations
 
                     b.HasIndex("StateId");
 
-                    b.ToTable("Foods");
+                    b.ToTable("Food");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.FoodState", b =>
@@ -480,7 +480,7 @@ namespace TPDDSBackend.Migrations
                     b.Property<string>("DocumentNumber")
                         .HasColumnType("text");
 
-                    b.Property<int>("DocumentTypeId")
+                    b.Property<int?>("DocumentTypeId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("LastModificationAt")
@@ -494,7 +494,6 @@ namespace TPDDSBackend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -545,7 +544,7 @@ namespace TPDDSBackend.Migrations
                 {
                     b.HasBaseType("TPDDSBackend.Domain.Entitites.Contribution");
 
-                    b.Property<string>("Number")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -744,9 +743,7 @@ namespace TPDDSBackend.Migrations
                 {
                     b.HasOne("TPDDSBackend.Domain.Entitites.DocumentType", "DocumentType")
                         .WithMany()
-                        .HasForeignKey("DocumentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DocumentTypeId");
 
                     b.Navigation("DocumentType");
                 });

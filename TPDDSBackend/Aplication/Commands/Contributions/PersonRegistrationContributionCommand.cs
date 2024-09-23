@@ -7,7 +7,6 @@ using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
-using TPDDSBackend.Domain.Enums;
 using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
 
@@ -42,6 +41,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             _httpContextAccessor = httpContextAccessor;
             _cardRepository = cardRepository;
             _userManager = userManager;
+            _personRepository = personRepository;
         }
         public async Task<CustomResponse<Contribution>> Handle(PersonRegistrationContributionCommand command, CancellationToken cancellationToken)
         {
@@ -64,6 +64,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             card.CollaboratorId = collaboradorId;
             card.PersonInVulnerableSituationId = person.Id;
             card.Date = DateTime.UtcNow;
+            card.PersonInVulnerableSituationId = person.Id;
             
             await _cardRepository.Insert(card);
 
