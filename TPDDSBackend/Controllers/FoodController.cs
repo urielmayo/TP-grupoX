@@ -33,13 +33,13 @@ namespace TPDDSBackend.Controllers
             return Ok(result);
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> UpdateFood([FromBody]UpdateFoodRequest request, string id)
-        //{
-        //    var result = await _mediator.Send(new UpdateFoodCommand(request, int.Parse(id)));
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateFood([FromBody] UpdateFoodRequest request, string id)
+        {
+            var result = await _mediator.Send(new UpdateFoodCommand(request, int.Parse(id)));
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
         //[HttpDelete("{id}")]
         //public async Task<IActionResult> DeleteFood(string id)

@@ -9,7 +9,7 @@ namespace TPDDSBackend.Aplication.Mappers
         public FoodProfile()
         {
             CreateMap<CreateFoodRequest, Food>();
-            //CreateMap<UpdateFoodRequest, Food>();
+            CreateMap<UpdateFoodRequest, Food>();
         }
     }
 }
