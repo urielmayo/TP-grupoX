@@ -13,7 +13,5 @@ namespace TPDDSBackend.Aplication.Managers
         {
             return await _dbContext.Food.Where(x => x.Id == Id).FirstOrDefaultAsync();
         }
-
-        
     }
 }

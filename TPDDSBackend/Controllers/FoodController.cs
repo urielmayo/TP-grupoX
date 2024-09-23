@@ -25,13 +25,13 @@ namespace TPDDSBackend.Controllers
             return Created($"{HttpContext.Request.Host.Value}/api/food/{result.Data.Id}", result);
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetFood(string id)
-        //{
-        //    var result = await _mediator.Send(new GetFoodQuery(int.Parse(id)));
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetFood(string id)
+        {
+            var result = await _mediator.Send(new GetFoodQuery(int.Parse(id)));
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
         //[HttpPut("{id}")]
         //public async Task<IActionResult> UpdateFood([FromBody]UpdateFoodRequest request, string id)
