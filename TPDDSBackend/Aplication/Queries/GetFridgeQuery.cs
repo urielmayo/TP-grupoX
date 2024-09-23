@@ -4,6 +4,7 @@ using System.Net;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Aplication.Managers;
+using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Aplication.Queries
 {
@@ -21,9 +22,9 @@ namespace TPDDSBackend.Aplication.Queries
     public class GetFridgeQueryHandler : IRequestHandler<GetFridgeQuery, CustomResponse<GetFridgeResponse>>
     {
         private readonly IMapper _mapper;
-        private readonly IFridgeManager _fridgeManager;
+        private readonly IManager<Fridge> _fridgeManager;
         public GetFridgeQueryHandler(IMapper mapper,
-            IFridgeManager fridgeManager)
+            IManager<Fridge> fridgeManager)
         {
             _mapper = mapper;
             _fridgeManager = fridgeManager;

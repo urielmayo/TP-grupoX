@@ -18,7 +18,7 @@ namespace TPDDSBackend.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> CreateFridge([FromBody] CreateFridgeRequest request)
         {
             var result = await _mediator.Send(new CreateFridgeCommand(request));

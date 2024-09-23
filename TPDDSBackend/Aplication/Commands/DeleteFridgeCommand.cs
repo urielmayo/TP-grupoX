@@ -20,9 +20,9 @@ namespace TPDDSBackend.Aplication.Commands
     public class DeleteFridgeCommandHandler : IRequestHandler<DeleteFridgeCommand, Unit>
     {
         private readonly IMapper _mapper;
-        private readonly IFridgeManager _fridgeManager;
+        private readonly IManager<Fridge> _fridgeManager;
         public DeleteFridgeCommandHandler(IMapper mapper,
-            IFridgeManager fridgeManager)
+            IManager<Fridge> fridgeManager)
         {
             _mapper = mapper;
             _fridgeManager = fridgeManager;
