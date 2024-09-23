@@ -36,6 +36,7 @@ namespace TPDDSBackend.Domain.EF.DBContexts
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModificationAt = _now;
+                        entry.Entity.CreatedAt = entry.OriginalValues.GetValue<DateTime>("CreatedAt");
                         break;
                 }
             }

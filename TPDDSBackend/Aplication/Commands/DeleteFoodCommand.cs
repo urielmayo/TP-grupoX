@@ -36,6 +36,8 @@ namespace TPDDSBackend.Aplication.Commands
                 throw new ApiCustomException("Vianda no encontrada", HttpStatusCode.NotFound);
             }
 
+            //TODO: Revisar si hay validaciones previas antes de eliminar las viandas.
+
             var result = await _foodManager.DeleteAsync(fridge);
 
             if (!result)
