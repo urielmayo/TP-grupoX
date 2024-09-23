@@ -41,11 +41,11 @@ namespace TPDDSBackend.Controllers
             return Ok(result);
         }
 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteFood(string id)
-        //{
-        //    await _mediator.Send(new DeleteFoodCommand(int.Parse(id)));
-        //    return NoContent();
-        //}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFood(string id)
+        {
+            await _mediator.Send(new DeleteFoodCommand(int.Parse(id)));
+            return NoContent();
+        }
     }
 }
