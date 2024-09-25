@@ -49,9 +49,9 @@ namespace TPDDSBackend.Controllers
 
         [HttpPost("fridge")]
         [Authorize]
-        public async Task<IActionResult> TakeChargeFridge( )
+        public async Task<IActionResult> TakeChargeFridge(OwnAFridgeContributionRequest request )
         {
-            var result = await _mediator.Send(new OwnAFridgeContributionCommand());
+            var result = await _mediator.Send(new OwnAFridgeContributionCommand(request));
 
             return Ok(result);
         }
