@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import HomePage, { loader as fridgesLoader } from "./pages/Home";
-import LoginPage, { action as loginFormAction } from "./pages/Login";
-import SignupPage from "./pages/Signup";
+import LoginPage, { action as loginAction } from "./pages/Login";
+import SignupPage, { action as signupAction } from "./pages/Signup";
 import { userLoader } from "./utils/auth";
 import LogoutAction from "./pages/Logout";
 import ContributionListPage, {
@@ -27,8 +27,8 @@ const router = createBrowserRouter([
       {
         path: "users",
         children: [
-          { path: "login", element: <LoginPage />, action: loginFormAction },
-          { path: "signup", element: <SignupPage /> },
+          { path: "login", element: <LoginPage />, action: loginAction },
+          { path: "signup", element: <SignupPage />, action: signupAction },
           { path: "logout", action: LogoutAction },
           {
             path: "contributions",

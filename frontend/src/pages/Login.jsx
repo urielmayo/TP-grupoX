@@ -12,12 +12,9 @@ export default function LoginPage() {
 }
 
 export async function action({ request }) {
-  const data = await request.formData();
+  const form = await request.formData();
+  const loginData = Object.fromEntries(form.entries());
 
-  const loginData = {
-    email: data.get("email"),
-    password: data.get("password"),
-  };
   console.log(loginData);
   localStorage.setItem("token", 1234567);
   localStorage.setItem(

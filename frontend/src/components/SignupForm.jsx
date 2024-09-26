@@ -1,31 +1,42 @@
 import { useState } from "react";
+import { Form, Link, useActionData } from "react-router-dom";
 
+import SelectField from "./UI/SelectField";
 import Field from "./UI/Field";
 import SubmitButton from "./UI/SubmitButton";
 import FormTitle from "./UI/FormTitle";
 
 export default function SignupForm() {
   const [tipoColaborador, setTipoColaborador] = useState("humana");
+  const errors = useActionData();
+  console.log(errors);
 
   return (
-    <div>
+    <Form method="post">
       <FormTitle text={"Formulario de Colaborador"} />
       <br />
-      {/* Tipo de Colaborador */}
-      <div className="mb-4">
-        <label className="block text-gray-700">Tipo de Colaborador</label>
-        <select
-          name="colaborator-type"
-          value={tipoColaborador}
-          onChange={(event) => setTipoColaborador(event.target.value)}
-          className="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-        >
-          <option value="humana">Persona Humana</option>
-          <option value="juridica">Persona Juridica</option>
-        </select>
-      </div>
 
-      {/* Dirección */}
+      {errors && (
+        <>
+          <ul>
+            {Object.values(errors).map((err) => (
+              <li key={err}>{err}</li>
+            ))}
+          </ul>
+          <br />
+        </>
+      )}
+
+      <SelectField
+        label={"Tipo de Colaborador"}
+        name={"colaborator-type"}
+        value={tipoColaborador}
+        onChange={(event) => setTipoColaborador(event.target.value)}
+      >
+        <option value="humana">Persona Humana</option>
+        <option value="juridica">Persona Juridica</option>
+      </SelectField>
+
       <Field
         label={"Dirección"}
         name={"address"}
@@ -34,7 +45,6 @@ export default function SignupForm() {
         required
       />
 
-      {/* Campos para Persona Humana */}
       {tipoColaborador === "humana" && (
         <>
           <Field
@@ -53,7 +63,6 @@ export default function SignupForm() {
         </>
       )}
 
-      {/* Campos para Persona Jurídica */}
       {tipoColaborador === "juridica" && (
         <>
           <Field
@@ -73,6 +82,7 @@ export default function SignupForm() {
           />
         </>
       )}
+
       <Field
         label={"Email"}
         name={"email"}
@@ -80,6 +90,7 @@ export default function SignupForm() {
         placeholder={"user@example.com"}
         required
       />
+
       <Field
         label={"Contraseña"}
         name={"password"}
@@ -96,6 +107,13 @@ export default function SignupForm() {
         required
       />
       <SubmitButton text={"Enviar"} />
-    </div>
+
+      <p className="mt-8 text-center text-sm text-gray-600">
+        Ya tenes usuario? Inicia sesion{" "}
+        <Link to={"/users/login"} className="text-blue-600 hover:underline">
+          aqui
+        </Link>
+      </p>
+    </Form>
   );
 }

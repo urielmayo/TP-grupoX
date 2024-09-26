@@ -1,4 +1,4 @@
-import { redirect, Form } from "react-router-dom";
+import { redirect, useActionData } from "react-router-dom";
 
 import SignupForm from "../components/SignupForm";
 
@@ -6,29 +6,35 @@ export default function SignupPage() {
   return (
     <div className="flex items-center justify-center ">
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
-        <Form>
-          <SignupForm />
-        </Form>
+        <SignupForm />
       </div>
     </div>
   );
 }
 
-export async function SignupFormAction({ request }) {
-  const data = await request.formData();
+export async function action({ request }) {
+  const form = await request.formData();
+  const errors = {};
 
-  const signupData = {
-    email: data.get("email"),
-    password: data.get("password"),
-  };
-  console.log(signupData);
+  if (form.get("password_confirmation") !== form.get("password")) {
+    console.log("las contraseñas no coinciden");
+
+    errors.form = "Passwords do not match";
+  }
+  if (Object.keys(errors).length) {
+    return errors;
+  }
+
+  const signupData = Object.fromEntries(form.entries());
+  delete signupData["password_confirmation"];
+
   localStorage.setItem("token", 1234567);
   localStorage.setItem(
     "user",
     JSON.stringify({
       email: signupData.email,
       id: "12345abcde",
-      personType: "humana",
+      personType: signupData["colaborator-type"],
     })
   );
   return redirect("/");
