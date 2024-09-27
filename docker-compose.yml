@@ -1,0 +1,32 @@
+services:
+  frontend:
+    build: frontend
+    ports:
+      - "5173:5173"
+    command: "npm run dev -- --host"
+
+  backend:
+    build: TPDDSBackend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=AppDB;Username=myuser;Password=mypassword
+    depends_on:
+      - db
+    ports:
+      - "5000:80" # Cambia los puertos si es necesario
+
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: AppDB
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  db-data:
+    driver: local
