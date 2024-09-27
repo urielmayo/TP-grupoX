@@ -24,14 +24,19 @@ namespace TPDDSBackend.Aplication.Commands
     public class UpdateFoodCommandHandler : IRequestHandler<UpdateFoodCommand, CustomResponse<UpdateFoodResponse>>
     {
         private readonly IMapper _mapper;
-        private readonly FoodManager _manager;
+        private readonly IManager<Food> _manager;
+        private readonly IManager<Fridge> _fridgeManager;
         private readonly ApplicationDbContext _dbContext;
 
 
-        public UpdateFoodCommandHandler(IMapper mapper, ApplicationDbContext dbContext)
+        public UpdateFoodCommandHandler(IMapper mapper,
+            ApplicationDbContext dbContext,
+            IManager<Food> foodManager,
+            IManager<Fridge> fridgeManager)
         {
             _dbContext = dbContext;
-            _manager = new FoodManager(_dbContext);
+            _manager = foodManager;
+            _fridgeManager = fridgeManager;
             _mapper = mapper;
         }
 
@@ -39,11 +44,17 @@ namespace TPDDSBackend.Aplication.Commands
         {
             var entity = _mapper.Map<Food>(command.Request);
             entity.Id = command.Id;
-            
+
 
             //TODO: Revisar que exista el estado al que se esta updateando
-            //TODO: Revisar que exista la heladera a la que se está haciendo referencia
             //TODO: Revisar que exista el donante al que se está haciendo referencia
+
+            var fridgeResult = await _fridgeManager.FindByIdAsync(entity.FridgeId);
+
+            if (fridgeResult != null)
+            {
+                throw new ApiCustomException("No existe la heladera a la que se hace referencia", HttpStatusCode.InternalServerError);
+            }
 
             var result = await _manager.Save(entity, command.Id);
 
@@ -51,14 +62,14 @@ namespace TPDDSBackend.Aplication.Commands
             {
                 throw new ApiCustomException("Error Actualizando Vianda", HttpStatusCode.InternalServerError);
             }
-            
-             var responseDTO= new UpdateFoodResponse()
-              {
-                 Id = entity.Id,
-                 Description = entity.Description,
-                 Calories = entity.Calories,
-                 Weight = entity.Weight
-              };
+
+            var responseDTO = new UpdateFoodResponse()
+            {
+                Id = entity.Id,
+                Description = entity.Description,
+                Calories = entity.Calories,
+                Weight = entity.Weight
+            };
 
             return new CustomResponse<UpdateFoodResponse>("Se ha actualizado la vianda", responseDTO);
         }

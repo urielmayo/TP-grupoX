@@ -6,5 +6,7 @@ namespace TPDDSBackend.Aplication.Managers
     {
         public Task<T> FindByIdAsync(int Id);
         public Task<bool> DeleteAsync(T fridge);
+
+        public Task<bool> Save(T entity, int id = 0);
     }
 }
