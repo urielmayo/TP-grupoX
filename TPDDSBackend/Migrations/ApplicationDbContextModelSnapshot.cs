@@ -17,7 +17,7 @@ namespace TPDDSBackend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -371,7 +371,7 @@ namespace TPDDSBackend.Migrations
 
                     b.HasIndex("StateId");
 
-                    b.ToTable("Foods");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.FoodState", b =>
