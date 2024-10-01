@@ -19,13 +19,10 @@ namespace TPDDSBackend.Aplication.Commands
     public class DeleteFoodCommandHandler : IRequestHandler<DeleteFoodCommand, Unit>
     {
         private readonly IManager<Food> _foodManager;
-        private readonly IManager<FoodDelivery> _foodDeliveryManager;
 
-        public DeleteFoodCommandHandler(IManager<Food> foodManager,
-            IManager<FoodDelivery> foodDeliveryManager)
+        public DeleteFoodCommandHandler(IManager<Food> foodManager)
         {
             _foodManager = foodManager;
-            _foodDeliveryManager = foodDeliveryManager;
         }
 
         public async Task<Unit> Handle(DeleteFoodCommand command, CancellationToken ct)

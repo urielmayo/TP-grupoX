@@ -59,6 +59,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddTransient<IEmailSender<Collaborator>, DummyEmailSender>();
 builder.Services.AddTransient<IManager<Fridge>, FridgeManager>();
 builder.Services.AddTransient<IManager<Food>, FoodManager>();
+builder.Services.AddTransient<IManager<FoodState>, FoodStateManager>();
 builder.Services.AddScoped<IJwtFactory, JwtFactory>();
 
 builder.Services.AddSwaggerGen(c =>
