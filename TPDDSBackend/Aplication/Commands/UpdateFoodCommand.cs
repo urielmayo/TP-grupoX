@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using System.Net;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
@@ -26,18 +27,21 @@ namespace TPDDSBackend.Aplication.Commands
         private readonly IMapper _mapper;
         private readonly IManager<Food> _manager;
         private readonly IManager<Fridge> _fridgeManager;
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IManager<FoodState> _foodStateManager;
+        private readonly UserManager<Collaborator> _userManager;
 
 
         public UpdateFoodCommandHandler(IMapper mapper,
-            ApplicationDbContext dbContext,
             IManager<Food> foodManager,
-            IManager<Fridge> fridgeManager)
+            IManager<Fridge> fridgeManager,
+            IManager<FoodState> foodStateManager,
+            UserManager<Collaborator> userManager)
         {
-            _dbContext = dbContext;
             _manager = foodManager;
             _fridgeManager = fridgeManager;
             _mapper = mapper;
+            _foodStateManager = foodStateManager;
+            _userManager = userManager;
         }
 
         public async Task<CustomResponse<UpdateFoodResponse>> Handle(UpdateFoodCommand command, CancellationToken ct)
@@ -45,16 +49,17 @@ namespace TPDDSBackend.Aplication.Commands
             var entity = _mapper.Map<Food>(command.Request);
             entity.Id = command.Id;
 
-
-            //TODO: Revisar que exista el estado al que se esta updateando
-            //TODO: Revisar que exista el donante al que se está haciendo referencia
-
             var fridgeResult = await _fridgeManager.FindByIdAsync(entity.FridgeId);
+            if (fridgeResult == null)
+                throw new ApiCustomException("No existe la heladera a la que se hace referencia", HttpStatusCode.NotFound);
 
-            if (fridgeResult != null)
-            {
-                throw new ApiCustomException("No existe la heladera a la que se hace referencia", HttpStatusCode.InternalServerError);
-            }
+            var user = await _userManager.FindByIdAsync(entity.DoneeId.ToString());
+            if (user == null)
+                throw new ApiCustomException("No existe el donante al que se hace referencia", HttpStatusCode.NotFound);
+
+            var stateResult = await _foodStateManager.FindByIdAsync(entity.StateId);
+            if (stateResult == null)
+                throw new ApiCustomException("No existe el estado al que se hace referencia", HttpStatusCode.NotFound);
 
             var result = await _manager.Save(entity, command.Id);
 

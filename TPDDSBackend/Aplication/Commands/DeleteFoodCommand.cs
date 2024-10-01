@@ -18,27 +18,27 @@ namespace TPDDSBackend.Aplication.Commands
     }
     public class DeleteFoodCommandHandler : IRequestHandler<DeleteFoodCommand, Unit>
     {
-        private readonly IMapper _mapper;
         private readonly IManager<Food> _foodManager;
-        public DeleteFoodCommandHandler(IMapper mapper,
-            IManager<Food> foodManager)
+        private readonly IManager<FoodDelivery> _foodDeliveryManager;
+
+        public DeleteFoodCommandHandler(IManager<Food> foodManager,
+            IManager<FoodDelivery> foodDeliveryManager)
         {
-            _mapper = mapper;
             _foodManager = foodManager;
+            _foodDeliveryManager = foodDeliveryManager;
         }
 
         public async Task<Unit> Handle(DeleteFoodCommand command, CancellationToken ct)
         {
-            var fridge = await _foodManager.FindByIdAsync(command.FoodId);
-
-            if (fridge == null)
-            {
+            var food = await _foodManager.FindByIdAsync(command.FoodId);
+            if (food == null)
                 throw new ApiCustomException("Vianda no encontrada", HttpStatusCode.NotFound);
-            }
 
-            //TODO: Revisar si hay validaciones previas antes de eliminar las viandas.
 
-            var result = await _foodManager.DeleteAsync(fridge);
+            //TODO: Revisar que no existan donaciones de vianda o contribucion de deliveries asociados.
+
+
+            var result = await _foodManager.DeleteAsync(food);
 
             if (!result)
             {
