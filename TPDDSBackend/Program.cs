@@ -58,9 +58,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 builder.Services.AddTransient<IEmailSender<Collaborator>, DummyEmailSender>();
-builder.Services.AddTransient<IGenericRepository<Fridge>, GenericRepository<Fridge>>();
-builder.Services.AddTransient<IGenericRepository<Food>, GenericRepository<Food>>();
-builder.Services.AddTransient<IGenericRepository<FoodState>, GenericRepository<FoodState>>();
+builder.Services.AddTransient<IGenericRepository<Fridge>, FridgeRepository>();
+builder.Services.AddTransient<IGenericRepository<Food>, FoodRepository>();
+builder.Services.AddTransient<IGenericRepository<FoodState>, FoodStateRepository>();
 builder.Services.AddScoped<IJwtFactory, JwtFactory>();
 
 builder.Services.AddSwaggerGen(c =>

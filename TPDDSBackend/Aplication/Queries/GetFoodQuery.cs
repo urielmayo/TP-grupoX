@@ -5,6 +5,7 @@ using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Aplication.Managers;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Infrastructure.Repositories;
 
 namespace TPDDSBackend.Aplication.Queries
 {
@@ -21,18 +22,15 @@ namespace TPDDSBackend.Aplication.Queries
 
     public class GetFoodQueryHandler : IRequestHandler<GetFoodQuery, CustomResponse<GetFoodResponse>>
     {
-        private readonly IMapper _mapper;
-        private readonly IManager<Food> _foodManager;
-        public GetFoodQueryHandler(IMapper mapper,
-            IManager<Food> foodManager)
+        private readonly IGenericRepository<Food> _foodManager;
+        public GetFoodQueryHandler(IGenericRepository<Food> foodManager)
         {
-            _mapper = mapper;
             _foodManager = foodManager;
         }
 
         public async Task<CustomResponse<GetFoodResponse>> Handle(GetFoodQuery query, CancellationToken ct)
         {
-            var food = await _foodManager.FindByIdAsync(query.FoodId);
+            var food = await _foodManager.GetById(query.FoodId);
 
             if(food == null)
             {
