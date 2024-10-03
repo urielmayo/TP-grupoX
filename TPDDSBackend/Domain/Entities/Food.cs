@@ -10,7 +10,7 @@ namespace TPDDSBackend.Domain.Entitites
         public virtual FoodState State { get; set; }
         public int StateId { get; set; }
         public virtual PersonInVulnerableSituation Donee { get; set; }
-        public string DoneeId { get; set; }
+        public int DoneeId { get; set; }
         public int FridgeId { get; set; }
         public virtual Fridge Fridge { get; set; }
         public decimal Calories { get; set; }
