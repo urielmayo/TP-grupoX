@@ -5,9 +5,8 @@ using System.Net;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
-using TPDDSBackend.Aplication.Managers;
-using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Infrastructure.Repositories;
 
 namespace TPDDSBackend.Aplication.Commands
 {
@@ -25,22 +24,22 @@ namespace TPDDSBackend.Aplication.Commands
     public class UpdateFoodCommandHandler : IRequestHandler<UpdateFoodCommand, CustomResponse<UpdateFoodResponse>>
     {
         private readonly IMapper _mapper;
-        private readonly IManager<Food> _manager;
-        private readonly IManager<Fridge> _fridgeManager;
-        private readonly IManager<FoodState> _foodStateManager;
+        private readonly IGenericRepository<Food> _foodRepository;
+        private readonly IGenericRepository<Fridge> _fridgeRepository;
+        private readonly IGenericRepository<FoodState> _foodStateRepository;
         private readonly UserManager<Collaborator> _userManager;
 
 
         public UpdateFoodCommandHandler(IMapper mapper,
-            IManager<Food> foodManager,
-            IManager<Fridge> fridgeManager,
-            IManager<FoodState> foodStateManager,
+            IGenericRepository<Food> foodRepository,
+            IGenericRepository<Fridge> fridgeRepository,
+            IGenericRepository<FoodState> foodStateRepository,
             UserManager<Collaborator> userManager)
         {
-            _manager = foodManager;
-            _fridgeManager = fridgeManager;
+            _foodRepository = foodRepository;
+            _fridgeRepository = fridgeRepository;
             _mapper = mapper;
-            _foodStateManager = foodStateManager;
+            _foodStateRepository = foodStateRepository;
             _userManager = userManager;
         }
 
@@ -49,7 +48,7 @@ namespace TPDDSBackend.Aplication.Commands
             var entity = _mapper.Map<Food>(command.Request);
             entity.Id = command.Id;
 
-            var fridgeResult = await _fridgeManager.FindByIdAsync(entity.FridgeId);
+            var fridgeResult = await _fridgeRepository.GetById(entity.FridgeId);
             if (fridgeResult == null)
                 throw new ApiCustomException("No existe la heladera a la que se hace referencia", HttpStatusCode.NotFound);
 
@@ -57,13 +56,16 @@ namespace TPDDSBackend.Aplication.Commands
             if (user == null)
                 throw new ApiCustomException("No existe el donante al que se hace referencia", HttpStatusCode.NotFound);
 
-            var stateResult = await _foodStateManager.FindByIdAsync(entity.StateId);
+            var stateResult = await _foodStateRepository.GetById(entity.StateId);
             if (stateResult == null)
                 throw new ApiCustomException("No existe el estado al que se hace referencia", HttpStatusCode.NotFound);
 
-            var result = await _manager.Save(entity, command.Id);
 
-            if (!result)
+            try
+            {
+                _foodRepository.Update(entity);
+            }
+            catch(Exception ex)
             {
                 throw new ApiCustomException("Error Actualizando Vianda", HttpStatusCode.InternalServerError);
             }

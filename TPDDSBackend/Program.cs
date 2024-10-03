@@ -11,6 +11,7 @@ using TPDDSBackend.Aplication.Managers;
 using TPDDSBackend.Aplication.Validators;
 using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
 using TPDDSBackend.Middlewares;
 
@@ -57,9 +58,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 builder.Services.AddTransient<IEmailSender<Collaborator>, DummyEmailSender>();
-builder.Services.AddTransient<IManager<Fridge>, FridgeManager>();
-builder.Services.AddTransient<IManager<Food>, FoodManager>();
-builder.Services.AddTransient<IManager<FoodState>, FoodStateManager>();
+builder.Services.AddTransient<IGenericRepository<Fridge>, GenericRepository<Fridge>>();
+builder.Services.AddTransient<IGenericRepository<Food>, GenericRepository<Food>>();
+builder.Services.AddTransient<IGenericRepository<FoodState>, GenericRepository<FoodState>>();
 builder.Services.AddScoped<IJwtFactory, JwtFactory>();
 
 builder.Services.AddSwaggerGen(c =>

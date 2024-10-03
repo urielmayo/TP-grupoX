@@ -4,9 +4,9 @@ using System.Net;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
-using TPDDSBackend.Aplication.Managers;
 using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Infrastructure.Repositories;
 
 namespace TPDDSBackend.Aplication.Commands
 {
@@ -22,14 +22,14 @@ namespace TPDDSBackend.Aplication.Commands
     public class CreateFridgeCommandHandler : IRequestHandler<CreateFridgeCommand, CustomResponse<CreateFridgeResponse>>
     {
         private readonly IMapper _mapper;
-        private readonly FridgeManager _manager;
+        private readonly IGenericRepository<Fridge> _repository;
         private readonly ApplicationDbContext _dbContext;
 
 
-        public CreateFridgeCommandHandler(IMapper mapper, ApplicationDbContext dbContext)
+        public CreateFridgeCommandHandler(IMapper mapper, ApplicationDbContext dbContext, IGenericRepository<Fridge> repository)
         {
             _dbContext = dbContext;
-            _manager = new FridgeManager(_dbContext);
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -37,14 +37,14 @@ namespace TPDDSBackend.Aplication.Commands
         {
             var entity = _mapper.Map<Fridge>(command.Request);
        
-            var result = await _manager.Save(entity);
+            var result = await _repository.Insert(entity);
 
-            if (!result)
+            if (result == null)
             {
                 throw new ApiCustomException("Error Registrando Heladera", HttpStatusCode.InternalServerError);
             }
             
-             var responseDTO= new CreateFridgeResponse()
+             var responseDTO = new CreateFridgeResponse()
               {
                  Id = entity.Id,
                  Address = entity.Address,

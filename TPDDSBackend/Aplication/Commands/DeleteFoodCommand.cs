@@ -4,6 +4,7 @@ using System.Net;
 using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Aplication.Managers;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Infrastructure.Repositories;
 
 namespace TPDDSBackend.Aplication.Commands
 {
@@ -18,16 +19,16 @@ namespace TPDDSBackend.Aplication.Commands
     }
     public class DeleteFoodCommandHandler : IRequestHandler<DeleteFoodCommand, Unit>
     {
-        private readonly IManager<Food> _foodManager;
+        private readonly IGenericRepository<Food> _foodManager;
 
-        public DeleteFoodCommandHandler(IManager<Food> foodManager)
+        public DeleteFoodCommandHandler(IGenericRepository<Food> foodManager)
         {
             _foodManager = foodManager;
         }
 
         public async Task<Unit> Handle(DeleteFoodCommand command, CancellationToken ct)
         {
-            var food = await _foodManager.FindByIdAsync(command.FoodId);
+            var food = await _foodManager.GetById(command.FoodId);
             if (food == null)
                 throw new ApiCustomException("Vianda no encontrada", HttpStatusCode.NotFound);
 
@@ -35,7 +36,7 @@ namespace TPDDSBackend.Aplication.Commands
             //TODO: Revisar que no existan donaciones de vianda o contribucion de deliveries asociados.
 
 
-            var result = await _foodManager.DeleteAsync(food);
+            var result = await _foodManager.Delete(food.Id);
 
             if (!result)
             {
