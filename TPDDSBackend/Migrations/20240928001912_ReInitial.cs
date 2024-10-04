@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TPDDSBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class ReInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,33 +27,38 @@ namespace TPDDSBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: true),
                     LastModificationAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Discriminator = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Surname = table.Column<string>(type: "text", nullable: true),
+                    BirthDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    BusinessName = table.Column<string>(type: "text", nullable: true),
+                    Category = table.Column<string>(type: "text", nullable: true),
+                    OrganizationType = table.Column<string>(type: "text", nullable: true),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ContactMediaType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    LastModificationAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ContactMediaType", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -122,21 +127,6 @@ namespace TPDDSBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrganizationType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    LastModificationAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrganizationType", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -153,128 +143,6 @@ namespace TPDDSBackend.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PersonInVulnerableSituation",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Surname = table.Column<string>(type: "text", nullable: false),
-                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    RegistratedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: true),
-                    MinorsInCare = table.Column<int>(type: "integer", nullable: false),
-                    DocumentNumber = table.Column<string>(type: "text", nullable: true),
-                    DocumentTypeId = table.Column<int>(type: "integer", nullable: false),
-                    LastModificationAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PersonInVulnerableSituation", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PersonInVulnerableSituation_DocumentType_DocumentTypeId",
-                        column: x => x.DocumentTypeId,
-                        principalTable: "DocumentType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: true),
-                    LastModificationAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Discriminator = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Surname = table.Column<string>(type: "text", nullable: true),
-                    BirthDate = table.Column<DateOnly>(type: "date", nullable: true),
-                    BusinessName = table.Column<string>(type: "text", nullable: true),
-                    CategoryId = table.Column<int>(type: "integer", nullable: true),
-                    OrganizationTypeId = table.Column<int>(type: "integer", nullable: true),
-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Category_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_OrganizationType_OrganizationTypeId",
-                        column: x => x.OrganizationTypeId,
-                        principalTable: "OrganizationType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Transactions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    ExpirationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DonationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    StateId = table.Column<int>(type: "integer", nullable: false),
-                    DoneeId = table.Column<int>(type: "integer", nullable: false),
-                    FridgeId = table.Column<int>(type: "integer", nullable: false),
-                    FridgeId1 = table.Column<int>(type: "integer", nullable: false),
-                    Calories = table.Column<decimal>(type: "numeric", nullable: false),
-                    Weight = table.Column<decimal>(type: "numeric", nullable: false),
-                    LastModificationAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Transactions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Transactions_FoodState_StateId",
-                        column: x => x.StateId,
-                        principalTable: "FoodState",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Transactions_Fridge_FridgeId",
-                        column: x => x.FridgeId,
-                        principalTable: "Fridge",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Transactions_Fridge_FridgeId1",
-                        column: x => x.FridgeId1,
-                        principalTable: "Fridge",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Transactions_PersonInVulnerableSituation_DoneeId",
-                        column: x => x.DoneeId,
-                        principalTable: "PersonInVulnerableSituation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -365,30 +233,76 @@ namespace TPDDSBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MeanOfContact",
+                name: "PersonInVulnerableSituation",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CollaboratorId = table.Column<string>(type: "text", nullable: false),
-                    ContactMediaTypeId = table.Column<int>(type: "integer", nullable: false),
-                    Value = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Surname = table.Column<string>(type: "text", nullable: false),
+                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    RegistratedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: true),
+                    MinorsInCare = table.Column<int>(type: "integer", nullable: false),
+                    DocumentNumber = table.Column<string>(type: "text", nullable: true),
+                    DocumentTypeId = table.Column<int>(type: "integer", nullable: false),
                     LastModificationAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MeanOfContact", x => x.Id);
+                    table.PrimaryKey("PK_PersonInVulnerableSituation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MeanOfContact_AspNetUsers_CollaboratorId",
-                        column: x => x.CollaboratorId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_PersonInVulnerableSituation_DocumentType_DocumentTypeId",
+                        column: x => x.DocumentTypeId,
+                        principalTable: "DocumentType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    ExpirationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DonationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    StateId = table.Column<int>(type: "integer", nullable: false),
+                    DoneeId = table.Column<int>(type: "integer", nullable: false),
+                    FridgeId = table.Column<int>(type: "integer", nullable: false),
+                    FridgeId1 = table.Column<int>(type: "integer", nullable: false),
+                    Calories = table.Column<decimal>(type: "numeric", nullable: false),
+                    Weight = table.Column<decimal>(type: "numeric", nullable: false),
+                    LastModificationAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Transactions_FoodState_StateId",
+                        column: x => x.StateId,
+                        principalTable: "FoodState",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MeanOfContact_ContactMediaType_ContactMediaTypeId",
-                        column: x => x.ContactMediaTypeId,
-                        principalTable: "ContactMediaType",
+                        name: "FK_Transactions_Fridge_FridgeId",
+                        column: x => x.FridgeId,
+                        principalTable: "Fridge",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Transactions_Fridge_FridgeId1",
+                        column: x => x.FridgeId1,
+                        principalTable: "Fridge",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Transactions_PersonInVulnerableSituation_DoneeId",
+                        column: x => x.DoneeId,
+                        principalTable: "PersonInVulnerableSituation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -513,16 +427,6 @@ namespace TPDDSBackend.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_CategoryId",
-                table: "AspNetUsers",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_OrganizationTypeId",
-                table: "AspNetUsers",
-                column: "OrganizationTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -562,16 +466,6 @@ namespace TPDDSBackend.Migrations
                 name: "IX_FoodXDelivery_DeliveryId",
                 table: "FoodXDelivery",
                 column: "DeliveryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MeanOfContact_CollaboratorId",
-                table: "MeanOfContact",
-                column: "CollaboratorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MeanOfContact_ContactMediaTypeId",
-                table: "MeanOfContact",
-                column: "ContactMediaTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersonInVulnerableSituation_DocumentTypeId",
@@ -621,16 +515,10 @@ namespace TPDDSBackend.Migrations
                 name: "FoodXDelivery");
 
             migrationBuilder.DropTable(
-                name: "MeanOfContact");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Contribution");
-
-            migrationBuilder.DropTable(
-                name: "ContactMediaType");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
@@ -640,12 +528,6 @@ namespace TPDDSBackend.Migrations
 
             migrationBuilder.DropTable(
                 name: "Transactions");
-
-            migrationBuilder.DropTable(
-                name: "Category");
-
-            migrationBuilder.DropTable(
-                name: "OrganizationType");
 
             migrationBuilder.DropTable(
                 name: "FoodState");

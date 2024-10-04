@@ -20,7 +20,6 @@ obj/
 
 # Auto-generated files
 Generated/
-*.designer.cs
 *.g.cs
 *.g.i.cs
 
