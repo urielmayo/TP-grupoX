@@ -43,7 +43,6 @@ namespace TPDDSBackend.Aplication.Queries
                 Description = food.Description,
                 Calories = food.Calories,
                 DonationDate = food.DonationDate,
-                DoneeId = food.DoneeId,
                 ExpirationDate = food.ExpirationDate,
                 FridgeId = food.FridgeId,
                 StateId = food.StateId,

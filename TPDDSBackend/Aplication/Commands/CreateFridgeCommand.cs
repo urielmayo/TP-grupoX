@@ -23,12 +23,11 @@ namespace TPDDSBackend.Aplication.Commands
     {
         private readonly IMapper _mapper;
         private readonly IGenericRepository<Fridge> _repository;
-        private readonly ApplicationDbContext _dbContext;
+
 
 
         public CreateFridgeCommandHandler(IMapper mapper, ApplicationDbContext dbContext, IGenericRepository<Fridge> repository)
         {
-            _dbContext = dbContext;
             _repository = repository;
             _mapper = mapper;
         }
@@ -37,13 +36,8 @@ namespace TPDDSBackend.Aplication.Commands
         {
             var entity = _mapper.Map<Fridge>(command.Request);
        
-            var result = await _repository.Insert(entity);
+            await _repository.Insert(entity);
 
-            if (result == null)
-            {
-                throw new ApiCustomException("Error Registrando Heladera", HttpStatusCode.InternalServerError);
-            }
-            
              var responseDTO = new CreateFridgeResponse()
               {
                  Id = entity.Id,

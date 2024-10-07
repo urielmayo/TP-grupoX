@@ -10,6 +10,7 @@ using TPDDSBackend.Aplication.Managers;
 using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
+using TPDDSBackend.Infrastructure.Services;
 
 namespace TPDDSBackend.Aplication.Commands
 {
@@ -28,19 +29,16 @@ namespace TPDDSBackend.Aplication.Commands
         private readonly IGenericRepository<Food> _manager;
         private readonly IGenericRepository<Fridge> _fridgeManager;
         private readonly IGenericRepository<FoodState> _foodStateManager;
-        private readonly UserManager<Collaborator> _userManager;
 
 
         public CreateFoodCommandHandler(IMapper mapper,
             IGenericRepository<Food> manager,
             IGenericRepository<Fridge> fridgeManager,
-            UserManager<Collaborator> userManager,
             IGenericRepository<FoodState> foodStateManager)
         {
             _manager = manager;
             _fridgeManager = fridgeManager;
             _mapper = mapper;
-            _userManager = userManager;
             _foodStateManager = foodStateManager;
         }
 
@@ -48,24 +46,18 @@ namespace TPDDSBackend.Aplication.Commands
         {
             var entity = _mapper.Map<Food>(command.Request);
 
-
             var fridgeResult = await _fridgeManager.GetById(entity.FridgeId);
             if (fridgeResult == null)
                 throw new ApiCustomException("No existe la heladera a la que se hace referencia", HttpStatusCode.NotFound);
-
-            var user = await _userManager.FindByIdAsync(entity.DoneeId.ToString());
-            if (user == null)
-                throw new ApiCustomException("No existe el donante al que se hace referencia", HttpStatusCode.NotFound);
 
             var stateResult = await _foodStateManager.GetById(entity.StateId);
             if (stateResult == null)
                 throw new ApiCustomException("No existe el estado al que se hace referencia", HttpStatusCode.NotFound);
 
-            var result = await _manager.Insert(entity);
-            if (result == null)
-                {
-                    throw new ApiCustomException("Error Registrando Vianda", HttpStatusCode.InternalServerError);
-                }
+            entity.Fridge = fridgeResult;
+            entity.State = stateResult;     
+
+            await _manager.Insert(entity);
 
             var responseDTO = new CreateFoodResponse()
             {

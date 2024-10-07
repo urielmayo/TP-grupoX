@@ -27,20 +27,17 @@ namespace TPDDSBackend.Aplication.Commands
         private readonly IGenericRepository<Food> _foodRepository;
         private readonly IGenericRepository<Fridge> _fridgeRepository;
         private readonly IGenericRepository<FoodState> _foodStateRepository;
-        private readonly UserManager<Collaborator> _userManager;
 
 
         public UpdateFoodCommandHandler(IMapper mapper,
             IGenericRepository<Food> foodRepository,
             IGenericRepository<Fridge> fridgeRepository,
-            IGenericRepository<FoodState> foodStateRepository,
-            UserManager<Collaborator> userManager)
+            IGenericRepository<FoodState> foodStateRepository)        
         {
             _foodRepository = foodRepository;
             _fridgeRepository = fridgeRepository;
             _mapper = mapper;
             _foodStateRepository = foodStateRepository;
-            _userManager = userManager;
         }
 
         public async Task<CustomResponse<UpdateFoodResponse>> Handle(UpdateFoodCommand command, CancellationToken ct)
@@ -52,14 +49,9 @@ namespace TPDDSBackend.Aplication.Commands
             if (fridgeResult == null)
                 throw new ApiCustomException("No existe la heladera a la que se hace referencia", HttpStatusCode.NotFound);
 
-            var user = await _userManager.FindByIdAsync(entity.DoneeId.ToString());
-            if (user == null)
-                throw new ApiCustomException("No existe el donante al que se hace referencia", HttpStatusCode.NotFound);
-
             var stateResult = await _foodStateRepository.GetById(entity.StateId);
             if (stateResult == null)
                 throw new ApiCustomException("No existe el estado al que se hace referencia", HttpStatusCode.NotFound);
-
 
             try
             {

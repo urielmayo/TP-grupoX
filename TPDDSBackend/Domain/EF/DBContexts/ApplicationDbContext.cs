@@ -14,7 +14,27 @@ namespace TPDDSBackend.Domain.EF.DBContexts
         public DbSet<Fridge> Fridge { get; set; }
         public DbSet<FoodState> FoodState { get; set; }
 
-        //TODO agregar las otras entidades
+        public DbSet<Contribution> Contributions { get; set; }
+
+        public DbSet<DeliveryReason> DeliveryReasons { get; set; }
+
+        public DbSet<DocumentType> DocumentTypes { get; set; }
+
+        public DbSet<FoodDelivery> FoodDeliveries { get; set; }
+
+        public DbSet<FoodDonation> FoodDonations { get; set; }
+
+        public DbSet<FoodXDelivery> FoodXDelivery { get; set; }
+
+        public DbSet<FridgeOwner> FridgeOwners { get; set; }
+
+        public DbSet<HumanPerson> HumanPerson { get; set; }
+
+        public DbSet<LegalPerson> LegalPerson { get; set; }
+
+        public DbSet<MoneyDonation> MoneyDonations { get; set; }
+
+        public DbSet<PersonInVulnerableSituation> PersonInVulnerableSituations { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
             base(options)
         { 
