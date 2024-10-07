@@ -110,6 +110,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -123,6 +124,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
+app.UseCors();
 app.UseAuthorization();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.MapControllers();
