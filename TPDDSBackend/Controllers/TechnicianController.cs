@@ -23,17 +23,17 @@ namespace TPDDSBackend.Controllers
         public async Task<IActionResult> CreateTechnician([FromBody] CreateTechnicianRequest request)
         {
             var result = await _mediator.Send(new CreateTechnicianCommand(request));
-            return Created($"{HttpContext.Request.Host.Value}/api/fridge/{result.Data.Id}", result);
+            return Created($"{HttpContext.Request.Host.Value}/api/techician/{result.Data.Id}", result);
         }
 
-        //[Authorize]
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetFridge(string id)
-        //{
-        //    var result = await _mediator.Send(new GetFridgeQuery(int.Parse(id)));
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTechnician(string id)
+        {
+            var result = await _mediator.Send(new GetTechnicianQuery(int.Parse(id)));
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
         //[Authorize]
         //[HttpPut("{id}")]
