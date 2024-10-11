@@ -4,6 +4,8 @@ using System.Net;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Aplication.Managers;
+using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Infrastructure.Repositories;
 
 namespace TPDDSBackend.Aplication.Queries
 {
@@ -20,18 +22,15 @@ namespace TPDDSBackend.Aplication.Queries
 
     public class GetFridgeQueryHandler : IRequestHandler<GetFridgeQuery, CustomResponse<GetFridgeResponse>>
     {
-        private readonly IMapper _mapper;
-        private readonly IFridgeManager _fridgeManager;
-        public GetFridgeQueryHandler(IMapper mapper,
-            IFridgeManager fridgeManager)
+        private readonly IGenericRepository<Fridge> _fridgeManager;
+        public GetFridgeQueryHandler(IGenericRepository<Fridge> fridgeManager)
         {
-            _mapper = mapper;
             _fridgeManager = fridgeManager;
         }
 
         public async Task<CustomResponse<GetFridgeResponse>> Handle(GetFridgeQuery query, CancellationToken ct)
         {
-            var fridge = await _fridgeManager.FindByIdAsync(query.FridgeId);
+            var fridge = await _fridgeManager.GetById(query.FridgeId);
 
             if(fridge == null)
             {
