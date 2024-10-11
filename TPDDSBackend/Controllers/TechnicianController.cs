@@ -44,12 +44,12 @@ namespace TPDDSBackend.Controllers
             return Ok(result);
         }
 
-        //[Authorize]
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteFridge(string id)
-        //{
-        //    await _mediator.Send(new DeleteFridgeCommand(int.Parse(id)));
-        //    return NoContent();
-        //}
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTechnician(string id)
+        {
+            await _mediator.Send(new DeleteTechnicianCommand(int.Parse(id)));
+            return NoContent();
+        }
     }
 }
