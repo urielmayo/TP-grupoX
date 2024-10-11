@@ -35,14 +35,14 @@ namespace TPDDSBackend.Controllers
             return Ok(result);
         }
 
-        //[Authorize]
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> UpdateFridge([FromBody]UpdateFridgeRequest request, string id)
-        //{
-        //    var result = await _mediator.Send(new UpdateFridgeCommand(request, int.Parse(id)));
+        [Authorize]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTechnician([FromBody] UpdateTechnicianRequest request, string id)
+        {
+            var result = await _mediator.Send(new UpdateTechnicianCommand(request, int.Parse(id)));
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
         //[Authorize]
         //[HttpDelete("{id}")]

@@ -9,7 +9,7 @@ namespace TPDDSBackend.Aplication.Mappers
         public TechnicianProfile()
         {
             CreateMap<CreateTechnicianRequest, Technician>();
-            //CreateMap<UpdateFridgeRequest, Fridge>();
+            CreateMap<UpdateTechnicianRequest, Technician>();
         }
     }
 }
