@@ -10,13 +10,32 @@ namespace TPDDSBackend.Domain.EF.DBContexts
     {
         private readonly DateTime _now = DateTime.UtcNow;
 
-        public DbSet<Card> Cards { get; set; }
+        public DbSet<Collaborator> Cards { get; set; }
+        public DbSet<Food> Food { get; set; }
         public DbSet<Fridge> Fridge { get; set; }
-        public DbSet<MoneyDonation> MoneyDonations { get; set; }
-        public DbSet<PersonInVulnerableSituation> PersonInVulnerableSituations { get; set; }
+        public DbSet<FoodState> FoodState { get; set; }
+
+        public DbSet<Contribution> Contributions { get; set; }
+
+        public DbSet<DeliveryReason> DeliveryReasons { get; set; }
 
         public DbSet<DocumentType> DocumentTypes { get; set; }
-        //TODO agregar las otras entidades
+
+        public DbSet<FoodDelivery> FoodDeliveries { get; set; }
+
+        public DbSet<FoodDonation> FoodDonations { get; set; }
+
+        public DbSet<FoodXDelivery> FoodXDelivery { get; set; }
+
+        public DbSet<FridgeOwner> FridgeOwners { get; set; }
+
+        public DbSet<HumanPerson> HumanPerson { get; set; }
+
+        public DbSet<LegalPerson> LegalPerson { get; set; }
+
+        public DbSet<MoneyDonation> MoneyDonations { get; set; }
+
+        public DbSet<PersonInVulnerableSituation> PersonInVulnerableSituations { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
             base(options)
         { 
@@ -39,6 +58,7 @@ namespace TPDDSBackend.Domain.EF.DBContexts
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModificationAt = _now;
+                        entry.Entity.CreatedAt = entry.OriginalValues.GetValue<DateTime>("CreatedAt");
                         break;
                 }
             }

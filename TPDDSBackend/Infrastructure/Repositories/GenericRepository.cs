@@ -22,6 +22,7 @@ namespace TPDDSBackend.Infrastructure.Repositories
                 return false;
 
             Entities.Remove(entity);
+            _dbContext.SaveChanges();
             return true;
         }
 
@@ -39,8 +40,12 @@ namespace TPDDSBackend.Infrastructure.Repositories
             return insertedValue.Entity;
         }
 
-        public void Update(T value)=>
+        public void Update(T value)
+        {
             Entities.Update(value);
+            _dbContext.SaveChanges();
+        }
+            
 
     }
 }

@@ -18,6 +18,7 @@ namespace TPDDSBackend.Controllers
             _mediator = mediator;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateFridge([FromBody] CreateFridgeRequest request)
         {
@@ -25,6 +26,7 @@ namespace TPDDSBackend.Controllers
             return Created($"{HttpContext.Request.Host.Value}/api/fridge/{result.Data.Id}", result);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetFridge(string id)
         {
@@ -33,6 +35,7 @@ namespace TPDDSBackend.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateFridge([FromBody]UpdateFridgeRequest request, string id)
         {
@@ -41,6 +44,7 @@ namespace TPDDSBackend.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFridge(string id)
         {
