@@ -10,7 +10,7 @@ namespace TPDDSBackend.Domain.EF.DBContexts
     {
         private readonly DateTime _now = DateTime.UtcNow;
 
-        public DbSet<Collaborator> Cards { get; set; }
+        public DbSet<Collaborator> Collaborators { get; set; }
         public DbSet<Food> Food { get; set; }
         public DbSet<Fridge> Fridge { get; set; }
         public DbSet<FoodState> FoodState { get; set; }
@@ -34,6 +34,9 @@ namespace TPDDSBackend.Domain.EF.DBContexts
         public DbSet<LegalPerson> LegalPerson { get; set; }
 
         public DbSet<MoneyDonation> MoneyDonations { get; set; }
+
+        public DbSet<Card> Cards { get; set; }
+
 
         public DbSet<PersonInVulnerableSituation> PersonInVulnerableSituations { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :

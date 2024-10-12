@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.Net;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
+using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
@@ -47,6 +49,13 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             (string collaboradorId, _) = _jwtFactory.GetClaims(jwt);
 
             var contribution = _mapper.Map<FridgeOwner>(command.Request);
+
+            var fridge = await _fridgeRepository.GetById(contribution.FridgeId);
+
+            if (fridge == null) 
+            {
+                throw new ApiCustomException("No existe una heladera con ese id", HttpStatusCode.BadRequest);
+            }
 
             contribution.Date = DateTime.UtcNow;
             contribution.CollaboratorId = collaboradorId;
