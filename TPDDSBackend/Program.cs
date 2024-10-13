@@ -53,9 +53,11 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddTransient<IEmailSender<Collaborator>, DummyEmailSender>();
 builder.Services.AddTransient<IGenericRepository<Fridge>, FridgeRepository>();
@@ -63,6 +65,8 @@ builder.Services.AddTransient<IGenericRepository<Food>, FoodRepository>();
 builder.Services.AddTransient<IGenericRepository<FoodState>, FoodStateRepository>();
 builder.Services.AddTransient<IGenericRepository<PersonInVulnerableSituation>, PersonInVulnerableSituationRepository>();
 builder.Services.AddScoped<IJwtFactory, JwtFactory>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
 
 builder.Services.AddSwaggerGen(c =>
 {

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
+using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Infrastructure.Services
@@ -22,7 +24,7 @@ namespace TPDDSBackend.Infrastructure.Services
         {
             var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.NameId, user.Id),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Name, user.UserName)
         };
@@ -41,6 +43,31 @@ namespace TPDDSBackend.Infrastructure.Services
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public (string Id, string UserName) GetClaims(string token)
+        {
+            try
+            {
+                if (token.StartsWith("Bearer "))
+                {
+                    token = token.Substring("Bearer ".Length).Trim();
+                }
+
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jwtToken = tokenHandler.ReadJwtToken(token);
+
+                var claims = jwtToken.Claims;
+
+                var id = claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
+                var userName = claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Name)?.Value;
+                return (id, userName);
+
+            }
+            catch (Exception ex)
+            {
+                throw new ApiCustomException(ex.Message, HttpStatusCode.Forbidden);
+            }
         }
     }
 }

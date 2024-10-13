@@ -5,7 +5,7 @@ using TPDDSBackend.Domain.EF.DBContexts;
 
 namespace TPDDSBackend.Infrastructure.Repositories
 {
-    public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
 
         private readonly ApplicationDbContext _dbContext;
