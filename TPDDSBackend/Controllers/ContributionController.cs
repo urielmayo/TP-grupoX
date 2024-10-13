@@ -27,15 +27,19 @@ namespace TPDDSBackend.Controllers
         }
 
         [HttpPost("food")]
-        public async Task<IActionResult> DonateFood()
+        [Authorize]
+        public async Task<IActionResult> DonateFood(FoodContributionRequest request)
         {
-            return Ok();
+            var result = await _mediator.Send(new FoodContributionCommand(request));
+            return Ok(result);
         }
 
-        [HttpPost("food-delivery")]
-        public async Task<IActionResult> Delivery()
+        [HttpPost("food-distribution")]
+        [Authorize]
+        public async Task<IActionResult> Delivery(FoodDeliveryContributionRequest request)
         {
-            return Ok();
+            var result = await _mediator.Send( new FoodDeliveryContributionCommand(request));
+            return Ok(result);
         }
 
         [HttpPost("person-registration")]

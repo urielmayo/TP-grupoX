@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entitites;
@@ -19,10 +20,18 @@ namespace TPDDSBackend
                 var services = scope.ServiceProvider;
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                 var userManager = services.GetRequiredService<UserManager<Collaborator>>();
-   
+                var dbContextFactory = services.GetRequiredService<IDbContextFactory<ApplicationDbContext>>();
+
                 await CreateRolesAsync(roleManager);
                 await CreateAdminUserAsync(userManager);
-                await CreateDocumentTypeAsync(scope.ServiceProvider.GetRequiredService<ApplicationDbContext>());
+
+                var tasks = new List<Task>()
+                {
+                    CreateDocumentTypeAsync(dbContextFactory),
+                    CreateDeliveryReasonAsync(dbContextFactory),
+                    CreateFoodStatesAsync(dbContextFactory),
+                };
+                await Task.WhenAll(tasks);
             }
             
         }
@@ -66,11 +75,12 @@ namespace TPDDSBackend
             }
         }
 
-        private static async Task CreateDocumentTypeAsync(ApplicationDbContext dbContext)
+        private static async Task CreateDocumentTypeAsync(IDbContextFactory<ApplicationDbContext> dbContextFactory)
         {
+            await using var dbContext = dbContextFactory.CreateDbContext();
             if (!dbContext.DocumentTypes.Any())
             {
-                var tiposDeDocumentos = new List<DocumentType>
+                var documentTypes = new List<DocumentType>
             {
                 new DocumentType { Description = "DNI" },
                 new DocumentType { Description = "CUIL" },
@@ -80,10 +90,49 @@ namespace TPDDSBackend
                 new DocumentType { Description = "Libreta de Enrolamiento" }
             };
 
-                dbContext.DocumentTypes.AddRange(tiposDeDocumentos);
+                dbContext.DocumentTypes.AddRange(documentTypes);
                 await dbContext.SaveChangesAsync();
 
                 Console.WriteLine("Se dieron de alta los tipos de documentos correctamente.");
+            }
+        }
+
+        private static async Task CreateDeliveryReasonAsync(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        {
+            await using var dbContext = dbContextFactory.CreateDbContext();
+            
+            if (!dbContext.DeliveryReasons.Any())
+            {
+                var deliveryReasons = new List<DeliveryReason>
+            {
+                new DeliveryReason { ReasonDescription = "Desperfecto en la heladera" },
+                new DeliveryReason { ReasonDescription = "Falta de viandas en la heladera destino" }
+            };
+
+                dbContext.DeliveryReasons.AddRange(deliveryReasons);
+                await dbContext.SaveChangesAsync();
+
+                Console.WriteLine("Se dieron de alta las razones de mover viandas de heladera");
+            }
+        }
+
+        private static async Task CreateFoodStatesAsync(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        {
+            await using var dbContext = dbContextFactory.CreateDbContext();
+            
+            if (!dbContext.FoodState.Any())
+            {
+                var foodStates = new List<FoodState>
+            {
+                new FoodState { Description = "Disponible" },
+                new FoodState { Description = "Vencida" },
+                new FoodState { Description = "Entregada" },
+            };
+
+                dbContext.FoodState.AddRange(foodStates);
+                await dbContext.SaveChangesAsync();
+
+                Console.WriteLine("Se dieron de alta los estados de las viandas");
             }
         }
     }

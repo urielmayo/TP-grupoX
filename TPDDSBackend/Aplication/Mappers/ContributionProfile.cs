@@ -9,6 +9,10 @@ namespace TPDDSBackend.Aplication.Mappers
         public ContributionProfile()
         {
             CreateMap<OwnAFridgeContributionRequest, FridgeOwner>();
+
+            CreateMap<FoodContributionRequest, FoodDonation>();
+
+            CreateMap<FoodDeliveryContributionRequest, FoodDelivery>();
         }
     }
 }

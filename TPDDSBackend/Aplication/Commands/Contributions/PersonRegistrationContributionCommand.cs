@@ -5,6 +5,7 @@ using System.Net;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
+using TPDDSBackend.Constans;
 using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
@@ -68,7 +69,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             
             await _cardRepository.Insert(card);
 
-            return new CustomResponse<Contribution>("Se ha registrado con exito la persona con su tarjeta");
+            return new CustomResponse<Contribution>(ServiceConstans.MessageSuccessDonation);
         }
     }
 }

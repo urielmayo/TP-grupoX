@@ -10,7 +10,7 @@ namespace TPDDSBackend.Aplication.Validators
         public MoneyDonationRequestValidator()
         {
             RuleFor(x => x.Amount)
-                .NotEmpty().WithMessage("la razon social es obligatorio.")
+                .NotEmpty().WithMessage("el monto es obligatorio.")
                 .GreaterThan(0).WithMessage("el monto tiene que ser positivo");
 
             RuleFor(x => x.Date)

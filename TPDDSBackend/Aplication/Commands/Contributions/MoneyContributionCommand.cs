@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
+using TPDDSBackend.Constans;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Domain.Enums;
 using TPDDSBackend.Infrastructure.Repositories;
@@ -49,7 +50,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
 
             await _moneyDonationRepository.Insert(donation);
 
-            return new CustomResponse<Contribution>("Se ha realizado con exito la donacion");
+            return new CustomResponse<Contribution>(ServiceConstans.MessageSuccessDonation, donation);
         }
     }
 }

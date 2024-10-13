@@ -5,6 +5,7 @@ using System.Net;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
+using TPDDSBackend.Constans;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
@@ -62,7 +63,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
 
             await _fridgeOwnerRepository.Insert(contribution);
 
-            return new CustomResponse<Contribution>("Se ha asociado la heladera con el colaborador", contribution);
+            return new CustomResponse<Contribution>(ServiceConstans.MessageSuccessDonation, contribution);
         }
     }
 }
