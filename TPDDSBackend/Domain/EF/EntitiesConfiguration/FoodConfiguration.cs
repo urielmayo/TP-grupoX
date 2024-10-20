@@ -18,10 +18,6 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
             builder.HasOne(x => x.State)
                .WithMany()
                .HasForeignKey(p => p.StateId);
-
-            builder.HasOne(x => x.Donee)
-               .WithMany()
-               .HasForeignKey(p => p.DoneeId);
         }
     }
 }

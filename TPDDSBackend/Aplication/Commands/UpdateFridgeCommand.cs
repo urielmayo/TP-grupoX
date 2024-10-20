@@ -4,9 +4,9 @@ using System.Net;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
-using TPDDSBackend.Aplication.Managers;
 using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Infrastructure.Repositories;
 
 namespace TPDDSBackend.Aplication.Commands
 {
@@ -24,14 +24,14 @@ namespace TPDDSBackend.Aplication.Commands
     public class UpdateFridgeCommandHandler : IRequestHandler<UpdateFridgeCommand, CustomResponse<UpdateFridgeResponse>>
     {
         private readonly IMapper _mapper;
-        private readonly FridgeManager _manager;
+        private readonly IGenericRepository<Fridge> _fridgeRepository;
         private readonly ApplicationDbContext _dbContext;
 
 
-        public UpdateFridgeCommandHandler(IMapper mapper, ApplicationDbContext dbContext)
+        public UpdateFridgeCommandHandler(IMapper mapper, ApplicationDbContext dbContext, IGenericRepository<Fridge> fridgeRepository)
         {
             _dbContext = dbContext;
-            _manager = new FridgeManager(_dbContext);
+            _fridgeRepository = fridgeRepository;
             _mapper = mapper;
         }
 
@@ -39,10 +39,12 @@ namespace TPDDSBackend.Aplication.Commands
         {
             var entity = _mapper.Map<Fridge>(command.Request);
             entity.Id = command.Id;
-       
-            var result = await _manager.Save(entity, command.Id);
 
-            if (!result)
+            try
+            {
+                _fridgeRepository.Update(entity);
+            }
+            catch(Exception ex)
             {
                 throw new ApiCustomException("Error Actualizando Heladera", HttpStatusCode.InternalServerError);
             }

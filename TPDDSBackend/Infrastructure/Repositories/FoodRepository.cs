@@ -3,9 +3,9 @@ using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Infrastructure.Repositories
 {
-    public class CollaboratorRepository : GenericRepository<Collaborator>
+    public class FoodRepository : GenericRepository<Food>, IGenericRepository<Food>
     {
-        public CollaboratorRepository(ApplicationDbContext dbContext) : base(dbContext)
+        public FoodRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
         }
     }

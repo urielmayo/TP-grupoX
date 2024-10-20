@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
+﻿using MediatR;
 using System.Net;
 using TPDDSBackend.Aplication.Exceptions;
-using TPDDSBackend.Aplication.Managers;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Infrastructure.Repositories;
 
 namespace TPDDSBackend.Aplication.Commands
 {
@@ -19,26 +17,22 @@ namespace TPDDSBackend.Aplication.Commands
     }
     public class DeleteFridgeCommandHandler : IRequestHandler<DeleteFridgeCommand, Unit>
     {
-        private readonly IMapper _mapper;
-        private readonly IFridgeManager _fridgeManager;
-        public DeleteFridgeCommandHandler(IMapper mapper,
-            IFridgeManager fridgeManager)
+        private readonly IGenericRepository<Fridge> _fridgeRepository;
+        public DeleteFridgeCommandHandler(IGenericRepository<Fridge> fridgeRepository)
         {
-            _mapper = mapper;
-            _fridgeManager = fridgeManager;
+            _fridgeRepository = fridgeRepository;
         }
 
         public async Task<Unit> Handle(DeleteFridgeCommand command, CancellationToken ct)
         {
-            var fridge = await _fridgeManager.FindByIdAsync(command.FridgeId);
+            var fridge = await _fridgeRepository.GetById(command.FridgeId);
 
             if (fridge == null)
             {
                 throw new ApiCustomException("Heladera no encontrada", HttpStatusCode.NotFound);
             }
 
-            var result = await _fridgeManager.DeleteAsync(fridge);
-
+            var result = await _fridgeRepository.Delete(fridge.Id);
             if (!result)
             {
                 throw new ApiCustomException("Error eliminando Heladera", HttpStatusCode.InternalServerError);
