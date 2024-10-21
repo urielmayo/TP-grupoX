@@ -44,9 +44,10 @@ namespace TPDDSBackend.Aplication.Queries
                 Surname = tech.Surname,
                 Email = tech.Email,
                 IdNumber = tech.IdNumber,
-                IdDocumentType = tech.IdDocumentType,
+                IdDocumentType = tech.DocumentTypeId,
                 PhoneNumber = tech.PhoneNumber,
-                WorkerIdentificationNumber = tech.WorkerIdentificationNumber
+                WorkerIdentificationNumber = tech.WorkerIdentificationNumber,
+                IdNeighbourhood = tech.NeighborhoodId
             };
 
             return new CustomResponse<GetTechnicianResponse>("Técnico encontrado", techResponse);

@@ -10,20 +10,18 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
         {
             builder.HasKey(c => c.Id);
 
-            builder.HasOne<DocumentType>()
+            builder.HasOne(x => x.DocumentType)
                .WithMany()
-               .HasForeignKey(t => t.IdDocumentType);
+               .HasForeignKey(t => t.DocumentTypeId);
 
-            builder.HasOne<Neighborhood>()
+            builder.HasOne(x => x.Neighborhood)
                 .WithMany()
                 .HasForeignKey(t => t.NeighborhoodId);
 
             builder.Property(c => c.Name).IsRequired();
             builder.Property(c => c.Surname).IsRequired();
-            builder.Property(c => c.IdDocumentType).IsRequired();
             builder.Property(c => c.IdNumber).IsRequired();
             builder.Property(c => c.WorkerIdentificationNumber).IsRequired();
-            builder.Property(c => c.NeighborhoodId).IsRequired();
         }
     }
 }

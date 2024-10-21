@@ -10,7 +10,7 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
         {
             builder.HasKey(c => c.Id);
 
-            builder.HasOne<Fridge>()
+            builder.HasOne(x => x.Fridge)
                .WithMany()
                .HasForeignKey(p => p.FridgeId)
                .OnDelete(DeleteBehavior.Cascade);

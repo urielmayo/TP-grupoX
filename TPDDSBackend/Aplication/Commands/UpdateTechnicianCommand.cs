@@ -38,10 +38,6 @@ namespace TPDDSBackend.Aplication.Commands
             var entity = _mapper.Map<Technician>(command.Request);
             entity.Id = command.Id;
 
-
-            //TODO: Revisar que exista el tipo de documento al que se hace referencia
-
-
             try
             {
                 _techRepository.Update(entity);
