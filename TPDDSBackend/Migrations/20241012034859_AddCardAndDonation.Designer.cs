@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TPDDSBackend.Domain.EF.DBContexts;
@@ -11,9 +12,11 @@ using TPDDSBackend.Domain.EF.DBContexts;
 namespace TPDDSBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241012034859_AddCardAndDonation")]
+    partial class AddCardAndDonation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -346,6 +349,9 @@ namespace TPDDSBackend.Migrations
                     b.Property<int>("FridgeId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("FridgeId1")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("LastModificationAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -358,6 +364,8 @@ namespace TPDDSBackend.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FridgeId");
+
+                    b.HasIndex("FridgeId1");
 
                     b.HasIndex("StateId");
 
@@ -450,29 +458,6 @@ namespace TPDDSBackend.Migrations
                     b.ToTable("Fridge");
                 });
 
-            modelBuilder.Entity("TPDDSBackend.Domain.Entitites.Neighborhood", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("LastModificationAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Neighborhoods");
-                });
-
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.PersonInVulnerableSituation", b =>
                 {
                     b.Property<int>("Id")
@@ -514,57 +499,6 @@ namespace TPDDSBackend.Migrations
                     b.HasIndex("DocumentTypeId");
 
                     b.ToTable("PersonInVulnerableSituations");
-                });
-
-            modelBuilder.Entity("TPDDSBackend.Domain.Entitites.Technician", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("DocumentTypeId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("LastModificationAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("NeighborhoodId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("WorkerIdentificationNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DocumentTypeId");
-
-                    b.HasIndex("NeighborhoodId");
-
-                    b.ToTable("Technicians");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.HumanPerson", b =>
@@ -758,9 +692,15 @@ namespace TPDDSBackend.Migrations
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.Food", b =>
                 {
-                    b.HasOne("TPDDSBackend.Domain.Entitites.Fridge", "Fridge")
+                    b.HasOne("TPDDSBackend.Domain.Entitites.Fridge", null)
                         .WithMany()
                         .HasForeignKey("FridgeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TPDDSBackend.Domain.Entitites.Fridge", "Fridge")
+                        .WithMany()
+                        .HasForeignKey("FridgeId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -801,25 +741,6 @@ namespace TPDDSBackend.Migrations
                         .HasForeignKey("DocumentTypeId");
 
                     b.Navigation("DocumentType");
-                });
-
-            modelBuilder.Entity("TPDDSBackend.Domain.Entitites.Technician", b =>
-                {
-                    b.HasOne("TPDDSBackend.Domain.Entitites.DocumentType", "DocumentType")
-                        .WithMany()
-                        .HasForeignKey("DocumentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TPDDSBackend.Domain.Entitites.Neighborhood", "Neighborhood")
-                        .WithMany()
-                        .HasForeignKey("NeighborhoodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DocumentType");
-
-                    b.Navigation("Neighborhood");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entities.Card", b =>
