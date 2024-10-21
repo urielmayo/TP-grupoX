@@ -1,10 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TPDDSBackend.Aplication.Commands;
+using TPDDSBackend.Aplication.Commands.Collaborators;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Queries;
-using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Controllers
 {
@@ -65,5 +64,13 @@ namespace TPDDSBackend.Controllers
             await _mediator.Send(new DeleteCollaboratorCommand(id));
             return NoContent();
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("process-file")]
+        public async Task<IActionResult> ProcessFile([FromForm] ProcessFileRequest file)
+        {
+            var result = await _mediator.Send(new ProcessFileCommand(file));
+            return Ok(result);
+        }
     }
-    }
+ }
