@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TPDDSBackend.Domain.EF.DBContexts;
@@ -11,9 +12,11 @@ using TPDDSBackend.Domain.EF.DBContexts;
 namespace TPDDSBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240928001912_ReInitial")]
+    partial class ReInitial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -266,7 +269,7 @@ namespace TPDDSBackend.Migrations
 
                     b.HasIndex("CollaboratorId");
 
-                    b.ToTable("Contributions");
+                    b.ToTable("Contribution");
 
                     b.HasDiscriminator().HasValue("Contribution");
 
@@ -293,7 +296,7 @@ namespace TPDDSBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryReasons");
+                    b.ToTable("DeliveryReason");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.DocumentType", b =>
@@ -316,7 +319,7 @@ namespace TPDDSBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DocumentTypes");
+                    b.ToTable("DocumentType");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.Food", b =>
@@ -340,6 +343,9 @@ namespace TPDDSBackend.Migrations
                     b.Property<DateTime>("DonationDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("DoneeId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -360,13 +366,15 @@ namespace TPDDSBackend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DoneeId");
+
                     b.HasIndex("FridgeId");
 
                     b.HasIndex("FridgeId1");
 
                     b.HasIndex("StateId");
 
-                    b.ToTable("Food");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.FoodState", b =>
@@ -475,7 +483,7 @@ namespace TPDDSBackend.Migrations
                     b.Property<string>("DocumentNumber")
                         .HasColumnType("text");
 
-                    b.Property<int?>("DocumentTypeId")
+                    b.Property<int>("DocumentTypeId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("LastModificationAt")
@@ -488,14 +496,18 @@ namespace TPDDSBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("RegistratedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DocumentTypeId");
 
-                    b.ToTable("PersonInVulnerableSituations");
+                    b.ToTable("PersonInVulnerableSituation");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.HumanPerson", b =>
@@ -535,22 +547,6 @@ namespace TPDDSBackend.Migrations
                     b.HasDiscriminator().HasValue("LegalPerson");
                 });
 
-            modelBuilder.Entity("TPDDSBackend.Domain.Entities.Card", b =>
-                {
-                    b.HasBaseType("TPDDSBackend.Domain.Entitites.Contribution");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("PersonInVulnerableSituationId")
-                        .HasColumnType("integer");
-
-                    b.HasIndex("PersonInVulnerableSituationId");
-
-                    b.HasDiscriminator().HasValue("Card");
-                });
-
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.FoodDelivery", b =>
                 {
                     b.HasBaseType("TPDDSBackend.Domain.Entitites.Contribution");
@@ -580,13 +576,8 @@ namespace TPDDSBackend.Migrations
                 {
                     b.HasBaseType("TPDDSBackend.Domain.Entitites.Contribution");
 
-                    b.Property<int?>("DoneeId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("FoodId")
                         .HasColumnType("integer");
-
-                    b.HasIndex("DoneeId");
 
                     b.HasIndex("FoodId");
 
@@ -616,7 +607,7 @@ namespace TPDDSBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.ToTable("Contributions", t =>
+                    b.ToTable("Contribution", t =>
                         {
                             t.Property("Amount")
                                 .HasColumnName("MoneyDonation_Amount");
@@ -689,6 +680,12 @@ namespace TPDDSBackend.Migrations
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.Food", b =>
                 {
+                    b.HasOne("TPDDSBackend.Domain.Entitites.PersonInVulnerableSituation", "Donee")
+                        .WithMany()
+                        .HasForeignKey("DoneeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TPDDSBackend.Domain.Entitites.Fridge", null)
                         .WithMany()
                         .HasForeignKey("FridgeId")
@@ -706,6 +703,8 @@ namespace TPDDSBackend.Migrations
                         .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Donee");
 
                     b.Navigation("Fridge");
 
@@ -735,20 +734,11 @@ namespace TPDDSBackend.Migrations
                 {
                     b.HasOne("TPDDSBackend.Domain.Entitites.DocumentType", "DocumentType")
                         .WithMany()
-                        .HasForeignKey("DocumentTypeId");
-
-                    b.Navigation("DocumentType");
-                });
-
-            modelBuilder.Entity("TPDDSBackend.Domain.Entities.Card", b =>
-                {
-                    b.HasOne("TPDDSBackend.Domain.Entitites.PersonInVulnerableSituation", "Owner")
-                        .WithMany()
-                        .HasForeignKey("PersonInVulnerableSituationId")
+                        .HasForeignKey("DocumentTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Owner");
+                    b.Navigation("DocumentType");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.FoodDelivery", b =>
@@ -780,17 +770,11 @@ namespace TPDDSBackend.Migrations
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.FoodDonation", b =>
                 {
-                    b.HasOne("TPDDSBackend.Domain.Entitites.PersonInVulnerableSituation", "Donee")
-                        .WithMany()
-                        .HasForeignKey("DoneeId");
-
                     b.HasOne("TPDDSBackend.Domain.Entitites.Food", "Food")
                         .WithMany()
                         .HasForeignKey("FoodId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Donee");
 
                     b.Navigation("Food");
                 });
