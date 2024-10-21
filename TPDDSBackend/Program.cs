@@ -63,6 +63,7 @@ builder.Services.AddTransient<IEmailSender<Collaborator>, DummyEmailSender>();
 builder.Services.AddTransient<IGenericRepository<Fridge>, FridgeRepository>();
 builder.Services.AddTransient<IGenericRepository<Food>, FoodRepository>();
 builder.Services.AddTransient<IGenericRepository<FoodState>, FoodStateRepository>();
+builder.Services.AddTransient<IGenericRepository<Technician>, TechnicianRepository>();
 builder.Services.AddTransient<IGenericRepository<PersonInVulnerableSituation>, PersonInVulnerableSituationRepository>();
 builder.Services.AddScoped<IJwtFactory, JwtFactory>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -114,7 +115,16 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAnyOrigin",
+                          policy =>
+                          {
+                              policy.AllowAnyOrigin()
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod();
+                          });
+});
 
 var app = builder.Build();
 
@@ -127,8 +137,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAnyOrigin");
 app.UseAuthentication();
-app.UseCors();
 app.UseAuthorization();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.MapControllers();

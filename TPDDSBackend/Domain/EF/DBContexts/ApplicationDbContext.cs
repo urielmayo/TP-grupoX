@@ -39,9 +39,11 @@ namespace TPDDSBackend.Domain.EF.DBContexts
 
 
         public DbSet<PersonInVulnerableSituation> PersonInVulnerableSituations { get; set; }
+        public DbSet<Technician> Technicians { get; set; }
+        public DbSet<Neighborhood> Neighborhoods { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
             base(options)
-        { 
+        {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -66,6 +68,25 @@ namespace TPDDSBackend.Domain.EF.DBContexts
                 }
             }
             return base.SaveChangesAsync(cancellationToken);
+
+        }
+
+        public override int SaveChanges()
+        {
+            foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedAt = _now;
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.LastModificationAt = _now;
+                        entry.Entity.CreatedAt = entry.OriginalValues.GetValue<DateTime>("CreatedAt");
+                        break;
+                }
+            }
+            return base.SaveChanges();
         }
     }
 }

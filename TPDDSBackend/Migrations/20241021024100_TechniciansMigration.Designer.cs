@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TPDDSBackend.Domain.EF.DBContexts;
@@ -11,9 +12,11 @@ using TPDDSBackend.Domain.EF.DBContexts;
 namespace TPDDSBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241021024100_TechniciansMigration")]
+    partial class TechniciansMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -506,6 +509,9 @@ namespace TPDDSBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("RegistratedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Surname")
                         .HasColumnType("text");
 
@@ -602,22 +608,6 @@ namespace TPDDSBackend.Migrations
                         .HasColumnType("text");
 
                     b.HasDiscriminator().HasValue("LegalPerson");
-                });
-
-            modelBuilder.Entity("TPDDSBackend.Domain.Entities.Card", b =>
-                {
-                    b.HasBaseType("TPDDSBackend.Domain.Entitites.Contribution");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("PersonInVulnerableSituationId")
-                        .HasColumnType("integer");
-
-                    b.HasIndex("PersonInVulnerableSituationId");
-
-                    b.HasDiscriminator().HasValue("Card");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.FoodDelivery", b =>
@@ -820,17 +810,6 @@ namespace TPDDSBackend.Migrations
                     b.Navigation("DocumentType");
 
                     b.Navigation("Neighborhood");
-                });
-
-            modelBuilder.Entity("TPDDSBackend.Domain.Entities.Card", b =>
-                {
-                    b.HasOne("TPDDSBackend.Domain.Entitites.PersonInVulnerableSituation", "Owner")
-                        .WithMany()
-                        .HasForeignKey("PersonInVulnerableSituationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entitites.FoodDelivery", b =>
