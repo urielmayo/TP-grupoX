@@ -4,7 +4,7 @@ import SignupForm from "../components/SignupForm";
 
 export default function SignupPage() {
   return (
-    <div className="flex items-center justify-center ">
+    <div className="flex items-center justify-center">
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
         <SignupForm />
       </div>
@@ -17,9 +17,7 @@ export async function action({ request }) {
   const errors = {};
 
   if (form.get("password_confirmation") !== form.get("password")) {
-    console.log("las contraseñas no coinciden");
-
-    errors.form = "Passwords do not match";
+    errors.Errors = "Las contraseñas no coinciden";
   }
   if (Object.keys(errors).length) {
     return errors;
@@ -27,15 +25,17 @@ export async function action({ request }) {
 
   const signupData = Object.fromEntries(form.entries());
   delete signupData["password_confirmation"];
-
-  localStorage.setItem("token", 1234567);
-  localStorage.setItem(
-    "user",
-    JSON.stringify({
-      email: signupData.email,
-      id: "12345abcde",
-      personType: signupData["colaborator-type"],
-    })
-  );
-  return redirect("/");
+  const colaboratorType = signupData.colaboratorType;
+  delete signupData.colaboratorType;
+  let url = `https://localhost:7017/Collaborator/${colaboratorType}`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(signupData),
+  });
+  if (response.status === 400) {
+    const data = await response.json();
+    return data.Errors;
+  }
+  return redirect("/users/login");
 }

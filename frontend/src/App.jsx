@@ -10,6 +10,7 @@ import ContributionListPage, {
 } from "./pages/ContributionList";
 import NewContributionPage, {
   action as newContribAction,
+  loader as getUserLoader,
 } from "./pages/NewContribution";
 import ErrorPage from "./pages/Error";
 import RewardsListPage, { loader as rewardsLoader } from "./pages/RewardsList";
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
                 path: "new",
                 element: <NewContributionPage />,
                 action: newContribAction,
+                loader: getUserLoader,
               },
             ],
           },

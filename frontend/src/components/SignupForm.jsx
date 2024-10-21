@@ -5,9 +5,10 @@ import SelectField from "./UI/SelectField";
 import Field from "./UI/Field";
 import SubmitButton from "./UI/SubmitButton";
 import FormTitle from "./UI/FormTitle";
+import FormError from "./UI/FormError";
 
 export default function SignupForm() {
-  const [tipoColaborador, setTipoColaborador] = useState("humana");
+  const [tipoColaborador, setTipoColaborador] = useState("human-person");
   const errors = useActionData();
   console.log(errors);
 
@@ -17,24 +18,23 @@ export default function SignupForm() {
       <br />
 
       {errors && (
-        <>
+        <FormError>
           <ul>
             {Object.values(errors).map((err) => (
               <li key={err}>{err}</li>
             ))}
           </ul>
-          <br />
-        </>
+        </FormError>
       )}
 
       <SelectField
         label={"Tipo de Colaborador"}
-        name={"colaborator-type"}
+        name={"colaboratorType"}
         value={tipoColaborador}
         onChange={(event) => setTipoColaborador(event.target.value)}
       >
-        <option value="humana">Persona Humana</option>
-        <option value="juridica">Persona Juridica</option>
+        <option value="human-person">Persona Humana</option>
+        <option value="legal-person">Persona Juridica</option>
       </SelectField>
 
       <Field
@@ -45,7 +45,7 @@ export default function SignupForm() {
         required
       />
 
-      {tipoColaborador === "humana" && (
+      {tipoColaborador === "human-person" && (
         <>
           <Field
             label={"Nombre"}
@@ -56,27 +56,30 @@ export default function SignupForm() {
           <Field
             label={"Apellido"}
             type={"text"}
-            name={"last-name"}
+            name={"surName"}
             placeholder={"Ingrese el apellido"}
           />
           <Field label={"Fecha de Nacimiento"} type={"date"} name={"date"} />
         </>
       )}
 
-      {tipoColaborador === "juridica" && (
+      {tipoColaborador === "legal-person" && (
         <>
           <Field
             label={"Razón Social"}
+            name={"businessName"}
             type={"text"}
             placeholder={"Ingrese la razón social"}
           />
-          <Field
-            label={"Tipo de Organización"}
-            type={"text"}
-            placeholder={"Ingrese el tipo de organización"}
-          />
+          <SelectField label={"Tipo de Organizacion"} name={"organizationType"}>
+            <option value="Gubernamental">Gubernamental</option>
+            <option value="ONG">ONG</option>
+            <option value="Empresa">Empresa</option>
+            <option value="Institución">Institución</option>
+          </SelectField>
           <Field
             label={"Rubro"}
+            name={"category"}
             type={"text"}
             placeholder={"Ingrese el rubro"}
           />
@@ -88,6 +91,14 @@ export default function SignupForm() {
         name={"email"}
         type={"email"}
         placeholder={"user@example.com"}
+        required
+      />
+
+      <Field
+        label={"Nombre de usuario"}
+        name={"userName"}
+        type={"text"}
+        placeholder={"Ingrese nombre de usuario"}
         required
       />
 

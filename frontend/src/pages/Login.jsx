@@ -1,4 +1,4 @@
-import { redirect } from "react-router-dom";
+import { redirect, json } from "react-router-dom";
 import LoginForm from "../components/LoginForm";
 
 export default function LoginPage() {
@@ -15,15 +15,24 @@ export async function action({ request }) {
   const form = await request.formData();
   const loginData = Object.fromEntries(form.entries());
 
-  console.log(loginData);
-  localStorage.setItem("token", 1234567);
+  const response = await fetch("https://localhost:7017/Collaborator/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(loginData),
+  });
+
+  if (response.status === 403 || response.status === 404) {
+    return response;
+  }
+  if (!response.ok) {
+    throw json({ message: "could not fetch events" }, { status: 500 });
+  }
+  const data = await response.json();
+
+  localStorage.setItem("jwt", data.data.jwt);
   localStorage.setItem(
     "user",
-    JSON.stringify({
-      email: loginData.email,
-      id: "12345abcde",
-      personType: "juridica",
-    })
+    JSON.stringify({ username: loginData.userName, id: data.data.id })
   );
   return redirect("/");
 }

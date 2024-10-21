@@ -52,7 +52,7 @@ export default function Navbar() {
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
-              {user.email}
+              {user.username}
               {dropdownOpen && (
                 <ul className="absolute w-48 bg-gray-900 right-0 rounded-lg shadow-lg mt-2">
                   <li>

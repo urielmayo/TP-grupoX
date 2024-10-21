@@ -1,18 +1,25 @@
-import { Form, Link } from "react-router-dom";
+import { Form, Link, useActionData } from "react-router-dom";
 
 import Field from "./UI/Field";
 import SubmitButton from "./UI/SubmitButton";
 import FormTitle from "./UI/FormTitle";
+import FormError from "./UI/FormError";
 
 export default function LoginForm() {
+  const data = useActionData();
+
   return (
     <Form method="post">
       <FormTitle text={"Iniciar sesion"} />
+      {data && (
+        <FormError>
+          <span className="font-medium">{data.Message}</span>
+        </FormError>
+      )}
       <Field
-        label={"Email"}
-        name={"email"}
-        type={"email"}
-        placeholder={"Ingresar email"}
+        label={"Nombre de usuario"}
+        name={"userName"}
+        type={"text"}
         required
       />
 
@@ -20,7 +27,6 @@ export default function LoginForm() {
         label={"Contraseña"}
         name={"password"}
         type={"password"}
-        placeholder={"Ingresar contraseña"}
         required
       />
 
