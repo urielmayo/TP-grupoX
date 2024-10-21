@@ -44,7 +44,7 @@ namespace TPDDSBackend.Aplication.Queries
                 Surname = tech.Surname,
                 Email = tech.Email,
                 IdNumber = tech.IdNumber,
-                IdType = tech.IdType,
+                IdDocumentType = tech.IdDocumentType,
                 PhoneNumber = tech.PhoneNumber,
                 WorkerIdentificationNumber = tech.WorkerIdentificationNumber
             };
