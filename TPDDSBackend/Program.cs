@@ -64,6 +64,7 @@ builder.Services.AddTransient<IGenericRepository<Fridge>, FridgeRepository>();
 builder.Services.AddTransient<IGenericRepository<Food>, FoodRepository>();
 builder.Services.AddTransient<IGenericRepository<FoodState>, FoodStateRepository>();
 builder.Services.AddTransient<IGenericRepository<Technician>, TechnicianRepository>();
+builder.Services.AddScoped<IContributionRepository, ContributionRepository>();
 builder.Services.AddTransient<IGenericRepository<PersonInVulnerableSituation>, PersonInVulnerableSituationRepository>();
 builder.Services.AddScoped<IJwtFactory, JwtFactory>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

@@ -6,6 +6,7 @@ using TPDDSBackend.Aplication.Commands;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Infrastructure.Repositories;
 
 namespace TPDDSBackend.Aplication.Queries
 {
@@ -24,11 +25,14 @@ namespace TPDDSBackend.Aplication.Queries
     {
         private readonly IMapper _mapper;
         private readonly UserManager<Collaborator> _userManager;
+        private readonly IContributionRepository _contributionRepository;
         public GetCollaboratorQueryHandler(IMapper mapper,
-            UserManager<Collaborator> userManager)
+            UserManager<Collaborator> userManager,
+            IContributionRepository contributionRepository)
         {
             _mapper = mapper;
             _userManager = userManager;
+            _contributionRepository = contributionRepository;
         }
 
         public async Task<CustomResponse<GetCollaboratorResponse>> Handle(GetCollaboratorQuery query, CancellationToken ct)
@@ -40,6 +44,12 @@ namespace TPDDSBackend.Aplication.Queries
                throw new ApiCustomException("usuario no encontrado", HttpStatusCode.NotFound);
             }
             var rol = await _userManager.GetRolesAsync(user);
+
+            var contributions = await _contributionRepository.GetAllByCollaborador(user.Id);
+
+
+            var destinationList = _mapper.Map<IList<GetContributionResponse>>(contributions);
+
             var userResponse = new GetCollaboratorResponse()
             {
                 Id = user.Id,
@@ -47,7 +57,8 @@ namespace TPDDSBackend.Aplication.Queries
                 PhoneNumber = user.PhoneNumber,
                 UserName = user.UserName!,
                 Rol = rol.FirstOrDefault(),
-                Type = user.Discriminator
+                Type = user.Discriminator,
+                Contributions = destinationList,
             };
 
             return new CustomResponse<GetCollaboratorResponse>("usuario encontrado", userResponse);

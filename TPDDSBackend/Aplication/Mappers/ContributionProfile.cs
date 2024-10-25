@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using TPDDSBackend.Aplication.Dtos.Requests;
+using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Aplication.Mappers
@@ -13,6 +14,11 @@ namespace TPDDSBackend.Aplication.Mappers
             CreateMap<FoodContributionRequest, FoodDonation>();
 
             CreateMap<FoodDeliveryContributionRequest, FoodDelivery>();
+
+
+
+            CreateMap<Contribution,GetContributionResponse>()
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Discriminator));
         }
     }
 }

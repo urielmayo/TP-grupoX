@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TPDDSBackend.Aplication.Commands.Contributions;
 using TPDDSBackend.Aplication.Dtos.Requests;
+using TPDDSBackend.Aplication.Queries;
 
 namespace TPDDSBackend.Controllers
 {
@@ -56,6 +57,15 @@ namespace TPDDSBackend.Controllers
         public async Task<IActionResult> TakeChargeFridge(OwnAFridgeContributionRequest request )
         {
             var result = await _mediator.Send(new OwnAFridgeContributionCommand(request));
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetContribution(int id)
+        {
+            var result = await _mediator.Send(new GetContributionQuery(id));
 
             return Ok(result);
         }
