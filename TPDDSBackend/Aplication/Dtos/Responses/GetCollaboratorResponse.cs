@@ -11,5 +11,9 @@
         public string? Email { get; set; }
 
         public string? PhoneNumber { get; set; }
+
+        public string Type { get; set; }
+
+       public IList<ContributionByCollaboratorResponse> Contributions { get; set; }
     }
 }
