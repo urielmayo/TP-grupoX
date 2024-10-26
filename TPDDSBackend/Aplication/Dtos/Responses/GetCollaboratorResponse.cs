@@ -14,6 +14,6 @@
 
         public string Type { get; set; }
 
-       public IList<GetContributionResponse> Contributions { get; set; }
+       public IList<ContributionByCollaboratorResponse> Contributions { get; set; }
     }
 }

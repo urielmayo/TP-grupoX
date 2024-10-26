@@ -48,7 +48,7 @@ namespace TPDDSBackend.Aplication.Queries
             var contributions = await _contributionRepository.GetAllByCollaborador(user.Id);
 
 
-            var destinationList = _mapper.Map<IList<GetContributionResponse>>(contributions);
+            var destinationList = _mapper.Map<IList<ContributionByCollaboratorResponse>>(contributions);
 
             var userResponse = new GetCollaboratorResponse()
             {

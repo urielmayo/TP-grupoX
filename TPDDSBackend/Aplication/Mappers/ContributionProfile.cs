@@ -17,7 +17,7 @@ namespace TPDDSBackend.Aplication.Mappers
 
 
 
-            CreateMap<Contribution,GetContributionResponse>()
+            CreateMap<Contribution,ContributionByCollaboratorResponse>()
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Discriminator));
         }
     }
