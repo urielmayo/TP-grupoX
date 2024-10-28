@@ -44,6 +44,7 @@ export default function FridgeContribForm() {
   };
   return (
     <Form method="post">
+      <input type="hidden" name="type" value="fridge" />
       <Field
         label={"Nombre"}
         name={"name"}

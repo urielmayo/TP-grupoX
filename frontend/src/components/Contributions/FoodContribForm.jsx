@@ -6,6 +6,7 @@ import SubmitButton from "../UI/SubmitButton";
 export default function FoodContribForm() {
   return (
     <Form method="post">
+      <input type="hidden" name="type" value="food" />
       <Field
         label={"Fecha de donacion"}
         type={"date"}

@@ -12,7 +12,7 @@ export default function ContributionListPage() {
           <h1 className="text-4xl ">Mis contribuciones</h1>
           <div className="min-h-10 border-t sm:border-t-0 sm:border-s border-gray-200 dark:border-neutral-700"></div>
           <Link
-            to="new"
+            to="new?contribution=money"
             className="hover:bg-blue-200 px-4 py-2 rounded-full align-middle text-center ring-1 hover:ring-0 ring-gray-400"
           >
             +

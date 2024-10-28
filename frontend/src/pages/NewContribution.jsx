@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { fetchUser, getUserData } from "../utils/auth";
-import { redirect, Link, useLoaderData } from "react-router-dom";
+import { fetchUser } from "../utils/auth";
+import { redirect, Link } from "react-router-dom";
 import FormTitle from "../components/UI/FormTitle";
 import MoneyContribForm from "../components/Contributions/MoneyContribForm";
 import ContributionType from "../components/Contributions/ContributionType";
@@ -11,9 +11,6 @@ import FridgeContribForm from "../components/Contributions/FridgeContribForm";
 import ProductContribForm from "../components/Contributions/ProductContribForm";
 
 export default function NewContributionPage() {
-  const data = useLoaderData();
-  console.log(data);
-
   const [contributionType, setContributionType] = useState("money");
 
   return (
@@ -40,6 +37,19 @@ export default function NewContributionPage() {
 export const action = async ({ request }) => {
   const form = await request.formData();
   const data = Object.fromEntries(form.entries());
+
+  const type = data.type;
+  delete data.type;
+
+  await fetch(`https://localhost:7017/Contribution/${type}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+    },
+    body: JSON.stringify(data),
+  });
+
   return redirect("..");
 };
 

@@ -6,25 +6,15 @@ import { Form } from "react-router-dom";
 export default function MoneyContribForm() {
   return (
     <Form method="post">
-      <Field
-        label={"Fecha de donacion"}
-        type={"date"}
-        name={"donation-date"}
-        required
-      />
+      <input type="hidden" name="type" value="money" />
+      <Field label={"Fecha de donacion"} type={"date"} name={"date"} required />
       <Field label={"Monto"} type={"number"} name={"amount"} required />
 
-      <SelectField label={"Medio de pago"} name={"payment-type"}>
-        <option value="transfer">Transferencia</option>
-        <option value="card">Tarjeta</option>
-        <option value="cash">Efectivo</option>
-      </SelectField>
-
-      <SelectField label={"Recurrencia"} name={"recurrence"}>
-        <option value="none">No</option>
-        <option value="monthly">Mensual</option>
-        <option value="quarterly">Trimestral</option>
-        <option value="annually">Anual</option>
+      <SelectField label={"Recurrencia"} name={"frequency"}>
+        <option value="0">No</option>
+        <option value="1">Mensual</option>
+        <option value="2">Trimestral</option>
+        <option value="3">Anual</option>
       </SelectField>
 
       <SubmitButton text={"Donar"} />

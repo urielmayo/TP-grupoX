@@ -5,7 +5,7 @@ import SignupForm from "../components/SignupForm";
 export default function SignupPage() {
   return (
     <div className="flex items-center justify-center">
-      <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
+      <div className="w-3/4 bg-white p-8 rounded-2xl shadow-lg">
         <SignupForm />
       </div>
     </div>

@@ -6,6 +6,7 @@ import SubmitButton from "../UI/SubmitButton";
 export default function PersonContribForm() {
   return (
     <Form method="post">
+      <input type="hidden" name="type" value="person-registration" />
       <Field
         label={"Fecha de registro"}
         type={"date"}
