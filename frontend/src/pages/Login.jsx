@@ -28,6 +28,7 @@ export async function action({ request }) {
     throw json({ message: "could not fetch events" }, { status: 500 });
   }
   const data = await response.json();
+  console.log(data);
 
   localStorage.setItem("jwt", data.data.jwt);
   localStorage.setItem(

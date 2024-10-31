@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { fetchUser } from "../utils/auth";
-import { redirect, Link } from "react-router-dom";
+import { redirect, Link, useNavigate } from "react-router-dom";
 import FormTitle from "../components/UI/FormTitle";
 import MoneyContribForm from "../components/Contributions/MoneyContribForm";
 import ContributionType from "../components/Contributions/ContributionType";
@@ -9,28 +8,25 @@ import DistributionContribForm from "../components/Contributions/DistributionCon
 import PersonContribForm from "../components/Contributions/PersonContribForm";
 import FridgeContribForm from "../components/Contributions/FridgeContribForm";
 import ProductContribForm from "../components/Contributions/ProductContribForm";
+import Modal from "../components/UI/Modal";
 
 export default function NewContributionPage() {
   const [contributionType, setContributionType] = useState("money");
+  const navigate = useNavigate();
 
   return (
-    <div className="flex items-start justify-center">
-      <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg">
-        <Link to={".."} className="text-blue-500 hover:underline">
-          Volver
-        </Link>
-        <FormTitle text={"Realizar una contribucion"} />
-        <br />
-        <ContributionType onSelect={setContributionType} />
-        <br />
-        {contributionType === "money" && <MoneyContribForm />}
-        {contributionType === "food" && <FoodContribForm />}
-        {contributionType === "distribution" && <DistributionContribForm />}
-        {contributionType === "person" && <PersonContribForm />}
-        {contributionType === "fridge" && <FridgeContribForm />}
-        {contributionType === "product" && <ProductContribForm />}
-      </div>
-    </div>
+    <Modal onClose={() => navigate("../")}>
+      <FormTitle text={"Realizar una contribucion"} />
+      <br />
+      <ContributionType onSelect={setContributionType} />
+      <br />
+      {contributionType === "money" && <MoneyContribForm />}
+      {contributionType === "food" && <FoodContribForm />}
+      {contributionType === "distribution" && <DistributionContribForm />}
+      {contributionType === "person" && <PersonContribForm />}
+      {contributionType === "fridge" && <FridgeContribForm />}
+      {contributionType === "product" && <ProductContribForm />}
+    </Modal>
   );
 }
 
@@ -51,9 +47,4 @@ export const action = async ({ request }) => {
   });
 
   return redirect("..");
-};
-
-export const loader = async () => {
-  const data = await fetchUser();
-  return data;
 };

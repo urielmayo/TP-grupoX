@@ -6,12 +6,14 @@ import SignupPage, { action as signupAction } from "./pages/Signup";
 import { userLoader } from "./utils/auth";
 import LogoutAction from "./pages/Logout";
 import ContributionListPage, {
-  loader as contributionsLoader,
+  loader as userDataLoader,
 } from "./pages/ContributionList";
 import NewContributionPage, {
   action as newContribAction,
-  loader as getUserLoader,
 } from "./pages/NewContribution";
+import ContributionDetailPage, {
+  loader as contribDetailLoader,
+} from "./pages/ContributionDetail";
 import ErrorPage from "./pages/Error";
 import RewardsListPage, { loader as rewardsLoader } from "./pages/RewardsList";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -33,18 +35,19 @@ const router = createBrowserRouter([
           { path: "logout", action: LogoutAction },
           {
             path: "contributions",
-            element: <ProtectedRoute />,
+            id: "contributions",
+            element: <ContributionListPage />,
+            loader: userDataLoader,
             children: [
-              {
-                index: true,
-                element: <ContributionListPage />,
-                loader: contributionsLoader,
-              },
               {
                 path: "new",
                 element: <NewContributionPage />,
                 action: newContribAction,
-                loader: getUserLoader,
+              },
+              {
+                path: ":id",
+                element: <ContributionDetailPage />,
+                loader: contribDetailLoader,
               },
             ],
           },

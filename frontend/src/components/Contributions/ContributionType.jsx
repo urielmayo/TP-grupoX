@@ -1,7 +1,7 @@
-import { useLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 
 export default function ContributionType({ onSelect }) {
-  const user = useLoaderData();
+  const user = useRouteLoaderData("contributions");
   const buttonCssClass =
     "px-4 py-2 text-sm font-medium text-gray-900 bg-white border rounded-lg border-gray-200 hover:text-blue-400";
 
@@ -15,7 +15,7 @@ export default function ContributionType({ onSelect }) {
       >
         Donar dinero
       </button>
-      {user.colaboratorType === "human-person" && (
+      {user.type === "HumanPerson" && (
         <>
           <button
             type="button"
@@ -43,7 +43,7 @@ export default function ContributionType({ onSelect }) {
           </button>
         </>
       )}
-      {user.personType === "legal-person" && (
+      {user.personType === "LegalPerson" && (
         <>
           <button
             type="button"
