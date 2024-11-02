@@ -13,7 +13,7 @@ export default function ContributionCard({ contribution }) {
   const event = new Date(contribution.date);
 
   return (
-    <Link to={`/users/contributions/${contribution.id}`}>
+    <Link to={`/users/me/contributions/${contribution.id}`}>
       <div className="max-w-sm overflow-hidden rounded-2xl shadow-lg p-4 bg-white">
         <span className="mb-3 font-thin">#{contribution.id}</span>
         <div className="font-bold text-xl mb-2">

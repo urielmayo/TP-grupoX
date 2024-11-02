@@ -16,11 +16,11 @@ export default function Product({ product }) {
           <strong>Empresa:</strong> {product.Empresa}
         </p>
         <br />
-        <span className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700 mr-2 mb-2">
+        <span className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-600 mr-2 mb-2">
           {product.Rubro}
         </span>
         <br />
-        <button className="inline-block bg-blue-700 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">
+        <button className="inline-block bg-blue-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">
           Canjear
         </button>
       </div>

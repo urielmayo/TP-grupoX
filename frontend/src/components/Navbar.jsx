@@ -30,7 +30,7 @@ export default function Navbar() {
         </NavLink>
         {user !== null && (
           <>
-            <NavLink to="users/contributions" className="hover:underline">
+            <NavLink to="users/me/contributions" className="hover:underline">
               Contribuciones
             </NavLink>
             <NavLink to="rewards" className="hover:underline">

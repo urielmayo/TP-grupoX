@@ -1,10 +1,10 @@
-import { Link, Outlet, redirect, useLoaderData } from "react-router-dom";
+import { Link, Outlet, useRouteLoaderData } from "react-router-dom";
 import Grid from "../components/UI/Grid";
 import ContributionCard from "../components/UI/ContributionCard";
-import { fetchUser, getUserData } from "../utils/auth";
 
 export default function ContributionListPage() {
-  const data = useLoaderData();
+  const data = useRouteLoaderData("profile");
+  console.log(data);
 
   return (
     <div className="flex items-start justify-center">
@@ -15,7 +15,7 @@ export default function ContributionListPage() {
           <div className="min-h-10 border-t sm:border-t-0 sm:border-s border-gray-200 dark:border-neutral-700"></div>
           <Link
             to="new"
-            className="hover:bg-blue-200 px-4 py-2 rounded-full align-middle text-center ring-1 hover:ring-0 ring-gray-400"
+            className="hover:bg-blue-600 hover:text-white px-4 py-2 rounded-lg align-middle text-center ring-1 hover:ring-0 ring-gray-400"
           >
             +
           </Link>
@@ -34,7 +34,7 @@ export default function ContributionListPage() {
             </h1>
             <p>
               Realice su primera contribucion{" "}
-              <Link className="text-blue-700 hover:underline" to={"new"}>
+              <Link className="text-blue-600 hover:underline" to={"new"}>
                 aqui
               </Link>{" "}
             </p>
@@ -43,13 +43,4 @@ export default function ContributionListPage() {
       </div>
     </div>
   );
-}
-
-export async function loader() {
-  if (getUserData() === null) {
-    return redirect("/users/login");
-  }
-
-  const data = await fetchUser();
-  return data;
 }

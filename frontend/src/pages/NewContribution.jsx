@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { redirect, Link, useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import FormTitle from "../components/UI/FormTitle";
 import MoneyContribForm from "../components/Contributions/MoneyContribForm";
 import ContributionType from "../components/Contributions/ContributionType";
@@ -41,7 +41,7 @@ export const action = async ({ request }) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
     },
     body: JSON.stringify(data),
   });

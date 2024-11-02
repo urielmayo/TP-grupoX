@@ -26,7 +26,7 @@ export default function Modal({ children, onClose }) {
 
   return createPortal(
     <dialog className="modal rounded-2xl p-8" ref={dialog}>
-      <button onClick={onClose} className="text-blue-500 hover:underline mb-3">
+      <button onClick={onClose} className="text-blue-600 hover:underline mb-3">
         Volver
       </button>
       <div className="flex items-start justify-center">

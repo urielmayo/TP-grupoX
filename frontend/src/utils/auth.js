@@ -1,7 +1,7 @@
 import { redirect } from "react-router-dom";
 
 export function getUserData() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(sessionStorage.getItem("user"));
   return user;
 }
 
@@ -11,7 +11,7 @@ export function userLoader() {
 
 export async function fetchUser() {
   const user = getUserData();
-  const jwt = localStorage.getItem("jwt");
+  const jwt = sessionStorage.getItem("jwt");
   const response = await fetch(
     `https://localhost:7017/Collaborator/${user.id}`,
     {
@@ -35,7 +35,7 @@ export async function fetchContribution(id) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `bearer ${localStorage.getItem("jwt")}`,
+      Authorization: `bearer ${sessionStorage.getItem("jwt")}`,
     },
   });
   if (response.status === 401) {

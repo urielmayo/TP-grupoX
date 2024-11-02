@@ -30,8 +30,8 @@ export async function action({ request }) {
   const data = await response.json();
   console.log(data);
 
-  localStorage.setItem("jwt", data.data.jwt);
-  localStorage.setItem(
+  sessionStorage.setItem("jwt", data.data.jwt);
+  sessionStorage.setItem(
     "user",
     JSON.stringify({ username: loginData.userName, id: data.data.id })
   );

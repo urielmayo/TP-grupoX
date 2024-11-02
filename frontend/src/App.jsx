@@ -5,9 +5,7 @@ import LoginPage, { action as loginAction } from "./pages/Login";
 import SignupPage, { action as signupAction } from "./pages/Signup";
 import { userLoader } from "./utils/auth";
 import LogoutAction from "./pages/Logout";
-import ContributionListPage, {
-  loader as userDataLoader,
-} from "./pages/ContributionList";
+import ContributionListPage from "./pages/ContributionList";
 import NewContributionPage, {
   action as newContribAction,
 } from "./pages/NewContribution";
@@ -17,6 +15,7 @@ import ContributionDetailPage, {
 import ErrorPage from "./pages/Error";
 import RewardsListPage, { loader as rewardsLoader } from "./pages/RewardsList";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ProfilePage, { loader as userDataLoader } from "./pages/Profile";
 
 const router = createBrowserRouter([
   {
@@ -34,20 +33,29 @@ const router = createBrowserRouter([
           { path: "signup", element: <SignupPage />, action: signupAction },
           { path: "logout", action: LogoutAction },
           {
-            path: "contributions",
-            id: "contributions",
-            element: <ContributionListPage />,
+            path: "me",
+            id: "profile",
             loader: userDataLoader,
             children: [
               {
-                path: "new",
-                element: <NewContributionPage />,
-                action: newContribAction,
+                index: true,
+                element: <ProfilePage />,
               },
               {
-                path: ":id",
-                element: <ContributionDetailPage />,
-                loader: contribDetailLoader,
+                path: "contributions",
+                element: <ContributionListPage />,
+                children: [
+                  {
+                    path: "new",
+                    element: <NewContributionPage />,
+                    action: newContribAction,
+                  },
+                  {
+                    path: ":id",
+                    element: <ContributionDetailPage />,
+                    loader: contribDetailLoader,
+                  },
+                ],
               },
             ],
           },
@@ -71,3 +79,5 @@ const router = createBrowserRouter([
 export default function App() {
   return <RouterProvider router={router} />;
 }
+
+// TODO: vista de perfil, carga masiva
