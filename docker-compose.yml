@@ -6,21 +6,23 @@ services:
     ports:
       - "5173:5173"
     command: "npm run dev -- --host"
-    depends_on:
-      - backend
-    # extra_hosts:
-    #   - "localhost:host-gateway"
+    # depends_on:
+    #   - backend
+    extra_hosts:
+      - "localhost:host-gateway"
+    env_file:
+      - frontend/.env
 
-  backend:
-    build: TPDDSBackend
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=AppDB;Username=myuser;Password=mypassword
-      - AllowedCorsOrigin=http://frontend:5173
-    depends_on:
-      - db
-    ports:
-      - "7017:7017" # Cambia los puertos si es necesario
+  # backend:
+  #   build: TPDDSBackend
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=AppDB;Username=myuser;Password=mypassword
+  #     - AllowedCorsOrigin=http://frontend:5173
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - "7017:7017" # Cambia los puertos si es necesario
 
   db:
     image: postgres:latest

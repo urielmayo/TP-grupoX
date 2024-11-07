@@ -1,5 +1,6 @@
 import { redirect, json } from "react-router-dom";
 import LoginForm from "../components/LoginForm";
+import { config } from "../config";
 
 export default function LoginPage() {
   return (
@@ -15,7 +16,7 @@ export async function action({ request }) {
   const form = await request.formData();
   const loginData = Object.fromEntries(form.entries());
 
-  const response = await fetch("https://localhost:7017/Collaborator/login", {
+  const response = await fetch(`${config.BACKEND_URL}/Collaborator/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(loginData),

@@ -82,9 +82,9 @@ ScaffoldingReadMe.txt
 # Entity Framework
 *.edmx.sql
 
-# Microsoft Azure Web App publish settings. 
-# These settings are still created if you publish to Azure, but will 
-# no longer be updated automatically, because this is a default setting 
+# Microsoft Azure Web App publish settings.
+# These settings are still created if you publish to Azure, but will
+# no longer be updated automatically, because this is a default setting
 # and changing it requires admin permissions on your machine.
 *.Publish.xml
 *.pubxml
@@ -187,3 +187,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+*.env

@@ -1,6 +1,7 @@
 import { redirect, useActionData } from "react-router-dom";
 
 import SignupForm from "../components/SignupForm";
+import { config } from "../config";
 
 export default function SignupPage() {
   return (
@@ -27,7 +28,7 @@ export async function action({ request }) {
   delete signupData["password_confirmation"];
   const colaboratorType = signupData.colaboratorType;
   delete signupData.colaboratorType;
-  let url = `https://localhost:7017/Collaborator/${colaboratorType}`;
+  let url = `${config.BACKEND_URL}/Collaborator/${colaboratorType}`;
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

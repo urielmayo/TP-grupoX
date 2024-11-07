@@ -1,4 +1,5 @@
 import { redirect } from "react-router-dom";
+import { config } from "../config";
 
 export function getUserData() {
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -13,7 +14,7 @@ export async function fetchUser() {
   const user = getUserData();
   const jwt = sessionStorage.getItem("jwt");
   const response = await fetch(
-    `https://localhost:7017/Collaborator/${user.id}`,
+    `${config.BACKEND_URL}/Collaborator/${user.id}`,
     {
       method: "GET",
       headers: {
@@ -31,7 +32,7 @@ export async function fetchUser() {
 }
 
 export async function fetchContribution(id) {
-  const response = await fetch(`https://localhost:7017/Contribution/${id}`, {
+  const response = await fetch(`${config.BACKEND_URL}/Contribution/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

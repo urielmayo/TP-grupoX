@@ -9,6 +9,7 @@ import PersonContribForm from "../components/Contributions/PersonContribForm";
 import FridgeContribForm from "../components/Contributions/FridgeContribForm";
 import ProductContribForm from "../components/Contributions/ProductContribForm";
 import Modal from "../components/UI/Modal";
+import { config } from "../config";
 
 export default function NewContributionPage() {
   const [contributionType, setContributionType] = useState("money");
@@ -37,7 +38,7 @@ export const action = async ({ request }) => {
   const type = data.type;
   delete data.type;
 
-  await fetch(`https://localhost:7017/Contribution/${type}`, {
+  await fetch(`${config.BACKEND_URL}/Contribution/${type}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
