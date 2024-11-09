@@ -11,11 +11,7 @@ namespace TPDDSBackend.Aplication.Mappers
         {
             CreateMap<OwnAFridgeContributionRequest, FridgeOwner>();
 
-            CreateMap<FoodContributionRequest, FoodDonation>();
-
             CreateMap<FoodDeliveryContributionRequest, FoodDelivery>();
-
-
 
             CreateMap<Contribution,ContributionByCollaboratorResponse>()
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Discriminator));
