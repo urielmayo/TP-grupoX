@@ -30,6 +30,7 @@ namespace TPDDSBackend
                     CreateDocumentTypeAsync(dbContextFactory),
                     CreateDeliveryReasonAsync(dbContextFactory),
                     CreateFoodStatesAsync(dbContextFactory),
+                    CreateNeighborhoodsAsync(dbContextFactory),
                 };
                 await Task.WhenAll(tasks);
             }
@@ -133,6 +134,27 @@ namespace TPDDSBackend
                 await dbContext.SaveChangesAsync();
 
                 Console.WriteLine("Se dieron de alta los estados de las viandas");
+            }
+        }
+
+        private static async Task CreateNeighborhoodsAsync(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        {
+            await using var dbContext = dbContextFactory.CreateDbContext();
+
+            if (!dbContext.Neighborhoods.Any())
+            {
+                var neighborhoods = new List<Neighborhood>
+            {
+                new Neighborhood { Name = "Constitucion" },
+                new Neighborhood { Name = "Almagro" },
+                new Neighborhood { Name = "Barracas" },
+                new Neighborhood { Name = "Caballito" },
+            };
+
+                dbContext.Neighborhoods.AddRange(neighborhoods);
+                await dbContext.SaveChangesAsync();
+
+                Console.WriteLine("Se dieron de alta los barrios");
             }
         }
     }

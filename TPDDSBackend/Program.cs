@@ -8,9 +8,11 @@ using System.Text;
 using TPDDSBackend;
 using TPDDSBackend.Aplication;
 using TPDDSBackend.Aplication.Managers;
+using TPDDSBackend.Aplication.Services.Strategies;
 using TPDDSBackend.Aplication.Validators;
 using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Domain.Interfaces;
 using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
 using TPDDSBackend.Middlewares;
@@ -54,7 +56,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseLazyLoadingProxies().UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -63,6 +65,8 @@ builder.Services.AddTransient<IEmailSender<Collaborator>, DummyEmailSender>();
 builder.Services.AddTransient<IGenericRepository<Fridge>, FridgeRepository>();
 builder.Services.AddTransient<IGenericRepository<Food>, FoodRepository>();
 builder.Services.AddTransient<IGenericRepository<FoodState>, FoodStateRepository>();
+builder.Services.AddTransient<IGenericRepository<Technician>, TechnicianRepository>();
+builder.Services.AddScoped<IContributionRepository, ContributionRepository>();
 builder.Services.AddTransient<IGenericRepository<PersonInVulnerableSituation>, PersonInVulnerableSituationRepository>();
 builder.Services.AddScoped<IJwtFactory, JwtFactory>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -97,6 +101,22 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddScoped<MoneyDonationStrategy>();
+builder.Services.AddScoped<CardContributionStrategy>();
+builder.Services.AddScoped<FoodContributionStrategy>();
+builder.Services.AddScoped<FoodDeliveryContributionStrategy>();
+builder.Services.AddScoped<OwnAFridgeContributionStratergy>();
+
+builder.Services.AddScoped<Dictionary<string, IContributionStrategy>>(provider => new Dictionary<string, IContributionStrategy>
+{
+    { "MoneyDonation", provider.GetRequiredService<MoneyDonationStrategy>() },
+    { "Card", provider.GetRequiredService<CardContributionStrategy>() },
+    { "FoodDonation", provider.GetRequiredService<FoodContributionStrategy>() },
+    { "FoodDelivery", provider.GetRequiredService<FoodDeliveryContributionStrategy>() },
+    { "FridgeOwner", provider.GetRequiredService<OwnAFridgeContributionStratergy>() },
+});
+
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -114,7 +134,16 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAnyOrigin",
+                          policy =>
+                          {
+                              policy.AllowAnyOrigin()
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod();
+                          });
+});
 
 var app = builder.Build();
 
@@ -127,8 +156,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAnyOrigin");
 app.UseAuthentication();
-app.UseCors();
 app.UseAuthorization();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.MapControllers();
