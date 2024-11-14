@@ -14,8 +14,8 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
 {
     public class OwnAFridgeContributionCommand : IRequest<CustomResponse<Contribution>>
     {
-        public OwnAFridgeContributionRequest Request { get; set; }
-        public OwnAFridgeContributionCommand(OwnAFridgeContributionRequest request)
+        public CreateFridgeRequest Request { get; set; }
+        public OwnAFridgeContributionCommand(CreateFridgeRequest request)
         {
             Request = request;
         }
@@ -29,8 +29,9 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
         private readonly IGenericRepository<FridgeOwner> _fridgeOwnerRepository;
         private readonly IGenericRepository<Fridge> _fridgeRepository;
 
-        public OwnAFridgeContributionCommandHandler(IMapper mapper,
-                        IJwtFactory jwtFactory,
+        public OwnAFridgeContributionCommandHandler(
+            IMapper mapper,
+            IJwtFactory jwtFactory,
             IHttpContextAccessor httpContextAccessor,
             IGenericRepository<FridgeOwner> fridgeOwnerRepository,
             IGenericRepository<Fridge> fridgeRepository)
@@ -49,21 +50,23 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
 
             (string collaboradorId, _) = _jwtFactory.GetClaims(jwt);
 
-            var contribution = _mapper.Map<FridgeOwner>(command.Request);
+            var fridge = _mapper.Map<Fridge>(command.Request);
+            fridge.SetUpAt = DateTime.SpecifyKind(fridge.SetUpAt, DateTimeKind.Utc);
 
-            var fridge = await _fridgeRepository.GetById(contribution.FridgeId);
+            var fridgeSaved = await _fridgeRepository.Insert(fridge);
 
-            if (fridge == null) 
+
+            var contribution = new FridgeOwner()
             {
-                throw new ApiCustomException("No existe una heladera con ese id", HttpStatusCode.BadRequest);
-            }
+                FridgeId = fridgeSaved.Id,
+                CollaboratorId = collaboradorId,
+                Date = DateTime.UtcNow,
+            };
 
-            contribution.Date = DateTime.UtcNow;
-            contribution.CollaboratorId = collaboradorId;
+            var contributionSaved = await _fridgeOwnerRepository.Insert(contribution);
+  
 
-            await _fridgeOwnerRepository.Insert(contribution);
-
-            return new CustomResponse<Contribution>(ServiceConstans.MessageSuccessDonation, contribution);
+            return new CustomResponse<Contribution>(ServiceConstans.MessageSuccessDonation, contributionSaved);
         }
     }
 }
