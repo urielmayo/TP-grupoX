@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.Globalization;
 using System.Net;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
@@ -10,6 +11,7 @@ using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TPDDSBackend.Aplication.Commands.Contributions
 {
@@ -46,26 +48,20 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
         }
         public async Task<CustomResponse<Contribution>> Handle(FoodContributionCommand command, CancellationToken cancellationToken)
         {
-
-            var person = await _personRepository.GetById(command.Request.DoneeId);    
-            if (person == null) 
-            {
-                throw new ApiCustomException("No existe una persona con ese id", HttpStatusCode.BadRequest);
-            }
-            
-            var food = await _foodRepository.GetById(command.Request.FoodId);
-            if (food == null)
-            {
-                throw new ApiCustomException("No existe una vianda con ese id", HttpStatusCode.BadRequest);
-            }
+            var food = _mapper.Map<Food>(command.Request);
+            food.ExpirationDate = DateTime.SpecifyKind(food.ExpirationDate, DateTimeKind.Utc);
+            var saved = await _foodRepository.Insert(food);
 
             var jwt = _httpContextAccessor.HttpContext.Request.Headers.Authorization;
 
             (string collaboradorId, _) = _jwtFactory.GetClaims(jwt);
-            
-            var foodDonation = _mapper.Map<FoodDonation>(command.Request);
-            
-            foodDonation.CollaboratorId = collaboradorId;
+
+            var foodDonation = new FoodDonation()
+            {
+                CollaboratorId = collaboradorId,
+                FoodId = saved.Id,
+                Date = DateTime.UtcNow,            
+            };
 
             await _foodDonationRepository.Insert(foodDonation);
 
