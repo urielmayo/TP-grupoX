@@ -8,9 +8,9 @@ using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Services;
 
-namespace TPDDSBackend.Aplication.Commands
+namespace TPDDSBackend.Aplication.Commands.Collaborators
 {
-    public class LoginCollaboratorCommand: IRequest<CustomResponse<LoginCollaboratorResponse>>
+    public class LoginCollaboratorCommand : IRequest<CustomResponse<LoginCollaboratorResponse>>
     {
         public LoginCollaboratorRequest Request { get; set; }
 

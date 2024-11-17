@@ -7,9 +7,9 @@ using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Domain.Entitites;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace TPDDSBackend.Aplication.Commands
+namespace TPDDSBackend.Aplication.Commands.Collaborators
 {
-    public class DeleteCollaboratorCommand: IRequest<Unit>
+    public class DeleteCollaboratorCommand : IRequest<Unit>
     {
         public string CollaboratorId { get; set; }
 

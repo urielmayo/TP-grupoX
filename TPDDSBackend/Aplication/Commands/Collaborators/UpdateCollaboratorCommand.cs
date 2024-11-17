@@ -9,14 +9,14 @@ using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Domain.Entitites;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace TPDDSBackend.Aplication.Commands
+namespace TPDDSBackend.Aplication.Commands.Collaborators
 {
     public class UpdateCollaboratorCommand : IRequest<CustomResponse<CreateCollaboratorResponse>>
     {
         public string CollaboratorId { get; set; }
         public UpdateCollaboratorRequest Request { get; set; }
 
-        public UpdateCollaboratorCommand(string collaboratorId,UpdateCollaboratorRequest request)
+        public UpdateCollaboratorCommand(string collaboratorId, UpdateCollaboratorRequest request)
         {
             CollaboratorId = collaboratorId;
             Request = request;
@@ -44,7 +44,7 @@ namespace TPDDSBackend.Aplication.Commands
 
             foreach (PropertyInfo property in command.Request.GetType().GetProperties())
             {
-                
+
                 PropertyInfo originalProperty = user.GetType().GetProperty(property.Name);
 
                 if (originalProperty != null)

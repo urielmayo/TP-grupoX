@@ -8,6 +8,7 @@ using System.Text;
 using TPDDSBackend;
 using TPDDSBackend.Aplication;
 using TPDDSBackend.Aplication.Managers;
+using TPDDSBackend.Aplication.Services;
 using TPDDSBackend.Aplication.Services.Strategies;
 using TPDDSBackend.Aplication.Validators;
 using TPDDSBackend.Domain.EF.DBContexts;
@@ -106,6 +107,8 @@ builder.Services.AddScoped<CardContributionStrategy>();
 builder.Services.AddScoped<FoodContributionStrategy>();
 builder.Services.AddScoped<FoodDeliveryContributionStrategy>();
 builder.Services.AddScoped<OwnAFridgeContributionStratergy>();
+
+builder.Services.AddScoped<IFileProcessorService,FileProcessorService>();
 
 builder.Services.AddScoped<Dictionary<string, IContributionStrategy>>(provider => new Dictionary<string, IContributionStrategy>
 {
