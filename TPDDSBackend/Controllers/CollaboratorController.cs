@@ -72,5 +72,12 @@ namespace TPDDSBackend.Controllers
             var result = await _mediator.Send(new ProcessFileCommand(file));
             return Ok(result);
         }
+
+        [HttpPost("exchange-benefit")]
+        public async Task<IActionResult> ExchangeBenefit([FromBody] ExchangeBenefitRequest request)
+        {
+            var result = await _mediator.Send(new ExchangeBenefitCommand(request));
+            return Ok(result);
+        }
     }
  }
