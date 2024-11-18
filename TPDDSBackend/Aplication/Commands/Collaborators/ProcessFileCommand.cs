@@ -6,7 +6,6 @@ using TPDDSBackend.Aplication.Dtos.File;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Services;
-using TPDDSBackend.Domain.Entitites;
 namespace TPDDSBackend.Aplication.Commands.Collaborators
 {
     public class ProcessFileCommand : IRequest<CustomResponse<ProcessFileResponse>>

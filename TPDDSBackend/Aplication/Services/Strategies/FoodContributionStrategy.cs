@@ -14,5 +14,10 @@ namespace TPDDSBackend.Aplication.Services.Strategies
                 { "Donee", donation.Collaborator.UserName }
             };
         }
+
+        public decimal GetPoints(Contribution contribution)
+        {
+            return 1.5m;
+        }
     }
 }

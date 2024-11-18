@@ -107,8 +107,10 @@ builder.Services.AddScoped<CardContributionStrategy>();
 builder.Services.AddScoped<FoodContributionStrategy>();
 builder.Services.AddScoped<FoodDeliveryContributionStrategy>();
 builder.Services.AddScoped<OwnAFridgeContributionStratergy>();
+builder.Services.AddScoped<BenefitContributionStrategy>();
 
 builder.Services.AddScoped<IFileProcessorService,FileProcessorService>();
+builder.Services.AddScoped<IAccumulatedPointsCalculator, AccumulatedPointsCalculator>();
 
 builder.Services.AddScoped<Dictionary<string, IContributionStrategy>>(provider => new Dictionary<string, IContributionStrategy>
 {
@@ -117,6 +119,7 @@ builder.Services.AddScoped<Dictionary<string, IContributionStrategy>>(provider =
     { "FoodDonation", provider.GetRequiredService<FoodContributionStrategy>() },
     { "FoodDelivery", provider.GetRequiredService<FoodDeliveryContributionStrategy>() },
     { "FridgeOwner", provider.GetRequiredService<OwnAFridgeContributionStratergy>() },
+    { "Benefit", provider.GetRequiredService<BenefitContributionStrategy>() }
 });
 
 
