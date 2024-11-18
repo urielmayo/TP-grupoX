@@ -14,5 +14,12 @@ namespace TPDDSBackend.Aplication.Services.Strategies
                 { "Frequency", donation.Frequency.ToString() }
             };
         }
+
+        public decimal GetPoints(Contribution contribution)
+        {
+            var donation = (MoneyDonation)contribution;
+
+            return donation.Amount * 0.5m;
+        }
     }
 }

@@ -16,5 +16,12 @@ namespace TPDDSBackend.Aplication.Services.Strategies
                 { "DeliveryReason", donation.DeliveryReason.ReasonDescription }
             };
         }
+
+        public decimal GetPoints(Contribution contribution)
+        {
+            var donation = (FoodDelivery)contribution;
+
+            return donation.Amount * 1;
+        }
     }
 }
