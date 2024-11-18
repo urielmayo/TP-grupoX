@@ -15,5 +15,7 @@
         public string Type { get; set; }
 
        public IList<ContributionByCollaboratorResponse> Contributions { get; set; }
+
+       public decimal AccumulatedPoints {  get; set; }
     }
 }

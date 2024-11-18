@@ -8,7 +8,10 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<Fridge> builder)
         {
-            builder.HasKey(f => f.Id);
+            builder.HasKey(f => f.Id); 
+            
+            builder.Property(f => f.Active)
+                .HasDefaultValue(true);
         }
     }
 

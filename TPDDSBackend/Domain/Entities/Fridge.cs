@@ -10,5 +10,6 @@ namespace TPDDSBackend.Domain.Entitites
         public decimal Latitud { get; set; }
         public DateTime SetUpAt { get; set; }
         public int MaxFoodCapacity { get; set; }
+        public bool Active { get; set; }
     }
 }

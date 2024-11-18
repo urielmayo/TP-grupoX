@@ -5,6 +5,7 @@ using System.Net;
 using TPDDSBackend.Aplication.Commands;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
+using TPDDSBackend.Aplication.Services;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 
@@ -26,13 +27,16 @@ namespace TPDDSBackend.Aplication.Queries
         private readonly IMapper _mapper;
         private readonly UserManager<Collaborator> _userManager;
         private readonly IContributionRepository _contributionRepository;
+        private readonly IAccumulatedPointsCalculator _accumulatedPointsCalculator;
         public GetCollaboratorQueryHandler(IMapper mapper,
             UserManager<Collaborator> userManager,
-            IContributionRepository contributionRepository)
+            IContributionRepository contributionRepository,
+            IAccumulatedPointsCalculator accumulatedPointsCalculator)
         {
             _mapper = mapper;
             _userManager = userManager;
             _contributionRepository = contributionRepository;
+            _accumulatedPointsCalculator = accumulatedPointsCalculator;
         }
 
         public async Task<CustomResponse<GetCollaboratorResponse>> Handle(GetCollaboratorQuery query, CancellationToken ct)
@@ -47,6 +51,7 @@ namespace TPDDSBackend.Aplication.Queries
 
             var contributions = await _contributionRepository.GetAllByCollaborador(user.Id);
 
+            var accumulatedPoints = _accumulatedPointsCalculator.CalculateAccumulatedPoints(contributions);
 
             var destinationList = _mapper.Map<IList<ContributionByCollaboratorResponse>>(contributions);
 
@@ -59,8 +64,9 @@ namespace TPDDSBackend.Aplication.Queries
                 Rol = rol.FirstOrDefault(),
                 Type = user.Discriminator,
                 Contributions = destinationList,
+                AccumulatedPoints = Math.Round(accumulatedPoints, 2) // Redondea a dos decimales
             };
-
+            
             return new CustomResponse<GetCollaboratorResponse>("usuario encontrado", userResponse);
             
         }
