@@ -4,9 +4,9 @@ using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 
-namespace TPDDSBackend.Aplication.Commands
+namespace TPDDSBackend.Aplication.Commands.Fridges
 {
-    public class DeleteFridgeCommand: IRequest<Unit>
+    public class DeleteFridgeCommand : IRequest<Unit>
     {
         public int FridgeId { get; set; }
 
