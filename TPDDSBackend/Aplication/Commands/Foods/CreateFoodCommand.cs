@@ -12,7 +12,7 @@ using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
 
-namespace TPDDSBackend.Aplication.Commands
+namespace TPDDSBackend.Aplication.Commands.Foods
 {
     public class CreateFoodCommand : IRequest<CustomResponse<CreateFoodResponse>>
     {
@@ -55,7 +55,7 @@ namespace TPDDSBackend.Aplication.Commands
                 throw new ApiCustomException("No existe el estado al que se hace referencia", HttpStatusCode.NotFound);
 
             entity.Fridge = fridgeResult;
-            entity.State = stateResult;     
+            entity.State = stateResult;
 
             await _manager.Insert(entity);
 

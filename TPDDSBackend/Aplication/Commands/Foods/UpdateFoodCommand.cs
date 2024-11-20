@@ -8,7 +8,7 @@ using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 
-namespace TPDDSBackend.Aplication.Commands
+namespace TPDDSBackend.Aplication.Commands.Foods
 {
     public class UpdateFoodCommand : IRequest<CustomResponse<UpdateFoodResponse>>
     {
@@ -32,7 +32,7 @@ namespace TPDDSBackend.Aplication.Commands
         public UpdateFoodCommandHandler(IMapper mapper,
             IGenericRepository<Food> foodRepository,
             IGenericRepository<Fridge> fridgeRepository,
-            IGenericRepository<FoodState> foodStateRepository)        
+            IGenericRepository<FoodState> foodStateRepository)
         {
             _foodRepository = foodRepository;
             _fridgeRepository = fridgeRepository;
@@ -57,7 +57,7 @@ namespace TPDDSBackend.Aplication.Commands
             {
                 _foodRepository.Update(entity);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new ApiCustomException("Error Actualizando Vianda", HttpStatusCode.InternalServerError);
             }

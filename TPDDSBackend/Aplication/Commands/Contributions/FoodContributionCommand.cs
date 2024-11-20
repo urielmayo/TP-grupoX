@@ -1,17 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
-using System.Globalization;
-using System.Net;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
-using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Constans;
-using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TPDDSBackend.Aplication.Commands.Contributions
 {
