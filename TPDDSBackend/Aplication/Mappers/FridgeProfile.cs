@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using TPDDSBackend.Aplication.Dtos.Requests;
+using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Aplication.Mappers
@@ -10,6 +11,8 @@ namespace TPDDSBackend.Aplication.Mappers
         {
             CreateMap<CreateFridgeRequest, Fridge>();
             CreateMap<UpdateFridgeRequest, Fridge>();
+            CreateMap<Fridge, GetFridgeResponse>();
+
         }
     }
 }

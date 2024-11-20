@@ -1,10 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TPDDSBackend.Aplication.Commands;
+using TPDDSBackend.Aplication.Commands.Fridges;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Queries;
-using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Controllers
 {
@@ -50,6 +49,15 @@ namespace TPDDSBackend.Controllers
         {
             await _mediator.Send(new DeleteFridgeCommand(int.Parse(id)));
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllFridgesQuery());
+
+            return Ok(result);
         }
     }
 }

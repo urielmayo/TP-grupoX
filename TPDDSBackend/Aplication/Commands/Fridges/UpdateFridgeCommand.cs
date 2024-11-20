@@ -8,7 +8,7 @@ using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 
-namespace TPDDSBackend.Aplication.Commands
+namespace TPDDSBackend.Aplication.Commands.Fridges
 {
     public class UpdateFridgeCommand : IRequest<CustomResponse<UpdateFridgeResponse>>
     {
@@ -44,17 +44,17 @@ namespace TPDDSBackend.Aplication.Commands
             {
                 _fridgeRepository.Update(entity);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new ApiCustomException("Error Actualizando Heladera", HttpStatusCode.InternalServerError);
             }
-            
-             var responseDTO= new UpdateFridgeResponse()
-              {
-                 Id = entity.Id,
-                 Address = entity.Address,
-                 Name = entity.Name
-              };
+
+            var responseDTO = new UpdateFridgeResponse()
+            {
+                Id = entity.Id,
+                Address = entity.Address,
+                Name = entity.Name
+            };
 
             return new CustomResponse<UpdateFridgeResponse>("Se ha actualizado la heladera", responseDTO);
         }
