@@ -12,6 +12,13 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
             
             builder.Property(f => f.Active)
                 .HasDefaultValue(true);
+
+            builder.Property(f => f.FridgeModelId)
+                .HasDefaultValue(1);
+
+            builder.HasOne(x => x.Model)
+               .WithMany()
+               .HasForeignKey(p => p.FridgeModelId);
         }
     }
 
