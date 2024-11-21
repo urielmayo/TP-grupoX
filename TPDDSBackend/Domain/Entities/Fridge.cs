@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using TPDDSBackend.Domain.Entities;
 
 namespace TPDDSBackend.Domain.Entitites
 {
@@ -10,6 +11,10 @@ namespace TPDDSBackend.Domain.Entitites
         public decimal Latitud { get; set; }
         public DateTime SetUpAt { get; set; }
         public int MaxFoodCapacity { get; set; }
+
+        public int FridgeModelId { get; set; }
+        public virtual FridgeModel Model { get; set; }
+        public float LastTemperature { get; set; }
         public bool Active { get; set; }
     }
 }

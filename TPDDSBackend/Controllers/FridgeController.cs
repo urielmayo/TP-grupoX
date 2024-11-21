@@ -59,5 +59,23 @@ namespace TPDDSBackend.Controllers
 
             return Ok(result);
         }
+
+        [Authorize]
+        [HttpPost("{id}/temperature")]
+        public async Task<IActionResult> RegisterTemperature(int id, RegisterTemperatureRequest request)
+        {
+             await _mediator.Send(new RegisterTemperatureFridgeCommand(id, request.Temperature));
+
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpPut("model/{id}/temperatures")]
+        public async Task<IActionResult> SetupTemperatures(int id, SetupTemperaturesRequest request)
+        {
+           var result = await _mediator.Send(new SetupTemperaturesFridgeCommand(request,id));
+
+            return Ok(result);
+        }
     }
 }
