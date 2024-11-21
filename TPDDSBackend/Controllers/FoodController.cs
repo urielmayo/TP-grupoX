@@ -1,10 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TPDDSBackend.Aplication.Commands;
+using TPDDSBackend.Aplication.Commands.Foods;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Queries;
-using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Controllers
 {

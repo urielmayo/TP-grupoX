@@ -8,7 +8,7 @@ using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 
-namespace TPDDSBackend.Aplication.Commands
+namespace TPDDSBackend.Aplication.Commands.Fridges
 {
     public class CreateFridgeCommand : IRequest<CustomResponse<CreateFridgeResponse>>
     {
@@ -35,17 +35,17 @@ namespace TPDDSBackend.Aplication.Commands
         public async Task<CustomResponse<CreateFridgeResponse>> Handle(CreateFridgeCommand command, CancellationToken ct)
         {
             var entity = _mapper.Map<Fridge>(command.Request);
-       
+
             await _repository.Insert(entity);
 
-             var responseDTO = new CreateFridgeResponse()
-              {
-                 Id = entity.Id,
-                 Address = entity.Address,
-                 Name = entity.Name
-              };
+            var responseDTO = new CreateFridgeResponse()
+            {
+                Id = entity.Id,
+                Address = entity.Address,
+                Name = entity.Name
+            };
 
-            return new CustomResponse<CreateFridgeResponse>("Se ha creado la heladera",responseDTO);
+            return new CustomResponse<CreateFridgeResponse>("Se ha creado la heladera", responseDTO);
         }
     }
 }

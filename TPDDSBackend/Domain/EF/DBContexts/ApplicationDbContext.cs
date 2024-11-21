@@ -42,6 +42,8 @@ namespace TPDDSBackend.Domain.EF.DBContexts
 
         public DbSet<Benefit> Benefits { get; set; }
         public DbSet<BenefitExchange> BenefitExchanges { get; set; }
+
+        public DbSet<FridgeModel> FridgeModels { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
             base(options)
         {

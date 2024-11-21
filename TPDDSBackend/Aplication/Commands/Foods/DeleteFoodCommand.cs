@@ -6,9 +6,9 @@ using TPDDSBackend.Aplication.Managers;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 
-namespace TPDDSBackend.Aplication.Commands
+namespace TPDDSBackend.Aplication.Commands.Foods
 {
-    public class DeleteFoodCommand: IRequest<Unit>
+    public class DeleteFoodCommand : IRequest<Unit>
     {
         public int FoodId { get; set; }
 

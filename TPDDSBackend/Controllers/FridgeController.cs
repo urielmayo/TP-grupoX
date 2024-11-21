@@ -1,10 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TPDDSBackend.Aplication.Commands;
+using TPDDSBackend.Aplication.Commands.Fridges;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Queries;
-using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Controllers
 {
@@ -50,6 +49,33 @@ namespace TPDDSBackend.Controllers
         {
             await _mediator.Send(new DeleteFridgeCommand(int.Parse(id)));
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllFridgesQuery());
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPost("{id}/temperature")]
+        public async Task<IActionResult> RegisterTemperature(int id, RegisterTemperatureRequest request)
+        {
+             await _mediator.Send(new RegisterTemperatureFridgeCommand(id, request.Temperature));
+
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpPut("model/{id}/temperatures")]
+        public async Task<IActionResult> SetupTemperatures(int id, SetupTemperaturesRequest request)
+        {
+           var result = await _mediator.Send(new SetupTemperaturesFridgeCommand(request,id));
+
+            return Ok(result);
         }
     }
 }
