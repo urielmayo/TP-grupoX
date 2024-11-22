@@ -77,5 +77,15 @@ namespace TPDDSBackend.Controllers
 
             return Ok(result);
         }
+
+
+        [Authorize]
+        [HttpPost("suggested-locations")]
+        public async Task<IActionResult> GetLocations(SuggestFridgeLocationsRequest request)
+        {
+            var result = await _mediator.Send(new SuggestFridgeLocatiosCommand(request));
+
+            return Ok(result);
+        }
     }
 }
