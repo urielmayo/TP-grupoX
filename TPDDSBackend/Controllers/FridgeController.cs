@@ -51,7 +51,6 @@ namespace TPDDSBackend.Controllers
             return NoContent();
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -60,7 +59,6 @@ namespace TPDDSBackend.Controllers
             return Ok(result);
         }
 
-        [Authorize]
         [HttpPost("{id}/temperature")]
         public async Task<IActionResult> RegisterTemperature(int id, RegisterTemperatureRequest request)
         {
