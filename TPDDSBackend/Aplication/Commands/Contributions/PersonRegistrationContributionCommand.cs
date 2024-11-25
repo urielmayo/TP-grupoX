@@ -29,13 +29,16 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IGenericRepository<PersonInVulnerableSituation> _personRepository;
         private readonly IGenericRepository<Card> _cardRepository;
+        private readonly IDocumentTypeRepository _documentypeRepository;
         private readonly UserManager<Collaborator> _userManager;
         public PersonRegistrationContributionCommandHandler(IMapper mapper,
             IJwtFactory jwtFactory,
             IHttpContextAccessor httpContextAccessor,
             IGenericRepository<PersonInVulnerableSituation> personRepository,
             IGenericRepository<Card> cardRepository,
-            UserManager<Collaborator> userManager)
+            UserManager<Collaborator> userManager,
+            IDocumentTypeRepository documentypeRepository
+            )
         {
             _mapper = mapper;
             _jwtFactory = jwtFactory;
@@ -43,6 +46,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             _cardRepository = cardRepository;
             _userManager = userManager;
             _personRepository = personRepository;
+            _documentypeRepository = documentypeRepository;
         }
         public async Task<CustomResponse<Contribution>> Handle(PersonRegistrationContributionCommand command, CancellationToken cancellationToken)
         {
@@ -59,6 +63,13 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
 
             var person = _mapper.Map<PersonInVulnerableSituation>(command.Request);
             
+            if (command.Request?.DocumentType is not null)
+            {
+                var documentType = await _documentypeRepository.GetByDescription(command.Request.DocumentType);
+                person.DocumentType = documentType;
+            }
+
+
             await _personRepository.Insert(person);
 
             var card = _mapper.Map<Card>(command.Request);
