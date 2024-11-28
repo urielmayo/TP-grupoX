@@ -18,6 +18,15 @@ namespace TPDDSBackend.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllTechniciansQuery());
+
+            return Ok(result);
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateTechnician([FromBody] CreateTechnicianRequest request)
         {

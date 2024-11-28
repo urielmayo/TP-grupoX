@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import TechniciansCard from "./TechniciansCard";
 import EmptyGrid from "../UI/EmptyGrid";
 export default function TechniciansList() {
-  const data = { technicians: [] };
-  console.log(data);
+  const technicians = useLoaderData();
+  console.log(technicians);
 
   return (
     <div className="p-8 min-w-full">
@@ -20,9 +20,9 @@ export default function TechniciansList() {
         </Link>
       </div>
       <h3 className="my-3" />
-      {data.technicians.length ? (
+      {technicians.length ? (
         <Grid>
-          {data.technicians.map((technician) => (
+          {technicians.map((technician) => (
             <TechniciansCard key={technician.id} technician={technician} />
           ))}
         </Grid>

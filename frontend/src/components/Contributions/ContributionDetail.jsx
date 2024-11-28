@@ -46,7 +46,7 @@ export default function ContributionDetail() {
         <div className="grid gap-y-3">
           <div className="flex gap-x-3">
             <h1 className="font-bold">Descripcion:</h1>
-            <p>{contribution.attributes.FoodDescription}</p>
+            <p>{contribution.attributes.description}</p>
           </div>
         </div>
       </>

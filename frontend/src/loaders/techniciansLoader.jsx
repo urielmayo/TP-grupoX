@@ -4,7 +4,6 @@ import { redirect, json } from "react-router-dom";
 
 export async function techniciansLoader() {
   const user = getUserData();
-  console.log(user);
 
   if (!user) {
     throw redirect("/users/login");
@@ -20,9 +19,8 @@ export async function techniciansLoader() {
       { status: 403 }
     );
   }
-  return { data: { technians: [] } };
   // Hacer la petición para obtener los técnicos
-  const response = await fetch(`${config.BACKEND_URL}/Technicians`, {
+  const response = await fetch(`${config.BACKEND_URL}/Technician`, {
     headers: { Authorization: `Bearer ${sessionStorage.getItem("jwt")}` },
   });
 
@@ -33,5 +31,5 @@ export async function techniciansLoader() {
   }
 
   const data = await response.json();
-  return data.data;
+  return data.data.technicians;
 }
