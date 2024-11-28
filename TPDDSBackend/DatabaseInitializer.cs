@@ -144,17 +144,61 @@ namespace TPDDSBackend
             if (!dbContext.Neighborhoods.Any())
             {
                 var neighborhoods = new List<Neighborhood>
-            {
-                new Neighborhood { Name = "Constitucion" },
+                {
+                new Neighborhood { Name = "Agronomía" },
                 new Neighborhood { Name = "Almagro" },
+                new Neighborhood { Name = "Balvanera" },
                 new Neighborhood { Name = "Barracas" },
+                new Neighborhood { Name = "Belgrano" },
+                new Neighborhood { Name = "Boedo" },
                 new Neighborhood { Name = "Caballito" },
+                new Neighborhood { Name = "Chacarita" },
+                new Neighborhood { Name = "Coghlan" },
+                new Neighborhood { Name = "Colegiales" },
+                new Neighborhood { Name = "Constitución" },
+                new Neighborhood { Name = "Flores" },
+                new Neighborhood { Name = "Floresta" },
+                new Neighborhood { Name = "La Boca" },
+                new Neighborhood { Name = "La Paternal" },
+                new Neighborhood { Name = "Liniers" },
+                new Neighborhood { Name = "Mataderos" },
+                new Neighborhood { Name = "Monte Castro" },
+                new Neighborhood { Name = "Monserrat" },
+                new Neighborhood { Name = "Nueva Pompeya" },
+                new Neighborhood { Name = "Nuñez" },
+                new Neighborhood { Name = "Palermo" },
+                new Neighborhood { Name = "Parque Avellaneda" },
+                new Neighborhood { Name = "Parque Chacabuco" },
+                new Neighborhood { Name = "Parque Chas" },
+                new Neighborhood { Name = "Parque Patricios" },
+                new Neighborhood { Name = "Puerto Madero" },
+                new Neighborhood { Name = "Recoleta" },
+                new Neighborhood { Name = "Retiro" },
+                new Neighborhood { Name = "Saavedra" },
+                new Neighborhood { Name = "San Cristóbal" },
+                new Neighborhood { Name = "San Nicolás" },
+                new Neighborhood { Name = "San Telmo" },
+                new Neighborhood { Name = "Vélez Sársfield" },
+                new Neighborhood { Name = "Versalles" },
+                new Neighborhood { Name = "Villa Crespo" },
+                new Neighborhood { Name = "Villa del Parque" },
+                new Neighborhood { Name = "Villa Devoto" },
+                new Neighborhood { Name = "Villa General Mitre" },
+                new Neighborhood { Name = "Villa Lugano" },
+                new Neighborhood { Name = "Villa Luro" },
+                new Neighborhood { Name = "Villa Ortúzar" },
+                new Neighborhood { Name = "Villa Pueyrredón" },
+                new Neighborhood { Name = "Villa Real" },
+                new Neighborhood { Name = "Villa Riachuelo" },
+                new Neighborhood { Name = "Villa Santa Rita" },
+                new Neighborhood { Name = "Villa Soldati" },
+                new Neighborhood { Name = "Villa Urquiza" }
             };
 
-                dbContext.Neighborhoods.AddRange(neighborhoods);
-                await dbContext.SaveChangesAsync();
+             dbContext.Neighborhoods.AddRange(neighborhoods);
+             await dbContext.SaveChangesAsync();
 
-                Console.WriteLine("Se dieron de alta los barrios");
+             Console.WriteLine("Se dieron de alta los barrios");
             }
         }
     }
