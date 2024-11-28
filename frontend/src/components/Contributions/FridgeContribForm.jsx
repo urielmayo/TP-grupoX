@@ -2,7 +2,7 @@ import { useState } from "react";
 import Field from "../UI/Field";
 import SubmitButton from "../UI/SubmitButton";
 import { Form } from "react-router-dom";
-
+import { config } from "../../config";
 export default function FridgeContribForm() {
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState({ lat: "", lng: "" });
@@ -13,10 +13,9 @@ export default function FridgeContribForm() {
 
   const handleBlur = async () => {
     if (address) {
-      const apiKey = "78b82ae6321045fb9cfc69c020a755b7";
       const geocodeUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
         address
-      )}&key=${apiKey}`;
+      )}&key=${config.OPEN_CAGE_API_KEY}`;
       setCoordinates({
         lat: "Obteniendo longitud...",
         lng: "Obteniendo latitud...",
@@ -67,7 +66,7 @@ export default function FridgeContribForm() {
         <div>
           <Field
             label={"Longitud"}
-            name={"longitude"}
+            name={"longitud"}
             type={"text"}
             value={coordinates.lng}
             readOnly
@@ -76,7 +75,7 @@ export default function FridgeContribForm() {
         <div>
           <Field
             label={"Latitud"}
-            name={"latitude"}
+            name={"latitud"}
             type={"text"}
             value={coordinates.lat}
             readOnly
@@ -86,7 +85,7 @@ export default function FridgeContribForm() {
 
       <Field
         label={"Cantidad de viandas"}
-        name={"max-lauches-count"}
+        name={"maxFoodCapacity"}
         type={"number"}
         required
       />

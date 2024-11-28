@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-export default function Product({ product }) {
+export default function BenefitCard({ product }) {
   return (
     <div className="max-w-sm overflow-hidden rounded-2xl shadow-lg bg-white">
       <img className="object-scale-down" src={product.Imagen} alt="" />

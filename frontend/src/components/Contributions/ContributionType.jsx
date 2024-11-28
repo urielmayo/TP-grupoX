@@ -1,7 +1,7 @@
 import { useRouteLoaderData } from "react-router-dom";
 
 export default function ContributionType({ onSelect }) {
-  const user = useRouteLoaderData("profile");
+  const user = useRouteLoaderData("contributions");
   const buttonCssClass =
     "px-4 py-2 text-sm font-medium text-gray-900 bg-white border rounded-lg border-gray-200 hover:text-blue-600";
 

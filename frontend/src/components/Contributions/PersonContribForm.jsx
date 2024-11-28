@@ -7,16 +7,14 @@ export default function PersonContribForm() {
   return (
     <Form method="post">
       <input type="hidden" name="type" value="person-registration" />
-      <Field
-        label={"Fecha de registro"}
-        type={"date"}
-        name={"registration-date"}
-        required
-      />
+      <div className="grid md:grid-cols-2 gap-x-3">
+        <Field label={"Nombre"} type={"text"} name={"name"} required />
+        <Field label={"Apellido"} type={"text"} name={"surname"} required />
+      </div>
       <Field
         label={"Fecha de nacimiento"}
         type={"date"}
-        name={"birth-date"}
+        name={"birthDate"}
         required
       />
       <Field
@@ -25,16 +23,26 @@ export default function PersonContribForm() {
         name={"address"}
         placeholder={"En caso de no tener domicilio dejar vacio"}
       />
-      <SelectField label={"Tipo de documento"} name={"id-type"}>
-        <option value="0">No cuenta</option>
-        <option value="1">DNI</option>
-        <option value="2">Pasaporte</option>
-      </SelectField>
-      <Field label={"Numero de documento"} type={"text"} name={"id"} />
+      <div className="grid md:grid-cols-2 gap-x-3">
+        <SelectField label={"Tipo de documento"} name={"documentType"}>
+          <option value="0">No cuenta</option>
+          <option value="1">DNI</option>
+          <option value="2">Pasaporte</option>
+        </SelectField>
+        <Field
+          label={"Numero de documento"}
+          type={"text"}
+          name={"documentNumber"}
+        />
+      </div>
+      <Field label={"Menores a cargo"} type={"number"} name={"minorsInCare"} />
       <Field
-        label={"Menores a cargo"}
-        type={"number"}
-        name={"minors-in-charge"}
+        label={"Código de tarjeta"}
+        type={"text"}
+        name={"cardCode"}
+        placeholder={"XXXXXXXXXXXX"}
+        pattern={"[0-9]{11}"}
+        required
       />
       <SubmitButton text={"Registrar"} />
     </Form>

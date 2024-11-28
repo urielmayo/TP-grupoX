@@ -1,4 +1,5 @@
-import { redirect, useActionData } from "react-router-dom";
+/* eslint-disable react-refresh/only-export-components */
+import { redirect } from "react-router-dom";
 
 import SignupForm from "../components/SignupForm";
 import { config } from "../config";
@@ -13,7 +14,7 @@ export default function SignupPage() {
   );
 }
 
-export async function action({ request }) {
+export async function signupAction({ request }) {
   const form = await request.formData();
   const errors = {};
 

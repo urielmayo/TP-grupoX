@@ -1,11 +1,14 @@
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 
 export function moneyDonationMapper(type) {
   return type === "MoneyDonation"
-    ? "Donacion de dinero"
-    : type === "Fridge"
+    ? "Dinero"
+    : type === "FridgeOwner"
     ? "Heladera"
+    : type === "FoodDonation"
+    ? "Comida"
     : "Otro";
 }
 
@@ -13,7 +16,7 @@ export default function ContributionCard({ contribution }) {
   const event = new Date(contribution.date);
 
   return (
-    <Link to={`/users/me/contributions/${contribution.id}`}>
+    <Link to={`/contributions/${contribution.id}`}>
       <div className="max-w-sm overflow-hidden rounded-2xl shadow-lg p-4 bg-white">
         <span className="mb-3 font-thin">#{contribution.id}</span>
         <div className="font-bold text-xl mb-2">

@@ -1,21 +1,27 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import MainLayout from "./layouts/MainLayout";
-import HomePage, { loader as fridgesLoader } from "./pages/Home";
-import LoginPage, { action as loginAction } from "./pages/Login";
-import SignupPage, { action as signupAction } from "./pages/Signup";
-import { userLoader } from "./utils/auth";
+import HomePage from "./pages/Home";
+import LoginPage, { loginAction } from "./pages/Login";
+import SignupPage, { signupAction } from "./pages/Signup";
 import LogoutAction from "./pages/Logout";
 import ContributionListPage from "./pages/ContributionList";
-import NewContributionPage, {
-  action as newContribAction,
-} from "./pages/NewContribution";
-import ContributionDetailPage, {
-  loader as contribDetailLoader,
-} from "./pages/ContributionDetail";
+import NewContributionPage, { newContribAction } from "./pages/NewContribution";
+import ContributionDetailPage from "./pages/ContributionDetail";
 import ErrorPage from "./pages/Error";
-import RewardsListPage, { loader as rewardsLoader } from "./pages/RewardsList";
-import ProtectedRoute from "./components/ProtectedRoute";
-import ProfilePage, { loader as userDataLoader } from "./pages/Profile";
+import RewardsListPage from "./pages/RewardsList";
+import ProfilePage from "./pages/Profile";
+import TechniciansListPage from "./pages/Technicians";
+
+import { newTechnicianAction } from "./components/technicians/NewTechnician";
+
+import { userLoader } from "./utils/auth";
+import { contributionLoader } from "./loaders/contributionsLoader";
+import { profileLoader } from "./loaders/profileLoader";
+import { rewardsLoader } from "./loaders/rewardsLoader";
+import { fridgesLoader } from "./loaders/fridgesLoader";
+import { techniciansLoader } from "./loaders/techniciansLoader";
+import NewTechnicianPage from "./pages/NewTechnician";
 
 const router = createBrowserRouter([
   {
@@ -32,43 +38,42 @@ const router = createBrowserRouter([
           { path: "login", element: <LoginPage />, action: loginAction },
           { path: "signup", element: <SignupPage />, action: signupAction },
           { path: "logout", action: LogoutAction },
+          { path: "me", element: <ProfilePage />, loader: profileLoader },
+        ],
+      },
+      {
+        path: "contributions",
+        id: "contributions",
+        loader: profileLoader,
+        element: <ContributionListPage />,
+        children: [
           {
-            path: "me",
-            id: "profile",
-            loader: userDataLoader,
-            children: [
-              {
-                index: true,
-                element: <ProfilePage />,
-              },
-              {
-                path: "contributions",
-                element: <ContributionListPage />,
-                children: [
-                  {
-                    path: "new",
-                    element: <NewContributionPage />,
-                    action: newContribAction,
-                  },
-                  {
-                    path: ":id",
-                    element: <ContributionDetailPage />,
-                    loader: contribDetailLoader,
-                  },
-                ],
-              },
-            ],
+            path: "new",
+            element: <NewContributionPage />,
+            action: newContribAction,
+            loader: fridgesLoader,
+          },
+          {
+            path: ":id",
+            element: <ContributionDetailPage />,
+            loader: contributionLoader,
           },
         ],
       },
       {
         path: "rewards",
-        element: <ProtectedRoute />,
+        element: <RewardsListPage />,
+        loader: rewardsLoader,
+      },
+      {
+        path: "technicians",
+        loader: techniciansLoader,
+        element: <TechniciansListPage />,
         children: [
           {
-            index: true,
-            element: <RewardsListPage />,
-            loader: rewardsLoader,
+            path: "new",
+            element: <NewTechnicianPage />,
+            action: newTechnicianAction,
           },
         ],
       },

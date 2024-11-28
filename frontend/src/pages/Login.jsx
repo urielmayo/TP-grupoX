@@ -1,4 +1,6 @@
+/* eslint-disable react-refresh/only-export-components */
 import { redirect, json } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import LoginForm from "../components/LoginForm";
 import { config } from "../config";
 
@@ -12,7 +14,7 @@ export default function LoginPage() {
   );
 }
 
-export async function action({ request }) {
+export async function loginAction({ request }) {
   const form = await request.formData();
   const loginData = Object.fromEntries(form.entries());
 
@@ -30,11 +32,18 @@ export async function action({ request }) {
   }
   const data = await response.json();
   console.log(data);
+  const decoded = jwtDecode(data.data.jwt);
 
   sessionStorage.setItem("jwt", data.data.jwt);
   sessionStorage.setItem(
     "user",
-    JSON.stringify({ username: loginData.userName, id: data.data.id })
+    JSON.stringify({
+      username: decoded.name,
+      id: data.data.id,
+      role: decoded[
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+      ],
+    })
   );
   return redirect("/");
 }
