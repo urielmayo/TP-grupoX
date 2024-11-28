@@ -11,9 +11,9 @@ namespace TPDDSBackend.Aplication.Services.Strategies
             var donation = (Benefit)contribution;
             return new Dictionary<string, object>
             {
-                { "Description", donation.Description},
-                { "RequiredPoints", donation.RequiredPoints },
-                { "Category", donation.Category }
+                { "description", donation.Description},
+                { "required_points", donation.RequiredPoints },
+                { "category", donation.Category }
 
             };
         }

@@ -11,7 +11,10 @@ namespace TPDDSBackend.Aplication.Services.Strategies
             var donation = (FridgeOwner)contribution;
             return new Dictionary<string, object>
             {
-                { "Fridge", donation.Fridge.Name }
+                { "name", donation.Fridge.Name },
+                { "address", donation.Fridge.Address },
+                { "setup_date", donation.Fridge.Address },
+                { "capacity", donation.Fridge.MaxFoodCapacity },
             };
         }
 
@@ -21,7 +24,7 @@ namespace TPDDSBackend.Aplication.Services.Strategies
             return donation.Fridge.Active ? GetPointsByFridge(donation.Fridge) : 0m;
         }
 
-        private decimal GetPointsByFridge(Fridge fridge) 
+        private decimal GetPointsByFridge(Fridge fridge)
         {
             int activeMounths = ((DateTime.Now.Year - fridge.SetUpAt.Year) * 12) + (DateTime.Now.Month - fridge.SetUpAt.Month);
 
