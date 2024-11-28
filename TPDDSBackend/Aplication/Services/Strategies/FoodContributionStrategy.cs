@@ -13,7 +13,8 @@ namespace TPDDSBackend.Aplication.Services.Strategies
                 { "description", donation.Food.Description },
                 { "expiration_date", donation.Food.ExpirationDate},
                 { "calories", donation.Food.Calories},
-                { "Donee", donation.Collaborator.UserName }
+                { "weight", donation.Food.Weight},
+                { "donee", donation.Collaborator.UserName }
             };
         }
 

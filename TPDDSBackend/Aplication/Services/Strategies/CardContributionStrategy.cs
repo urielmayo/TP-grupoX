@@ -11,8 +11,8 @@ namespace TPDDSBackend.Aplication.Services.Strategies
             var donation = (Card)contribution;
             return new Dictionary<string, object>
             {
-                { "PersonInVulnerableSituationName", donation.Owner.Name },
-                { "CardCode", donation.Code }
+                { "vulnerable_person_name", donation.Owner.Name },
+                { "card_code", donation.Code }
             };
         }
 
