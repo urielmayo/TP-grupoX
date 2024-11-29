@@ -25,9 +25,8 @@ export default function PersonContribForm() {
       />
       <div className="grid md:grid-cols-2 gap-x-3">
         <SelectField label={"Tipo de documento"} name={"documentType"}>
-          <option value="0">No cuenta</option>
-          <option value="1">DNI</option>
-          <option value="2">Pasaporte</option>
+          <option value="DNI">DNI</option>
+          <option value="Pasaporte">Pasaporte</option>
         </SelectField>
         <Field
           label={"Numero de documento"}

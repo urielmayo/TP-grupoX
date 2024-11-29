@@ -29,10 +29,19 @@ export default function NewTechnician() {
         <div className="grid md:grid-cols-2 gap-x-3">
           <Field type={"text"} name={"name"} label={"Nombre"} />
           <Field type={"text"} name={"surname"} label={"Apellido"} />
-          <SelectField label={"Tipo de documento"} name={"documentTypeId"}>
-            <option value="0">No cuenta</option>
-            <option value="1">DNI</option>
-            <option value="2">Pasaporte</option>
+          <SelectField
+            label={"Tipo de documento"}
+            name={"documentTypeId"}
+            required
+          >
+            <option value="DNI">DNI</option>
+            <option value="CUIT">CUIT</option>
+            <option value="CUIL">CUIL</option>
+            <option value="Pasaporte">Pasaporte</option>
+            <option value="Libreta Cívica">Libreta Cívica</option>
+            <option value="Libreta de Enrolamiento">
+              Libreta de Enrolamiento
+            </option>
           </SelectField>
           <Field
             label={"Numero de documento"}

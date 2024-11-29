@@ -12,6 +12,8 @@ namespace TPDDSBackend.Aplication.Services.Strategies
             {
                 { "description", donation.Food.Description },
                 { "expiration_date", donation.Food.ExpirationDate},
+                { "state", donation.Food.State.Description},
+                { "fridge", donation.Food.Fridge.Name},
                 { "calories", donation.Food.Calories},
                 { "weight", donation.Food.Weight},
                 { "donee", donation.Collaborator.UserName }
