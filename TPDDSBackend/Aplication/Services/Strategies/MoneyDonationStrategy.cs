@@ -10,8 +10,9 @@ namespace TPDDSBackend.Aplication.Services.Strategies
             var donation = (MoneyDonation)contribution;
             return new Dictionary<string, object>
             {
-                { "Amount", donation.Amount },
-                { "Frequency", donation.Frequency.ToString() }
+                { "date", donation.Date },
+                { "amount", donation.Amount },
+                { "frequency", donation.Frequency.ToString() }
             };
         }
 

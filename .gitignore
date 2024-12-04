@@ -82,9 +82,9 @@ ScaffoldingReadMe.txt
 # Entity Framework
 *.edmx.sql
 
-# Microsoft Azure Web App publish settings. 
-# These settings are still created if you publish to Azure, but will 
-# no longer be updated automatically, because this is a default setting 
+# Microsoft Azure Web App publish settings.
+# These settings are still created if you publish to Azure, but will
+# no longer be updated automatically, because this is a default setting
 # and changing it requires admin permissions on your machine.
 *.Publish.xml
 *.pubxml
@@ -162,3 +162,31 @@ serverless/
 .idea/
 /TPDDSBackend/.vs
 /.vs
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+*.env

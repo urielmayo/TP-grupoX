@@ -10,8 +10,11 @@ namespace TPDDSBackend.Aplication.Services.Strategies
             var donation = (FoodDonation)contribution;
             return new Dictionary<string, object>
             {
-                { "FoodDescription", donation.Food.Description },
-                { "Donee", donation.Collaborator.UserName }
+                { "description", donation.Food.Description },
+                { "expiration_date", donation.Food.ExpirationDate},
+                { "calories", donation.Food.Calories},
+                { "weight", donation.Food.Weight},
+                { "donee", donation.Collaborator.UserName }
             };
         }
 
