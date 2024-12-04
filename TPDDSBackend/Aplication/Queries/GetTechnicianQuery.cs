@@ -47,11 +47,11 @@ namespace TPDDSBackend.Aplication.Queries
                 IdDocumentType = tech.DocumentTypeId,
                 PhoneNumber = tech.PhoneNumber,
                 WorkerIdentificationNumber = tech.WorkerIdentificationNumber,
-                IdNeighbourhood = tech.NeighborhoodId
+                Neighbourhood = tech.Neighborhood.Name
             };
 
             return new CustomResponse<GetTechnicianResponse>("Técnico encontrado", techResponse);
-            
+
         }
     }
 }
