@@ -1,6 +1,7 @@
 import { getUserData } from "../utils/auth";
 import { config } from "../config";
 import { redirect, json } from "react-router-dom";
+import { fetchNeighborhoods } from "../utils/http";
 
 export async function techniciansLoader() {
   const user = getUserData();
@@ -32,4 +33,25 @@ export async function techniciansLoader() {
 
   const data = await response.json();
   return data.data.technicians;
+}
+
+export async function newTechnicianLoader() {
+  const user = getUserData();
+
+  if (!user) {
+    throw redirect("/users/login");
+  }
+
+  // Verificar que el usuario sea un Admin
+  if (user.role !== "Admin") {
+    throw json(
+      {
+        title: "Acceso indebido",
+        message: "No esta permitida la accion para este rol",
+      },
+      { status: 403 }
+    );
+  }
+
+  return fetchNeighborhoods();
 }

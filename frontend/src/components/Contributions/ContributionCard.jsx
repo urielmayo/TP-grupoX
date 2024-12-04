@@ -9,6 +9,10 @@ export function moneyDonationMapper(type) {
     ? "Heladera"
     : type === "FoodDonation"
     ? "Comida"
+    : type === "FoodDelivery"
+    ? "Distribucion de viandas"
+    : type === "Card"
+    ? "Registro de persona vulnerable"
     : "Otro";
 }
 

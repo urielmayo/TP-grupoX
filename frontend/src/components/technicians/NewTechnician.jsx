@@ -1,13 +1,23 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useNavigate, Form, useActionData, redirect } from "react-router-dom";
+import {
+  useNavigate,
+  Form,
+  useActionData,
+  redirect,
+  useLoaderData,
+} from "react-router-dom";
 import Modal from "../UI/Modal";
 import FormTitle from "../UI/FormTitle";
 import FormError from "../UI/FormError";
 import SelectField from "../UI/SelectField";
 import Field from "../UI/Field";
+import SubmitButton from "../UI/SubmitButton";
 import { config } from "../../config";
 
 export default function NewTechnician() {
+  const neighborhoods = useLoaderData();
+  console.log(neighborhoods);
+
   const navigate = useNavigate();
   const errors = useActionData();
 
@@ -27,24 +37,55 @@ export default function NewTechnician() {
         )) || <br />}
 
         <div className="grid md:grid-cols-2 gap-x-3">
-          <Field type={"text"} name={"name"} label={"Nombre"} />
-          <Field type={"text"} name={"surname"} label={"Apellido"} />
-          <SelectField label={"Tipo de documento"} name={"documentTypeId"}>
-            <option value="0">No cuenta</option>
+          <Field type={"text"} name={"name"} label={"Nombre"} required />
+          <Field type={"text"} name={"surname"} label={"Apellido"} required />
+
+          <SelectField
+            label={"Tipo de documento"}
+            name={"documentTypeId"}
+            required
+          >
             <option value="1">DNI</option>
-            <option value="2">Pasaporte</option>
+            <option value="2">CUIT</option>
+            <option value="3">CUIL</option>
+            <option value="4">Pasaporte</option>
+            <option value="5">Libreta Cívica</option>
+            <option value="6">Libreta de Enrolamiento</option>
           </SelectField>
+
           <Field
             label={"Numero de documento"}
             type={"text"}
-            name={"documentNumber"}
+            name={"idNumber"}
           />
+
+          <div className="col-span-2">
+            <Field
+              label={"Numero de identificacion"}
+              type={"text"}
+              name={"workerIdentificationNumber"}
+            />
+          </div>
+
           <Field
-            label={"Numero de Contacto"}
+            label={"Numero de telefono"}
             type={"text"}
             name={"phoneNumber"}
           />
+
+          <Field label={"Correo electronico"} type={"email"} name={"email"} />
+
+          <div className="col-span-2">
+            <SelectField label="barrio" name="neighborhoodId">
+              {neighborhoods.map((nbh) => (
+                <option value={nbh.id} key={nbh.id}>
+                  {nbh.name}
+                </option>
+              ))}
+            </SelectField>
+          </div>
         </div>
+        <SubmitButton text={"Publicar"} />
       </Form>
     </Modal>
   );

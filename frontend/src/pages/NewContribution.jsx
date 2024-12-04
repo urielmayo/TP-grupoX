@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { redirect } from "react-router-dom";
+import { redirect, json } from "react-router-dom";
 import { config } from "../config";
 import NewContribution from "../components/Contributions/NewContribution";
 
@@ -23,8 +23,12 @@ export async function newContribAction({ request }) {
     },
     body: JSON.stringify(data),
   });
+  if (response.status === 500) {
+    throw json({ message: "could not save event" }, { status: 500 });
+  }
   if (!response.ok) {
     const errors = await response.json();
+    console.log(errors);
     return errors.errors;
   }
   return redirect("..");

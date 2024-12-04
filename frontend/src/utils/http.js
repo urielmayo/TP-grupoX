@@ -53,6 +53,15 @@ export async function fetchFridges() {
   return data.data.fridges;
 }
 
-export async function fetchRewards() {
-  const response = await fetch(`${config.BACKEND_URL}/rewards`);
+export async function fetchNeighborhoods() {
+  const response = await fetch(`${config.BACKEND_URL}/Neighborhood`);
+
+  if (!response.ok) {
+    throw new Response("Failed to fetch neighborhood", {
+      status: response.status,
+    });
+  }
+
+  const data = await response.json();
+  return data.data.neighborhoods;
 }
