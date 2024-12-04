@@ -20,7 +20,10 @@ import { contributionLoader } from "./loaders/contributionsLoader";
 import { profileLoader } from "./loaders/profileLoader";
 import { rewardsLoader } from "./loaders/rewardsLoader";
 import { fridgesLoader } from "./loaders/fridgesLoader";
-import { techniciansLoader } from "./loaders/techniciansLoader";
+import {
+  newTechnicianLoader,
+  techniciansLoader,
+} from "./loaders/techniciansLoader";
 import NewTechnicianPage from "./pages/NewTechnician";
 
 const router = createBrowserRouter([
@@ -74,6 +77,7 @@ const router = createBrowserRouter([
             path: "new",
             element: <NewTechnicianPage />,
             action: newTechnicianAction,
+            loader: newTechnicianLoader,
           },
         ],
       },
