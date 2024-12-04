@@ -11,7 +11,9 @@ namespace TPDDSBackend.Aplication.Mappers
         {
             CreateMap<CreateTechnicianRequest, Technician>();
             CreateMap<UpdateTechnicianRequest, Technician>();
-            CreateMap<Technician, GetTechnicianResponse>();
+            CreateMap<Technician, GetTechnicianResponse>()
+                .ForMember(dest => dest.DocumentTypeName, opt => opt.MapFrom(src => src.DocumentType.Description))
+                .ForMember(dest => dest.NeighbourhoodName, opt => opt.MapFrom(src => src.Neighborhood.Name));
         }
     }
 }

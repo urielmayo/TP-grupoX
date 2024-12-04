@@ -23,9 +23,11 @@ namespace TPDDSBackend.Aplication.Queries
     public class GetTechnicianQueryHandler : IRequestHandler<GetTechnicianQuery, CustomResponse<GetTechnicianResponse>>
     {
         private readonly IGenericRepository<Technician> _genericRepository;
-        public GetTechnicianQueryHandler(IGenericRepository<Technician> genericRepository)
+        private readonly IMapper _mapper;
+        public GetTechnicianQueryHandler(IGenericRepository<Technician> genericRepository, IMapper mapper)
         {
             _genericRepository = genericRepository;
+            _mapper = mapper;
         }
 
         public async Task<CustomResponse<GetTechnicianResponse>> Handle(GetTechnicianQuery query, CancellationToken ct)
@@ -37,19 +39,8 @@ namespace TPDDSBackend.Aplication.Queries
                throw new ApiCustomException("Técnico no encontrado", HttpStatusCode.NotFound);
             }
 
-            var techResponse = new GetTechnicianResponse()
-            {
-                Id = tech.Id,
-                Name = tech.Name,
-                Surname = tech.Surname,
-                Email = tech.Email,
-                IdNumber = tech.IdNumber,
-                IdDocumentType = tech.DocumentTypeId,
-                PhoneNumber = tech.PhoneNumber,
-                WorkerIdentificationNumber = tech.WorkerIdentificationNumber,
-                IdNeighbourhood = tech.NeighborhoodId
-            };
-
+            var techResponse = _mapper.Map<GetTechnicianResponse>(tech);
+            
             return new CustomResponse<GetTechnicianResponse>("Técnico encontrado", techResponse);
             
         }
