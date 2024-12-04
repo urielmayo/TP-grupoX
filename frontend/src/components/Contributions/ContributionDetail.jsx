@@ -1,21 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useLoaderData, useNavigate } from "react-router-dom";
 import Modal from "../UI/Modal";
-
-function DescriptionGridItem({ label, value }) {
-  return (
-    <div className="flex justify-between">
-      <h1 className="font-bold">{label}:</h1>
-      <p>{value}</p>
-    </div>
-  );
-}
-
-function DescriptionGrid({ children }) {
-  return <div className="grid gap-y-3">{children}</div>;
-}
-
-DescriptionGrid.Item = DescriptionGridItem;
+import DescriptionGrid from "../UI/Description";
 
 export default function ContributionDetail() {
   const navigate = useNavigate();

@@ -9,9 +9,10 @@ export default function ErrorPage() {
   let title = "An error occurred!";
   let message = "Something went wrong!";
 
-  if (isRouteErrorResponse(error) && error.status === 403) {
-    title = error.data.title;
-    message = error.data.message;
+  if (isRouteErrorResponse(error)) {
+    // Usa los datos proporcionados por el loader en el error
+    title = error.data?.title || title;
+    message = error.data?.message || message;
   }
 
   return (
