@@ -1,14 +1,10 @@
-import { getUserData } from "../utils/auth";
+import { requireAuth } from "../utils/auth";
 import { config } from "../config";
 import { redirect, json } from "react-router-dom";
 import { fetchNeighborhoods } from "../utils/http";
 
 export async function techniciansLoader() {
-  const user = getUserData();
-
-  if (!user) {
-    throw redirect("/users/login");
-  }
+  const user = requireAuth();
 
   // Verificar que el usuario sea un Admin
   if (user.role !== "Admin") {
@@ -39,11 +35,7 @@ export async function techniciansLoader() {
 }
 
 export async function technicianLoader({ params }) {
-  const user = getUserData();
-
-  if (!user) {
-    throw redirect("/users/login");
-  }
+  const user = requireAuth();
 
   // Verificar que el usuario sea un Admin
   if (user.role !== "Admin") {
@@ -107,12 +99,8 @@ export async function technicianLoader({ params }) {
   }
 }
 
-export async function newTechnicianLoader() {
-  const user = getUserData();
-
-  if (!user) {
-    throw redirect("/users/login");
-  }
+export async function neighbourhoodsLoader() {
+  const user = requireAuth();
 
   // Verificar que el usuario sea un Admin
   if (user.role !== "Admin") {

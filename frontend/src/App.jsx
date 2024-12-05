@@ -1,32 +1,40 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+// pages
 import MainLayout from "./layouts/MainLayout";
 import HomePage from "./pages/Home";
-import LoginPage, { loginAction } from "./pages/Login";
-import SignupPage, { signupAction } from "./pages/Signup";
+import LoginPage from "./pages/Login";
+import SignupPage from "./pages/Signup";
 import LogoutAction from "./pages/Logout";
 import ContributionListPage from "./pages/ContributionList";
-import NewContributionPage, { newContribAction } from "./pages/NewContribution";
+import NewContributionPage from "./pages/NewContribution";
 import ContributionDetailPage from "./pages/ContributionDetail";
 import ErrorPage from "./pages/Error";
 import RewardsListPage from "./pages/RewardsList";
 import ProfilePage from "./pages/Profile";
 import TechniciansListPage from "./pages/Technicians";
+import NewTechnicianPage from "./pages/NewTechnician";
+import TechnicianDetailPage from "./pages/TechniciansDetail";
+import UpdateTechnicianPage from "./pages/UpdateTechnician";
 
-import { newTechnicianAction } from "./components/technicians/NewTechnician";
+// actions
+import { loginAction } from "./pages/Login";
+import { signupAction } from "./pages/Signup";
+import { newTechnicianAction } from "./pages/NewTechnician";
+import { newContribAction } from "./pages/NewContribution";
+import { updateTechicianAction } from "./pages/UpdateTechnician";
 
+// loaders
 import { userLoader } from "./utils/auth";
 import { contributionLoader } from "./loaders/contributionsLoader";
 import { profileLoader } from "./loaders/profileLoader";
 import { rewardsLoader } from "./loaders/rewardsLoader";
 import { fridgesLoader } from "./loaders/fridgesLoader";
 import {
-  newTechnicianLoader,
+  neighbourhoodsLoader,
   techniciansLoader,
   technicianLoader,
 } from "./loaders/techniciansLoader";
-import NewTechnicianPage from "./pages/NewTechnician";
-import TechnicianDetailPage from "./pages/TechniciansDetail";
 
 const router = createBrowserRouter([
   {
@@ -79,12 +87,24 @@ const router = createBrowserRouter([
             path: "new",
             element: <NewTechnicianPage />,
             action: newTechnicianAction,
-            loader: newTechnicianLoader,
+            loader: neighbourhoodsLoader,
           },
           {
             path: ":id",
-            element: <TechnicianDetailPage />,
+            id: "techicianDetail",
             loader: technicianLoader,
+            children: [
+              {
+                index: true,
+                element: <TechnicianDetailPage />,
+              },
+              {
+                path: "update",
+                element: <UpdateTechnicianPage />,
+                loader: neighbourhoodsLoader,
+                action: updateTechicianAction,
+              },
+            ],
           },
         ],
       },

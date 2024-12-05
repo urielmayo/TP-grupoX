@@ -90,23 +90,3 @@ export default function NewTechnician() {
     </Modal>
   );
 }
-
-export async function newTechnicianAction({ request }) {
-  const form = await request.formData();
-  const data = Object.fromEntries(form.entries());
-  console.log(data);
-
-  const response = await fetch(`${config.BACKEND_URL}/Technician`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-    },
-    body: JSON.stringify(data),
-  });
-  if (!response.ok) {
-    const errors = await response.json();
-    return errors.errors;
-  }
-  return redirect("..");
-}

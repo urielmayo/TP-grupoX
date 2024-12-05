@@ -1,12 +1,10 @@
-import { getUserData } from "./auth";
+import { getUserData, requireAuth } from "./auth";
 import { config } from "../config";
 import { redirect, json } from "react-router-dom";
 
 export async function fetchUser() {
-  const user = getUserData();
-  if (!user) {
-    throw redirect("/users/login");
-  }
+  const user = requireAuth();
+
   const response = await fetch(
     `${config.BACKEND_URL}/Collaborator/${user.id}`,
     {
@@ -18,8 +16,6 @@ export async function fetchUser() {
     }
   );
   if (response.status === 401) {
-    sessionStorage.removeItem("jwt");
-    sessionStorage.removeItem("user");
     throw redirect("/users/login");
   }
 
@@ -28,6 +24,8 @@ export async function fetchUser() {
 }
 
 export async function fetchContribution(id) {
+  requireAuth();
+
   const response = await fetch(`${config.BACKEND_URL}/Contribution/${id}`, {
     method: "GET",
     headers: {
@@ -65,11 +63,7 @@ export async function fetchNeighborhoods() {
 }
 
 export async function deleteTechnician(id) {
-  const user = getUserData();
-
-  if (!user) {
-    throw redirect("/users/login");
-  }
+  const user = requireAuth();
 
   // Verificar que el usuario sea un Admin
   if (user.role !== "Admin") {

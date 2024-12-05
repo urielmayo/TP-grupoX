@@ -14,10 +14,21 @@ function DescriptionGridItem({
     if (inputType !== "select") {
       content = (
         <input
-          className="border rounded-md px-1"
+          className="border rounded-md px-1 w-40"
           type={inputType}
+          name={inputName}
           defaultValue={value}
         />
+      );
+    } else {
+      content = (
+        <select name={inputName} className="border rounded-md px-1 w-40">
+          {selectOptions.map((op) => (
+            <option key={op.id} value={op.id}>
+              {op.name}
+            </option>
+          ))}
+        </select>
       );
     }
   }
