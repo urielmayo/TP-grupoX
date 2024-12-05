@@ -1,0 +1,45 @@
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using TPDDSBackend.Aplication.Commands.Coefficients;
+using TPDDSBackend.Aplication.Dtos.Requests;
+using TPDDSBackend.Aplication.Queries;
+
+namespace TPDDSBackend.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class CoefficientsController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+        public CoefficientsController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateCoefficients([FromBody] CoefficientsRequest request)
+        {
+            var result = await _mediator.Send(new CreateCoefficientsCommand(request));
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetCoefficients()
+        {
+            var result = await _mediator.Send(new GetAllCoefficientsQuery());
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateCoefficients([FromBody] CoefficientsRequest request, [FromRoute]int id)
+        {
+            var result = await _mediator.Send( new UpdateCoefficientsCommand(request,id));
+            return Ok(result);
+        }
+    }
+ }

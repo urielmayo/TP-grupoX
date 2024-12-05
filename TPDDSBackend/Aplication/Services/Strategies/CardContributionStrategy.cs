@@ -16,9 +16,9 @@ namespace TPDDSBackend.Aplication.Services.Strategies
             };
         }
 
-        public decimal GetPoints(Contribution contribution)
+        public decimal GetPoints(Contribution contribution, BenefitCoefficients coefficients)
         {
-            return 2.0m;
+            return coefficients.DeliveredCards;
         }
     }
 }

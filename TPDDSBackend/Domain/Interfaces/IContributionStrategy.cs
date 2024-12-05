@@ -1,4 +1,5 @@
-﻿using TPDDSBackend.Domain.Entitites;
+﻿using TPDDSBackend.Domain.Entities;
+using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Domain.Interfaces
 {
@@ -6,6 +7,6 @@ namespace TPDDSBackend.Domain.Interfaces
     {
         Dictionary<string, object> GetAttributes(Contribution contribution);
 
-        decimal GetPoints(Contribution contribution);
+        decimal GetPoints(Contribution contribution, BenefitCoefficients coefficients);
     }
 }

@@ -1,4 +1,5 @@
-﻿using TPDDSBackend.Domain.Entitites;
+﻿using TPDDSBackend.Domain.Entities;
+using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Domain.Interfaces;
 
 namespace TPDDSBackend.Aplication.Services.Strategies
@@ -17,11 +18,11 @@ namespace TPDDSBackend.Aplication.Services.Strategies
             };
         }
 
-        public decimal GetPoints(Contribution contribution)
+        public decimal GetPoints(Contribution contribution, BenefitCoefficients coefficients)
         {
             var donation = (FoodDelivery)contribution;
 
-            return donation.Amount * 1;
+            return donation.Amount * coefficients.DeliveredFoods;
         }
     }
 }
