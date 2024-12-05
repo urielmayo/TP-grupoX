@@ -54,21 +54,21 @@ export default function NewTechnician() {
           </SelectField>
 
           <Field
-            label={"Numero de documento"}
+            label={"Número de documento"}
             type={"text"}
             name={"idNumber"}
           />
 
           <div className="col-span-2">
             <Field
-              label={"Numero de identificacion"}
+              label={"Número de identificacion"}
               type={"text"}
               name={"workerIdentificationNumber"}
             />
           </div>
 
           <Field
-            label={"Numero de telefono"}
+            label={"Número de telefono"}
             type={"text"}
             name={"phoneNumber"}
           />
@@ -76,7 +76,7 @@ export default function NewTechnician() {
           <Field label={"Correo electronico"} type={"email"} name={"email"} />
 
           <div className="col-span-2">
-            <SelectField label="barrio" name="neighborhoodId">
+            <SelectField label="Barrio" name="neighborhoodId">
               {neighborhoods.map((nbh) => (
                 <option value={nbh.id} key={nbh.id}>
                   {nbh.name}

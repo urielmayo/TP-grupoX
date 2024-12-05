@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
+import Card from "../UI/Card";
 
 export default function TechniciansCard({ technician }) {
   return (
     <Link to={`${technician.id}`}>
-      <div className="max-w-md overflow-hidden rounded-2xl shadow-lg hover:shadow-blue-300/50 p-4 bg-white group">
+      <Card>
         <div className="font-bold text-xl mb-2">
           # {technician.workerIdentificationNumber}
         </div>
@@ -14,7 +15,7 @@ export default function TechniciansCard({ technician }) {
           </li>
           <li>{technician.neighbourhoodName}</li>
         </ul>
-      </div>
+      </Card>
     </Link>
   );
 }
