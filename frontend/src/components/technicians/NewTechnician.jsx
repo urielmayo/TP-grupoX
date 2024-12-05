@@ -3,7 +3,6 @@ import {
   useNavigate,
   Form,
   useActionData,
-  redirect,
   useLoaderData,
 } from "react-router-dom";
 import Modal from "../UI/Modal";
@@ -12,7 +11,6 @@ import FormError from "../UI/FormError";
 import SelectField from "../UI/SelectField";
 import Field from "../UI/Field";
 import SubmitButton from "../UI/SubmitButton";
-import { config } from "../../config";
 
 export default function NewTechnician() {
   const neighborhoods = useLoaderData();

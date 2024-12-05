@@ -3,8 +3,10 @@ import {
   useLoaderData,
   Form,
   useRouteLoaderData,
+  useActionData,
 } from "react-router-dom";
 import Modal from "../UI/Modal";
+import FormError from "../UI/FormError";
 import DescriptionGrid from "../UI/Description";
 
 export default function UpdateTechnician() {
@@ -20,6 +22,7 @@ export default function UpdateTechnician() {
     neighbourhoodName,
   } = useRouteLoaderData("techicianDetail");
   const neighbourhoods = useLoaderData();
+  const errors = useActionData();
 
   const documentTypeOptions = [
     { id: "1", name: "DNI" },
@@ -33,6 +36,15 @@ export default function UpdateTechnician() {
   return (
     <Modal onClose={() => navigate("../")}>
       <div className="min-w-96 min-h-48">
+        {errors && (
+          <FormError>
+            <ul>
+              {Object.keys(errors).map((key) =>
+                errors[key].map((item) => <li key={item}>{item}</li>)
+              )}
+            </ul>
+          </FormError>
+        )}
         <h1 className="text-xl">Editar tecnico</h1>
         <hr className="my-3" />
         <Form method="PUT">
