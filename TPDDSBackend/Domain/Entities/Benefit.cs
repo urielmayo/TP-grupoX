@@ -10,7 +10,7 @@ namespace TPDDSBackend.Domain.Entities
 
         public int RequiredPoints { get; set; }
 
-        public byte[] Image {  get; set; }
+        public string ImagePath {  get; set; }
 
     }
 }

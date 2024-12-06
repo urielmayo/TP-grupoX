@@ -46,12 +46,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
 
             var benefit = _mapper.Map<Benefit>(command.Request);
             benefit.CollaboratorId = collaboradorId;
-            using var memoryStream = new MemoryStream();
-            await command.Request.Image.CopyToAsync(memoryStream);
-            var bytesImage = memoryStream.ToArray();
-
-            benefit.Image = bytesImage;
-
+          
             await _benefitRepository.Insert(benefit);
 
             return new CustomResponse<Benefit>(ServiceConstans.MessageSuccessDonation, benefit);

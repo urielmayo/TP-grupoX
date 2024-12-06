@@ -72,7 +72,7 @@ namespace TPDDSBackend.Controllers
 
         [HttpPost("benefit")]
         [Authorize]
-        public async Task<IActionResult> CreateBenefit([FromForm]CreateBenefitRequest request)
+        public async Task<IActionResult> CreateBenefit([FromBody]CreateBenefitRequest request)
         {
             var result = await _mediator.Send(new PublishBenefitContributionCommand(request));
 
