@@ -8,6 +8,6 @@
 
         public int RequiredPoints { get; set; }
 
-        public required IFormFile Image {  get; set; }
+        public required string ImagePath {  get; set; }
     }
 }

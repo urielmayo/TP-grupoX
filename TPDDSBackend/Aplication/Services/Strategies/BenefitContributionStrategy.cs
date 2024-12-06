@@ -13,7 +13,8 @@ namespace TPDDSBackend.Aplication.Services.Strategies
             {
                 { "description", donation.Description},
                 { "required_points", donation.RequiredPoints },
-                { "category", donation.Category }
+                { "category", donation.Category },
+                {"image_path",donation.ImagePath}
 
             };
         }
