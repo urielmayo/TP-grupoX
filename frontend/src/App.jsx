@@ -16,6 +16,7 @@ import TechniciansListPage from "./pages/Technicians";
 import NewTechnicianPage from "./pages/NewTechnician";
 import TechnicianDetailPage from "./pages/TechniciansDetail";
 import UpdateTechnicianPage from "./pages/UpdateTechnician";
+import CoefficientsPage from "./pages/Coefficients";
 
 // actions
 import { loginAction } from "./pages/Login";
@@ -23,13 +24,14 @@ import { signupAction } from "./pages/Signup";
 import { newTechnicianAction } from "./pages/NewTechnician";
 import { newContribAction } from "./pages/NewContribution";
 import { updateTechicianAction } from "./pages/UpdateTechnician";
-
+import { updateCoefficientAction } from "./pages/Coefficients";
 // loaders
 import { userLoader } from "./utils/auth";
 import { contributionLoader } from "./loaders/contributionsLoader";
 import { profileLoader } from "./loaders/profileLoader";
 import { rewardsLoader } from "./loaders/rewardsLoader";
 import { fridgesLoader } from "./loaders/fridgesLoader";
+import { coefficientsLoader } from "./loaders/coefficientsLoader";
 import {
   neighbourhoodsLoader,
   techniciansLoader,
@@ -72,6 +74,12 @@ const router = createBrowserRouter([
             loader: contributionLoader,
           },
         ],
+      },
+      {
+        path: "coefficients",
+        element: <CoefficientsPage />,
+        loader: coefficientsLoader,
+        action: updateCoefficientAction,
       },
       {
         path: "rewards",

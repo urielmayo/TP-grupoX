@@ -1,4 +1,4 @@
-import { getUserData, requireAuth } from "./auth";
+import { requireAuth } from "./auth";
 import { config } from "../config";
 import { redirect, json } from "react-router-dom";
 
@@ -19,34 +19,19 @@ export async function fetchUser() {
     throw redirect("/users/login");
   }
 
+  if (!response.ok) {
+    const data = await response.json();
+    throw json(
+      {
+        title: "Error interno",
+        message: data.Message,
+      },
+      { status: response.status }
+    );
+  }
+
   const data = await response.json();
   return data.data;
-}
-
-export async function fetchContribution(id) {
-  requireAuth();
-
-  const response = await fetch(`${config.BACKEND_URL}/Contribution/${id}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `bearer ${sessionStorage.getItem("jwt")}`,
-    },
-  });
-  if (response.status === 401) {
-    throw redirect("/users/login");
-  }
-  const data = await response.json();
-  return data.data;
-}
-
-export async function fetchFridges() {
-  const response = await fetch(`${config.BACKEND_URL}/Fridge`);
-  if (response.status === 401) {
-    return response;
-  }
-  const data = await response.json();
-  return data.data.fridges;
 }
 
 export async function fetchNeighborhoods() {

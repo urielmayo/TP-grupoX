@@ -78,6 +78,13 @@ export default function Navbar() {
                       Perfil
                     </NavLink>
                   </li>
+                  {user.role === "Admin" && (
+                    <li>
+                      <NavLink to="coefficients" className={dropdownCssClass}>
+                        Coeficientes
+                      </NavLink>
+                    </li>
+                  )}
                   <li>
                     <Form
                       action="/users/logout"

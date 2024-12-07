@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Field from "../UI/Field";
-import SubmitButton from "../UI/SubmitButton";
+import Field from "../UI/form/Field";
+import SubmitButton from "../UI/form/SubmitButton";
 import { Form } from "react-router-dom";
 import { config } from "../../config";
 export default function FridgeContribForm() {

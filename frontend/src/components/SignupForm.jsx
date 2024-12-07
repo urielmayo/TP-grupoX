@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Form, Link, useActionData } from "react-router-dom";
 
-import SelectField from "./UI/SelectField";
-import Field from "./UI/Field";
-import SubmitButton from "./UI/SubmitButton";
-import FormTitle from "./UI/FormTitle";
-import FormError from "./UI/FormError";
+import SelectField from "./UI/form/SelectField";
+import Field from "./UI/form/Field";
+import SubmitButton from "./UI/form/SubmitButton";
+import FormTitle from "./UI/form/FormTitle";
+import FormError from "./UI/form/FormError";
 
 export default function SignupForm() {
   const [tipoColaborador, setTipoColaborador] = useState("human-person");

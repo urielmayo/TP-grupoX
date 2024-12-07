@@ -6,7 +6,7 @@ import {
   useActionData,
 } from "react-router-dom";
 import Modal from "../UI/Modal";
-import FormError from "../UI/FormError";
+import FormError from "../UI/form/FormError";
 import DescriptionGrid from "../UI/Description";
 
 export default function UpdateTechnician() {

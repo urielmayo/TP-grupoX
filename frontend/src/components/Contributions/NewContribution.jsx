@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { useState } from "react";
 import { useNavigate, useActionData } from "react-router-dom";
-import FormTitle from "..//UI/FormTitle";
+import FormTitle from "../UI/form/FormTitle";
 import MoneyContribForm from "../Contributions/MoneyContribForm";
 import ContributionType from "../Contributions/ContributionType";
 import FoodContribForm from "../Contributions/FoodContribForm";
@@ -10,7 +10,7 @@ import PersonContribForm from "../Contributions/PersonContribForm";
 import FridgeContribForm from "../Contributions/FridgeContribForm";
 import ProductContribForm from "../Contributions/ProductContribForm";
 import Modal from "../UI/Modal";
-import FormError from "../UI/FormError";
+import FormError from "../UI/form/FormError";
 
 export default function NewContribution() {
   const [contributionType, setContributionType] = useState("money");

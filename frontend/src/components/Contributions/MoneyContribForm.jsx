@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import Field from "../UI/Field";
-import SubmitButton from "../UI/SubmitButton";
-import SelectField from "../UI/SelectField";
+import Field from "../UI/form/Field";
+import SubmitButton from "../UI/form/SubmitButton";
+import SelectField from "../UI/form/SelectField";
 import { Form } from "react-router-dom";
 
 export default function MoneyContribForm() {

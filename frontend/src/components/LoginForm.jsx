@@ -1,9 +1,9 @@
 import { Form, Link, useActionData } from "react-router-dom";
 
-import Field from "./UI/Field";
-import SubmitButton from "./UI/SubmitButton";
-import FormTitle from "./UI/FormTitle";
-import FormError from "./UI/FormError";
+import Field from "./UI/form/Field";
+import SubmitButton from "./UI/form/SubmitButton";
+import FormTitle from "./UI/form/FormTitle";
+import FormError from "./UI/form/FormError";
 
 export default function LoginForm() {
   const data = useActionData();

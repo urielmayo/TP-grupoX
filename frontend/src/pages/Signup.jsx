@@ -1,16 +1,14 @@
 /* eslint-disable react-refresh/only-export-components */
 import { redirect } from "react-router-dom";
-
+import FormLayout from "../components/UI/form/FormLayout";
 import SignupForm from "../components/SignupForm";
 import { config } from "../config";
 
 export default function SignupPage() {
   return (
-    <div className="flex items-center justify-center">
-      <div className="w-3/4 bg-white p-8 rounded-2xl shadow-lg">
-        <SignupForm />
-      </div>
-    </div>
+    <FormLayout>
+      <SignupForm />
+    </FormLayout>
   );
 }
 

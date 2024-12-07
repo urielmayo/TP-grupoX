@@ -1,6 +1,6 @@
 import { Form } from "react-router-dom";
-import Field from "../UI/Field";
-import SubmitButton from "../UI/SubmitButton";
+import Field from "../UI/form/Field";
+import SubmitButton from "../UI/form/SubmitButton";
 
 export default function ProductContribForm() {
   return (

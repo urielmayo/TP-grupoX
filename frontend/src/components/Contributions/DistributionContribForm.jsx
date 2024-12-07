@@ -1,7 +1,7 @@
 import { Form, useLoaderData } from "react-router-dom";
-import Field from "../UI/Field";
-import SelectField from "../UI/SelectField";
-import SubmitButton from "../UI/SubmitButton";
+import Field from "../UI/form/Field";
+import SelectField from "../UI/form/SelectField";
+import SubmitButton from "../UI/form/SubmitButton";
 
 export default function DistributionContribForm() {
   const fridges = useLoaderData();

@@ -1,24 +1,13 @@
-import { requireAuth } from "../utils/auth";
+import { requireAdmin, authHeaders } from "../utils/auth";
 import { config } from "../config";
 import { redirect, json } from "react-router-dom";
 import { fetchNeighborhoods } from "../utils/http";
 
 export async function techniciansLoader() {
-  const user = requireAuth();
-
-  // Verificar que el usuario sea un Admin
-  if (user.role !== "Admin") {
-    throw json(
-      {
-        title: "Acceso indebido",
-        message: "No esta permitida la accion para este rol",
-      },
-      { status: 403 }
-    );
-  }
+  requireAdmin();
   // Hacer la petición para obtener los técnicos
   const response = await fetch(`${config.BACKEND_URL}/Technician`, {
-    headers: { Authorization: `Bearer ${sessionStorage.getItem("jwt")}` },
+    headers: authHeaders(),
   });
 
   if (!response.ok) {
@@ -35,25 +24,14 @@ export async function techniciansLoader() {
 }
 
 export async function technicianLoader({ params }) {
-  const user = requireAuth();
+  requireAdmin();
 
-  // Verificar que el usuario sea un Admin
-  if (user.role !== "Admin") {
-    throw json(
-      {
-        title: "Acceso indebido",
-        message: "No esta permitida la accion para este rol",
-      },
-      { status: 403 }
-    );
-  }
-  // Hacer la petición para obtener los técnicos
   try {
     // Hacer la petición para obtener los datos del técnico
     const response = await fetch(
       `${config.BACKEND_URL}/Technician/${params.id}`,
       {
-        headers: { Authorization: `Bearer ${sessionStorage.getItem("jwt")}` },
+        headers: authHeaders(),
       }
     );
 
@@ -100,18 +78,6 @@ export async function technicianLoader({ params }) {
 }
 
 export async function neighbourhoodsLoader() {
-  const user = requireAuth();
-
-  // Verificar que el usuario sea un Admin
-  if (user.role !== "Admin") {
-    throw json(
-      {
-        title: "Acceso indebido",
-        message: "No esta permitida la accion para este rol",
-      },
-      { status: 403 }
-    );
-  }
-
+  requireAdmin();
   return fetchNeighborhoods();
 }

@@ -6,11 +6,11 @@ import {
   useLoaderData,
 } from "react-router-dom";
 import Modal from "../UI/Modal";
-import FormTitle from "../UI/FormTitle";
-import FormError from "../UI/FormError";
-import SelectField from "../UI/SelectField";
-import Field from "../UI/Field";
-import SubmitButton from "../UI/SubmitButton";
+import FormTitle from "../UI/form/FormTitle";
+import FormError from "../UI/form/FormError";
+import SelectField from "../UI/form/SelectField";
+import Field from "../UI/form/Field";
+import SubmitButton from "../UI/form/SubmitButton";
 
 export default function NewTechnician() {
   const neighborhoods = useLoaderData();

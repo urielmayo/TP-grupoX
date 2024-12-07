@@ -1,6 +1,21 @@
-import { fetchFridges } from "../utils/http";
+import { config } from "../config";
+import { json } from "react-router-dom";
 
 export async function fridgesLoader() {
-  const fridges = await fetchFridges();
-  return fridges;
+  try {
+    const response = await fetch(`${config.BACKEND_URL}/Fridge`);
+    if (response.status === 401) {
+      return response;
+    }
+    const data = await response.json();
+    return data.data.fridges;
+  } catch (error) {
+    throw json(
+      {
+        title: "Error inesperado",
+        message: "Ocurrió un error al cargar los datos.",
+      },
+      { status: 500 }
+    );
+  }
 }
