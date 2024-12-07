@@ -1,7 +1,7 @@
-import { useRouteLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 
 export default function Profile() {
-  const user = useRouteLoaderData("profile");
+  const user = useLoaderData();
 
   return (
     <div className="bg-white shadow-lg rounded-2xl p-8 min-h-96 min-w-full">
