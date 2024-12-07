@@ -12,8 +12,6 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
              .WithMany()
              .HasForeignKey(x => x.CollaboratorId);
 
-            builder.Property(x => x.Image)
-                .HasColumnType("BYTEA");
         }
     }
 }

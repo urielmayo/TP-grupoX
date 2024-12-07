@@ -1,9 +1,14 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TPDDSBackend.Aplication.Commands.Contributions;
 using TPDDSBackend.Aplication.Dtos.Requests;
+using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Queries;
+using TPDDSBackend.Constans;
+using TPDDSBackend.Domain.Entities;
+using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Controllers
 {
@@ -19,6 +24,8 @@ namespace TPDDSBackend.Controllers
 
         
         [HttpPost("money")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status200OK, ServiceConstans.MessageSuccessDonation, typeof(CustomResponse<Contribution>))]
         [Authorize]
         public async Task<IActionResult> DonateMoney([FromBody] MoneyDonationRequest request)
         {
@@ -28,6 +35,8 @@ namespace TPDDSBackend.Controllers
         }
 
         [HttpPost("food")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status200OK, ServiceConstans.MessageSuccessDonation, typeof(CustomResponse<Contribution>))]
         [Authorize]
         public async Task<IActionResult> DonateFood(FoodContributionRequest request)
         {
@@ -36,6 +45,9 @@ namespace TPDDSBackend.Controllers
         }
 
         [HttpPost("food-distribution")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "No existe esa heladera", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status200OK, ServiceConstans.MessageSuccessDonation, typeof(CustomResponse<Contribution>))]
         [Authorize]
         public async Task<IActionResult> Delivery(FoodDeliveryContributionRequest request)
         {
@@ -44,6 +56,9 @@ namespace TPDDSBackend.Controllers
         }
 
         [HttpPost("person-registration")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "El colaborador debe tener una direccion registrada", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status200OK, ServiceConstans.MessageSuccessDonation, typeof(CustomResponse<Contribution>))]
         [Authorize]
         public async Task<IActionResult> Register(PersonRegistrationContributionRequest request)
         {
@@ -53,6 +68,8 @@ namespace TPDDSBackend.Controllers
         }
 
         [HttpPost("fridge")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status200OK, ServiceConstans.MessageSuccessDonation, typeof(CustomResponse<Contribution>))]
         [Authorize]
         public async Task<IActionResult> TakeChargeFridge(CreateFridgeRequest request )
         {
@@ -63,6 +80,9 @@ namespace TPDDSBackend.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
+        [SwaggerResponse(StatusCodes.Status200OK, "contribucion encontrada", typeof(CustomResponse<ContributionResponse>))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "contribucion no encontrada", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetContribution(int id)
         {
             var result = await _mediator.Send(new GetContributionQuery(id));
@@ -71,8 +91,10 @@ namespace TPDDSBackend.Controllers
         }
 
         [HttpPost("benefit")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status200OK, ServiceConstans.MessageSuccessDonation, typeof(CustomResponse<Benefit>))]
         [Authorize]
-        public async Task<IActionResult> CreateBenefit([FromForm]CreateBenefitRequest request)
+        public async Task<IActionResult> CreateBenefit([FromBody]CreateBenefitRequest request)
         {
             var result = await _mediator.Send(new PublishBenefitContributionCommand(request));
 

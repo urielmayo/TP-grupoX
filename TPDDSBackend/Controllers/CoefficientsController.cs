@@ -1,8 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TPDDSBackend.Aplication.Commands.Coefficients;
 using TPDDSBackend.Aplication.Dtos.Requests;
+using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Queries;
 
 namespace TPDDSBackend.Controllers
@@ -19,6 +21,8 @@ namespace TPDDSBackend.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
+        [SwaggerResponse(StatusCodes.Status200OK, "coeficientes creados", typeof(CustomResponse<CoefficientsResponse>))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateCoefficients([FromBody] CoefficientsRequest request)
         {
             var result = await _mediator.Send(new CreateCoefficientsCommand(request));
@@ -27,6 +31,9 @@ namespace TPDDSBackend.Controllers
         }
 
         [HttpGet]
+        [SwaggerResponse(StatusCodes.Status200OK, "coeficientes dados de alta", typeof(CustomResponse<GetAllCoefficientsResponse>))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Coeficientes no encontrados", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetCoefficients()
         {
@@ -35,6 +42,9 @@ namespace TPDDSBackend.Controllers
         }
 
         [HttpPut("{id}")]
+        [SwaggerResponse(StatusCodes.Status200OK, "coeficientes actualizados", typeof(CustomResponse<CoefficientsResponse>))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Coeficientes no encontrados", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCoefficients([FromBody] CoefficientsRequest request, [FromRoute]int id)
         {

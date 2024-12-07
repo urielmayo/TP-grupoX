@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TPDDSBackend.Domain.EF.DBContexts;
@@ -11,9 +12,11 @@ using TPDDSBackend.Domain.EF.DBContexts;
 namespace TPDDSBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241206002056_ChangeImageByPathImage")]
+    partial class ChangeImageByPathImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,46 +158,6 @@ namespace TPDDSBackend.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("TPDDSBackend.Domain.Entities.BenefitCoefficients", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("ActiveFridges")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<decimal>("DeliveredCards")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("DeliveredFoods")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("DonatedFoods")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("DonatedPesos")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTime>("LastModificationAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("ValidFrom")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("ValidUntil")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BenefitCoefficients");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entities.BenefitExchange", b =>

@@ -17,8 +17,7 @@ namespace TPDDSBackend.Aplication.Mappers
             CreateMap<Contribution,ContributionByCollaboratorResponse>()
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Discriminator));
 
-            CreateMap<CreateBenefitRequest, Benefit>()
-                 .ForMember(dest => dest.Image, opt => opt.Ignore());
+            CreateMap<CreateBenefitRequest, Benefit>();
         }
     }
 }

@@ -38,7 +38,7 @@ namespace TPDDSBackend.Aplication.Commands.Coefficients
 
             if (coefficients == null)
             {
-                throw new ApiCustomException("Coeficientes no encontrado", HttpStatusCode.NotFound);
+                throw new ApiCustomException("Coeficientes no encontrados", HttpStatusCode.NotFound);
             }
 
             coefficients.DeliveredCards = command.Request.DeliveredCards;
