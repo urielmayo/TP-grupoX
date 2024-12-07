@@ -38,7 +38,7 @@ namespace TPDDSBackend.Aplication.Commands.Coefficients
 
             var responseDto = _mapper.Map<CoefficientsResponse>(result);
 
-            return new CustomResponse<CoefficientsResponse>("Se ha creado el colaborador", responseDto);
+            return new CustomResponse<CoefficientsResponse>("Se ha creadon los coeficientes", responseDto);
         }
     }
 }

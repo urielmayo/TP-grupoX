@@ -3,7 +3,6 @@ import {
   useNavigate,
   Form,
   useActionData,
-  redirect,
   useLoaderData,
 } from "react-router-dom";
 import Modal from "../UI/Modal";
@@ -12,7 +11,6 @@ import FormError from "../UI/FormError";
 import SelectField from "../UI/SelectField";
 import Field from "../UI/Field";
 import SubmitButton from "../UI/SubmitButton";
-import { config } from "../../config";
 
 export default function NewTechnician() {
   const neighborhoods = useLoaderData();
@@ -54,21 +52,21 @@ export default function NewTechnician() {
           </SelectField>
 
           <Field
-            label={"Numero de documento"}
+            label={"Número de documento"}
             type={"text"}
             name={"idNumber"}
           />
 
           <div className="col-span-2">
             <Field
-              label={"Numero de identificacion"}
+              label={"Número de identificacion"}
               type={"text"}
               name={"workerIdentificationNumber"}
             />
           </div>
 
           <Field
-            label={"Numero de telefono"}
+            label={"Número de telefono"}
             type={"text"}
             name={"phoneNumber"}
           />
@@ -76,7 +74,7 @@ export default function NewTechnician() {
           <Field label={"Correo electronico"} type={"email"} name={"email"} />
 
           <div className="col-span-2">
-            <SelectField label="barrio" name="neighborhoodId">
+            <SelectField label="Barrio" name="neighborhoodId">
               {neighborhoods.map((nbh) => (
                 <option value={nbh.id} key={nbh.id}>
                   {nbh.name}
@@ -89,24 +87,4 @@ export default function NewTechnician() {
       </Form>
     </Modal>
   );
-}
-
-export async function newTechnicianAction({ request }) {
-  const form = await request.formData();
-  const data = Object.fromEntries(form.entries());
-  console.log(data);
-
-  const response = await fetch(`${config.BACKEND_URL}/Technician`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-    },
-    body: JSON.stringify(data),
-  });
-  if (!response.ok) {
-    const errors = await response.json();
-    return errors.errors;
-  }
-  return redirect("..");
 }
