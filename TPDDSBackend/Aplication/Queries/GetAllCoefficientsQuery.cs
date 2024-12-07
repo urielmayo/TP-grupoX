@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using System.Net;
 using TPDDSBackend.Aplication.Dtos.Responses;
+using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
@@ -25,6 +27,11 @@ namespace TPDDSBackend.Aplication.Queries
         public async Task<CustomResponse<GetAllCoefficientsResponse>> Handle(GetAllCoefficientsQuery query, CancellationToken ct)
         {
             var coefficients = _coefficientsRepository.GetAll().ToList();
+
+            if (coefficients == null || coefficients.Count == 0)
+            {
+                throw new ApiCustomException("Coeficientes no encontrados", HttpStatusCode.NotFound);
+            }
 
             var coefficientsResponses = _mapper.Map<IList<CoefficientsResponse>>(coefficients);
 
