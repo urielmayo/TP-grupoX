@@ -12,8 +12,6 @@ namespace TPDDSBackend.Aplication.Mappers
             CreateMap<PersonRegistrationContributionRequest, PersonInVulnerableSituation>()
                  .ForMember(dest => dest.DocumentType, opt => opt.Ignore());
 
-            CreateMap<PersonRegistrationContributionRequest, Card>()
-                .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.CardCode));
         }
     }
 }

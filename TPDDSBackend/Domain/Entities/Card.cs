@@ -2,10 +2,8 @@
 
 namespace TPDDSBackend.Domain.Entities
 {
-    public class Card: Contribution
+    public class Card: AuditableEntity
     {
-        public string Code { get; set; }
-        public virtual PersonInVulnerableSituation Owner { get; set; }
-        public int PersonInVulnerableSituationId { get; set; }
+       public string Code { get; set; }
     }
 }
