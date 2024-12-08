@@ -28,14 +28,16 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
         private readonly IJwtFactory _jwtFactory;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IGenericRepository<PersonInVulnerableSituation> _personRepository;
-        private readonly IGenericRepository<VulnerablePersonCard> _cardRepository;
+        private readonly IGenericRepository<VulnerablePersonCard> _vulnerablePersonCardRepository;
+        private readonly IGenericRepository<Card> _cardRepository;
         private readonly IDocumentTypeRepository _documentypeRepository;
         private readonly UserManager<Collaborator> _userManager;
         public PersonRegistrationContributionCommandHandler(IMapper mapper,
             IJwtFactory jwtFactory,
             IHttpContextAccessor httpContextAccessor,
             IGenericRepository<PersonInVulnerableSituation> personRepository,
-            IGenericRepository<VulnerablePersonCard> cardRepository,
+            IGenericRepository<VulnerablePersonCard> vulnerablePersonCardRepository,
+            IGenericRepository<Card> cardRepository,
             UserManager<Collaborator> userManager,
             IDocumentTypeRepository documentypeRepository
             )
@@ -43,6 +45,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             _mapper = mapper;
             _jwtFactory = jwtFactory;
             _httpContextAccessor = httpContextAccessor;
+            _vulnerablePersonCardRepository = vulnerablePersonCardRepository;
             _cardRepository = cardRepository;
             _userManager = userManager;
             _personRepository = personRepository;
@@ -72,13 +75,22 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
 
             await _personRepository.Insert(person);
 
-            var card = _mapper.Map<VulnerablePersonCard>(command.Request);
-            card.CollaboratorId = collaboradorId;
-            card.PersonInVulnerableSituationId = person.Id;
-            card.Date = DateTime.UtcNow;
-            card.PersonInVulnerableSituationId = person.Id;
-            
+            var card = new Card()
+            {
+                Code = command.Request!.CardCode
+            };
+
             await _cardRepository.Insert(card);
+
+            var vulnerablePersonCard = new VulnerablePersonCard()
+            {
+                CollaboratorId = collaboradorId,
+                PersonInVulnerableSituationId = person.Id,
+                CardId = card.Id,
+                Date = DateTime.UtcNow,
+            };
+            
+            await _vulnerablePersonCardRepository.Insert(vulnerablePersonCard);
 
             return new CustomResponse<Contribution>(ServiceConstans.MessageSuccessDonation);
         }

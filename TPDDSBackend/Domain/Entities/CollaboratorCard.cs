@@ -12,7 +12,7 @@ namespace TPDDSBackend.Domain.Entities
 
         public int CardId   { get; set; }
 
-        public Collaborator Collaborator { get; set; }
+        public virtual Collaborator Collaborator { get; set; }
 
         public string CollaboratorId {  get; set; }
     }

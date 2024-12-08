@@ -121,7 +121,7 @@ builder.Services.AddScoped<IAccumulatedPointsCalculator, AccumulatedPointsCalcul
 builder.Services.AddScoped<Dictionary<string, IContributionStrategy>>(provider => new Dictionary<string, IContributionStrategy>
 {
     { "MoneyDonation", provider.GetRequiredService<MoneyDonationStrategy>() },
-    { "Card", provider.GetRequiredService<CardContributionStrategy>() },
+    { "VulnerablePersonCard", provider.GetRequiredService<CardContributionStrategy>() },
     { "FoodDonation", provider.GetRequiredService<FoodContributionStrategy>() },
     { "FoodDelivery", provider.GetRequiredService<FoodDeliveryContributionStrategy>() },
     { "FridgeOwner", provider.GetRequiredService<OwnAFridgeContributionStratergy>() },
