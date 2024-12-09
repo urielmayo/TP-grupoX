@@ -1,4 +1,6 @@
-﻿namespace TPDDSBackend.Domain.Entitites
+﻿using TPDDSBackend.Domain.Enums;
+
+namespace TPDDSBackend.Domain.Entitites
 {
     public class FoodDelivery : Contribution
     {
@@ -9,6 +11,8 @@
         public int Amount { get; set; }
         public virtual DeliveryReason DeliveryReason { get; set; }
         public int DeliveryReasonId { get; set; }
+
+        public ContributionStatus Status { get; set; }
 
     }
 }

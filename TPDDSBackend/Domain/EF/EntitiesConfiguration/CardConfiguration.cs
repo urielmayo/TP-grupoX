@@ -9,13 +9,10 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<Card> builder)
         {
-            builder.HasOne(x => x.Collaborator)
-             .WithMany()
-             .HasForeignKey(x => x.CollaboratorId);
+            builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.Owner)
-             .WithMany()
-             .HasForeignKey(x => x.PersonInVulnerableSituationId);
+            builder.Property(x => x.Code)
+                .IsRequired(true);
         }
     }
 }

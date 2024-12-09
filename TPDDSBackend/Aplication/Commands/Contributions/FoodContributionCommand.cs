@@ -4,6 +4,7 @@ using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Constans;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Domain.Enums;
 using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
 
@@ -54,7 +55,8 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             {
                 CollaboratorId = collaboradorId,
                 FoodId = saved.Id,
-                Date = DateTime.UtcNow,            
+                Date = DateTime.UtcNow,
+                Status = ContributionStatus.Requested            
             };
 
             await _foodDonationRepository.Insert(foodDonation);

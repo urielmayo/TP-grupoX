@@ -17,7 +17,8 @@ namespace TPDDSBackend.Aplication.Services.Strategies
                 { "fridge", donation.Food.Fridge.Name},
                 { "calories", donation.Food.Calories},
                 { "weight", donation.Food.Weight},
-                { "donee", donation.Collaborator.UserName }
+                { "donee", donation.Collaborator.UserName },
+                {"status", donation.Status.ToString() }
             };
         }
 

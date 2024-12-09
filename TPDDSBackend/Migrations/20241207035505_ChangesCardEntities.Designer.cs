@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TPDDSBackend.Domain.EF.DBContexts;
@@ -11,9 +12,11 @@ using TPDDSBackend.Domain.EF.DBContexts;
 namespace TPDDSBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241207035505_ChangesCardEntities")]
+    partial class ChangesCardEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -835,10 +838,6 @@ namespace TPDDSBackend.Migrations
                     b.Property<int>("OriginFridgeId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasIndex("DeliveryReasonId");
 
                     b.HasIndex("DestinationFridgeId");
@@ -858,19 +857,9 @@ namespace TPDDSBackend.Migrations
                     b.Property<int>("FoodId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasIndex("DoneeId");
 
                     b.HasIndex("FoodId");
-
-                    b.ToTable("Contributions", t =>
-                        {
-                            t.Property("Status")
-                                .HasColumnName("FoodDonation_Status");
-                        });
 
                     b.HasDiscriminator().HasValue("FoodDonation");
                 });

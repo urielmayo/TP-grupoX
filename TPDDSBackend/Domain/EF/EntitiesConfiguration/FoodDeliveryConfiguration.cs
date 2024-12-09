@@ -19,6 +19,9 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
             builder.HasOne(x => x.DeliveryReason)
                .WithMany()
                .HasForeignKey(p => p.DeliveryReasonId);
+
+            builder.Property(x => x.Status)
+            .HasConversion<string>();
         }
     }
 }

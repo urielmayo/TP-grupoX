@@ -22,7 +22,7 @@ namespace TPDDSBackend.Controllers
             _mediator = mediator;
         }
 
-        
+
         [HttpPost("money")]
         [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         [SwaggerResponse(StatusCodes.Status200OK, ServiceConstans.MessageSuccessDonation, typeof(CustomResponse<Contribution>))]
@@ -51,7 +51,7 @@ namespace TPDDSBackend.Controllers
         [Authorize]
         public async Task<IActionResult> Delivery(FoodDeliveryContributionRequest request)
         {
-            var result = await _mediator.Send( new FoodDeliveryContributionCommand(request));
+            var result = await _mediator.Send(new FoodDeliveryContributionCommand(request));
             return Ok(result);
         }
 
@@ -71,7 +71,7 @@ namespace TPDDSBackend.Controllers
         [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         [SwaggerResponse(StatusCodes.Status200OK, ServiceConstans.MessageSuccessDonation, typeof(CustomResponse<Contribution>))]
         [Authorize]
-        public async Task<IActionResult> TakeChargeFridge(CreateFridgeRequest request )
+        public async Task<IActionResult> TakeChargeFridge(CreateFridgeRequest request)
         {
             var result = await _mediator.Send(new OwnAFridgeContributionCommand(request));
 
@@ -82,6 +82,7 @@ namespace TPDDSBackend.Controllers
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status200OK, "contribucion encontrada", typeof(CustomResponse<ContributionResponse>))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "contribucion no encontrada", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status403Forbidden, ServiceConstans.UpdateDeniedMessage, typeof(CustomResponse<string>))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetContribution(int id)
         {
@@ -94,11 +95,37 @@ namespace TPDDSBackend.Controllers
         [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         [SwaggerResponse(StatusCodes.Status200OK, ServiceConstans.MessageSuccessDonation, typeof(CustomResponse<Benefit>))]
         [Authorize]
-        public async Task<IActionResult> CreateBenefit([FromBody]CreateBenefitRequest request)
+        public async Task<IActionResult> CreateBenefit([FromBody] CreateBenefitRequest request)
         {
             var result = await _mediator.Send(new PublishBenefitContributionCommand(request));
 
             return Ok(result);
+        }
+
+        [HttpPut("food/{contributionId}")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "contribucion no encontrada", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status403Forbidden, ServiceConstans.UpdateDeniedMessageByExpires, typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [Authorize]
+        public async Task<IActionResult> UpdateFoodStatus([FromBody] UpdateRequestContributionRequest request, [FromRoute] int contributionId)
+        {
+            await _mediator.Send(new UpdateFoodDonationCommand(request, contributionId));
+
+            return NoContent();
+        }
+
+        [HttpPut("food-distribution/{contributionId}")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "contribucion no encontrada", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status403Forbidden, ServiceConstans.UpdateDeniedMessageByExpires, typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [Authorize]
+        public async Task<IActionResult> UpdateFoodDistributionStatus([FromBody] UpdateRequestContributionRequest request, [FromRoute] int contributionId)
+        {
+            await _mediator.Send(new UpdateFoodDeliveryCommand(request, contributionId));
+
+            return NoContent();
         }
     }
  }
