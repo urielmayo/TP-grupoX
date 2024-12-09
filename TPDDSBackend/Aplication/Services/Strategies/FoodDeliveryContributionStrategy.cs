@@ -14,7 +14,8 @@ namespace TPDDSBackend.Aplication.Services.Strategies
                 { "origin_fridge_name", donation.OriginFridge.Name },
                 { "destination_fridge_name", donation.DestinationFridge.Name},
                 { "amount", donation.Amount },
-                { "delivery_reason", donation.DeliveryReason.ReasonDescription }
+                { "delivery_reason", donation.DeliveryReason.ReasonDescription },
+                {"status", donation.Status.ToString() }
             };
         }
 
