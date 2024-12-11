@@ -22,6 +22,7 @@ namespace TPDDSBackend.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [SwaggerResponse(StatusCodes.Status200OK, "coeficientes creados", typeof(CustomResponse<CoefficientsResponse>))]
+        [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Ya existen coeficientes validos", typeof(CustomResponse<string>))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateCoefficients([FromBody] CoefficientsRequest request)
         {

@@ -51,7 +51,7 @@ namespace TPDDSBackend.Aplication.Queries
 
             var contributions = await _contributionRepository.GetAllByCollaborador(user.Id);
 
-            var accumulatedPoints = _accumulatedPointsCalculator.CalculateAccumulatedPoints(contributions);
+            var accumulatedPoints = await _accumulatedPointsCalculator.CalculateAccumulatedPoints(contributions);
 
             var destinationList = _mapper.Map<IList<ContributionByCollaboratorResponse>>(contributions);
 
