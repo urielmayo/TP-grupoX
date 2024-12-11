@@ -17,6 +17,7 @@ import NewTechnicianPage from "./pages/NewTechnician";
 import TechnicianDetailPage from "./pages/TechniciansDetail";
 import UpdateTechnicianPage from "./pages/UpdateTechnician";
 import CoefficientsPage from "./pages/Coefficients";
+import BulkContributionsPage from "./pages/BulkContributions";
 
 // actions
 import { loginAction } from "./pages/Login";
@@ -25,6 +26,8 @@ import { newTechnicianAction } from "./pages/NewTechnician";
 import { newContribAction } from "./pages/NewContribution";
 import { updateTechicianAction } from "./pages/UpdateTechnician";
 import { updateCoefficientAction } from "./pages/Coefficients";
+import { bulkContribAction } from "./pages/BulkContributions";
+
 // loaders
 import { userLoader } from "./utils/auth";
 import { contributionLoader } from "./loaders/contributionsLoader";
@@ -32,6 +35,7 @@ import { profileLoader } from "./loaders/profileLoader";
 import { rewardsLoader } from "./loaders/rewardsLoader";
 import { fridgesLoader } from "./loaders/fridgesLoader";
 import { coefficientsLoader } from "./loaders/coefficientsLoader";
+import { bulkContribLoader } from "./loaders/bulkContribLoader";
 import {
   neighbourhoodsLoader,
   techniciansLoader,
@@ -74,6 +78,12 @@ const router = createBrowserRouter([
             loader: contributionLoader,
           },
         ],
+      },
+      {
+        path: "bulk-contributions",
+        element: <BulkContributionsPage />,
+        action: bulkContribAction,
+        loader: bulkContribLoader,
       },
       {
         path: "coefficients",

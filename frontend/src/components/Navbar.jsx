@@ -46,7 +46,7 @@ export default function Navbar() {
 
             {user.role === "Admin" && (
               <>
-                <NavLink to="bulk_contributions" className="hover:underline">
+                <NavLink to="bulk-contributions" className="hover:underline">
                   Carga masiva CSV
                 </NavLink>
                 <NavLink to="technicians" className="hover:underline">
