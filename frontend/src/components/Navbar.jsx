@@ -33,6 +33,9 @@ export default function Navbar() {
         </NavLink>
         {isLogged && (
           <>
+            <NavLink to="fridges" className="hover:underline">
+              Heladeras
+            </NavLink>
             {user.role === "Collaborator" && (
               <>
                 <NavLink to="contributions" className="hover:underline">

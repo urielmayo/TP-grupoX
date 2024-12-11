@@ -1,3 +1,4 @@
+import FridgesList from "../../components/fridges/FridgesList";
 export default function FridgesListPage() {
-  return <p>Heladeras</p>;
+  return <FridgesList />;
 }
