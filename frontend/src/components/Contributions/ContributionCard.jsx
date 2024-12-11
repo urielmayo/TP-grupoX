@@ -12,7 +12,7 @@ const moneyDonationMapper = (type) => {
     ? "Comida"
     : type === "FoodDelivery"
     ? "Distribucion de viandas"
-    : type === "Card"
+    : type === "VulnerablePersonCard"
     ? "Registro de persona vulnerable"
     : "Otro";
 };
@@ -25,7 +25,7 @@ export default function ContributionCard({ contribution }) {
       <Card>
         <span className="mb-3 font-thin">#{contribution.id}</span>
         <div className="font-bold text-xl mb-2">
-          Tipo: {moneyDonationMapper(contribution.type)}
+          {moneyDonationMapper(contribution.type)}
         </div>
         <p className="text-gray-700 text-base mb-2">
           <strong>Fecha:</strong> {event.toLocaleString("es-AR")}

@@ -35,15 +35,6 @@ export const DUMMY_PRODUCTS = [
       "https://media.gettyimages.com/id/1715633697/es/vector/plantillas-de-tel%C3%A9fonos-m%C3%B3viles-similares-a-la-maqueta-de-iphone.jpg?s=612x612&w=0&k=20&c=rAhebXunFgnZFogBJhpQaDfB-TYWBG8qrlU8NuBWjFo=",
     Empresa: "Empresa W",
   },
-  {
-    id: 5,
-    Descripcion: "Producto E",
-    Rubro: "Electrodomésticos",
-    Puntos: 1100,
-    Imagen:
-      "https://media.gettyimages.com/id/1715633697/es/vector/plantillas-de-tel%C3%A9fonos-m%C3%B3viles-similares-a-la-maqueta-de-iphone.jpg?s=612x612&w=0&k=20&c=rAhebXunFgnZFogBJhpQaDfB-TYWBG8qrlU8NuBWjFo=",
-    Empresa: "Empresa V",
-  },
 ];
 
 export const DUMMY_CONTRIBUTIONS = [

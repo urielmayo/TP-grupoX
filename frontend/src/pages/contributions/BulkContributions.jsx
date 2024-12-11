@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import { config } from "../config";
-import BulkContributions from "../components/Contributions/BulkContributions";
+import { config } from "../../config";
+import BulkContributions from "../../components/Contributions/BulkContributions";
 
 export default function BulkContributionsPage() {
   return <BulkContributions />;

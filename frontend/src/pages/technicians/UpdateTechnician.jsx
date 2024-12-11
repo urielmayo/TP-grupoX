@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { redirect, json } from "react-router-dom";
-import { config } from "../config";
-import UpdateTechnician from "../components/technicians/UpdateTechnician";
+import { config } from "../../config";
+import UpdateTechnician from "../../components/technicians/UpdateTechnician";
 
 export default function UpdateTechnicianPage() {
   return <UpdateTechnician />;

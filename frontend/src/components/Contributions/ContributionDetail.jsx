@@ -92,19 +92,33 @@ export default function ContributionDetail() {
         </DescriptionGrid>
       </>
     );
-  } else if (type === "Card") {
+  } else if (type === "VulnerablePersonCard") {
     content = (
       <>
         <h1 className="text-xl">Registro de persona vulnerable</h1>
         <hr className="my-3" />
         <DescriptionGrid>
-          <DescriptionGrid.Item label="Nombre" value={attributes.name} />
-          <DescriptionGrid.Item label="Apellido" value={attributes.surname} />
+          <DescriptionGrid.Item label="Tarjeta" value={attributes.card} />
+          <DescriptionGrid.Item
+            label="Nombre"
+            value={`${attributes.name} ${attributes.surname}`}
+          />
           <DescriptionGrid.Item
             label="Menores a cargo"
             value={attributes.minors_in_care}
           />
-          <DescriptionGrid.Item label="Tarjeta" value={attributes.tarjeta} />
+          <DescriptionGrid.Item
+            label={attributes.doc_type}
+            value={attributes.doc_number}
+          />
+          <DescriptionGrid.Item
+            label="Direccion"
+            value={attributes.addres || "No tiene"}
+          />
+          <DescriptionGrid.Item
+            label="Fecha de nacimiento"
+            value={attributes.birthdate}
+          />
         </DescriptionGrid>
       </>
     );

@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { redirect } from "react-router-dom";
-import { config } from "../config";
-import NewTechnician from "../components/technicians/NewTechnician";
+import { config } from "../../config";
+import NewTechnician from "../../components/technicians/NewTechnician";
 
 export default function NewTechnicianPage() {
   return <NewTechnician />;

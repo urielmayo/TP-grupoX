@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import ContributionList from "../components/Contributions/ContributionList";
+import ContributionList from "../../components/Contributions/ContributionList";
 
 export default function ContributionListPage() {
   return (

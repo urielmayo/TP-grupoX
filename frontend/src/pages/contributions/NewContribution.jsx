@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { redirect, json } from "react-router-dom";
-import { config } from "../config";
-import NewContribution from "../components/Contributions/NewContribution";
+import { config } from "../../config";
+import NewContribution from "../../components/Contributions/NewContribution";
 
 export default function NewContributionPage() {
   return <NewContribution />;
