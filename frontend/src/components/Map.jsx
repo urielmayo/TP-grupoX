@@ -3,10 +3,11 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 export default function Map({ fridges }) {
+  const UTN_COORDS = [-34.59887, -58.42015];
   return (
     <div>
       <MapContainer
-        center={[fridges[0].latitud, fridges[0].longitud]}
+        center={UTN_COORDS}
         zoom={12}
         style={{ height: "750px", width: "100%" }}
         scrollWheelZoom={true}
