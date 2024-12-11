@@ -10,17 +10,17 @@ namespace TPDDSBackend.Aplication.Services
     public class AccumulatedPointsCalculator : IAccumulatedPointsCalculator
     {
         private readonly Dictionary<string, IContributionStrategy> _strategies;
-        private readonly IGenericRepository<BenefitCoefficients> _coefficientRepository;
+        private readonly IBenefitCoefficientsRepository _coefficientRepository;
         public AccumulatedPointsCalculator(Dictionary<string, IContributionStrategy> strategies,
-            IGenericRepository<BenefitCoefficients> coefficientRepository) 
+            IBenefitCoefficientsRepository coefficientRepository) 
         {
             _strategies = strategies;
             _coefficientRepository = coefficientRepository;
         } 
-        public decimal CalculateAccumulatedPoints(List<Contribution> contributions)
+        public async Task<decimal> CalculateAccumulatedPoints(List<Contribution> contributions)
         {
-            
-            var coefficients = _coefficientRepository.GetAll().FirstOrDefault();
+
+            var coefficients = await _coefficientRepository.GetValidCoeficients();
 
             if (coefficients is null)
             {

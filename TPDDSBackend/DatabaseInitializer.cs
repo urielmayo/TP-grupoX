@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using TPDDSBackend.Domain.EF.DBContexts;
+using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 
@@ -31,6 +32,7 @@ namespace TPDDSBackend
                     CreateDeliveryReasonAsync(dbContextFactory),
                     CreateFoodStatesAsync(dbContextFactory),
                     CreateNeighborhoodsAsync(dbContextFactory),
+                    CreateDefaultCoefficientsAsync(dbContextFactory),
                 };
                 await Task.WhenAll(tasks);
             }
@@ -199,6 +201,42 @@ namespace TPDDSBackend
              await dbContext.SaveChangesAsync();
 
              Console.WriteLine("Se dieron de alta los barrios");
+            }
+        }
+
+        private static async Task CreateDefaultCoefficientsAsync(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        {
+            await using var dbContext = dbContextFactory.CreateDbContext();
+
+            var coefficients = await dbContext.BenefitCoefficients.FirstOrDefaultAsync();
+            var now = DateTime.UtcNow;
+            bool shouldCreateCoefficients;
+            if (coefficients != null)
+            {
+                shouldCreateCoefficients = now > coefficients.ValidUntil;
+            }
+            else
+            {
+                shouldCreateCoefficients = true;
+            }
+
+            if (shouldCreateCoefficients)
+            {           
+                var benefitCoefficients = new BenefitCoefficients()
+                {
+                    ValidFrom = DateTime.UtcNow,
+                    ValidUntil = DateTime.UtcNow.AddMonths(1),
+                    DonatedPesos = 0.5m,
+                    DeliveredFoods = 1m,
+                    DonatedFoods = 1.5m,
+                    DeliveredCards = 2m,
+                    ActiveFridges = 5
+                };
+
+                dbContext.BenefitCoefficients.Add(benefitCoefficients);
+                await dbContext.SaveChangesAsync();
+
+                Console.WriteLine("Se crearon coeficientes de beneficio por defecto");
             }
         }
     }

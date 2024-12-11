@@ -65,7 +65,7 @@ namespace TPDDSBackend.Aplication.Commands.Collaborators
 
             var contributions = await _contributionRepository.GetAllByCollaborador(collaboradorId);
 
-            decimal accumulatedPoints = _accumulatedPointsCalculator.CalculateAccumulatedPoints(contributions);
+            decimal accumulatedPoints = await _accumulatedPointsCalculator.CalculateAccumulatedPoints(contributions);
 
             if(accumulatedPoints >= benefit.RequiredPoints)
             {
