@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
+using System.Net;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
+using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
@@ -20,9 +22,9 @@ namespace TPDDSBackend.Aplication.Commands.Coefficients
     public class CreateCoefficientsCommandHandler : IRequestHandler<CreateCoefficientsCommand, CustomResponse<CoefficientsResponse>>
     {
         private readonly IMapper _mapper;
-        private readonly IGenericRepository<BenefitCoefficients> _coefficientsRepository;
+        private readonly IBenefitCoefficientsRepository _coefficientsRepository;
         public CreateCoefficientsCommandHandler(IMapper mapper,
-            IGenericRepository<BenefitCoefficients> coefficientsRepository)
+            IBenefitCoefficientsRepository coefficientsRepository)
         {
             _mapper = mapper;
            _coefficientsRepository = coefficientsRepository;
@@ -30,6 +32,13 @@ namespace TPDDSBackend.Aplication.Commands.Coefficients
 
         public async Task<CustomResponse<CoefficientsResponse>> Handle(CreateCoefficientsCommand command, CancellationToken ct)
         {
+            var validCoefficients = await _coefficientsRepository.GetValidCoeficients();
+
+            if (validCoefficients != null) //para evitar conflictos de coeficientes
+            {
+                throw new ApiCustomException("Ya existen coeficientes validos, actualize los coeficientes", HttpStatusCode.UnprocessableEntity);
+            }
+            
             var entity = _mapper.Map<BenefitCoefficients>(command.Request);
             entity.ValidFrom = DateTime.SpecifyKind(entity.ValidFrom, DateTimeKind.Utc);
             entity.ValidUntil = DateTime.SpecifyKind(entity.ValidUntil, DateTimeKind.Utc);
