@@ -9,6 +9,7 @@ namespace TPDDSBackend.Aplication.Mappers
         public CollaboratorProfile()
         {
             CreateMap<CreateHumanPersonRequest, HumanPerson>();
+            CreateMap<CreateLegalPersonRequest, LegalPerson>();
             CreateMap<Neighborhood, LegalPerson>();
         }
     }
