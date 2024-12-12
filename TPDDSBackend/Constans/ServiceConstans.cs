@@ -9,6 +9,8 @@
 
         public const string UpdateDeniedMessageByExpires = "Ya no puede realizar esta accion";
 
+        public const string AddressRequiredMessage = "El colaborador debe tener una direccion registrada";
+
         public const int RequestExpirationInHours = 3;
     }
 }

@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using System.Net;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
+using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Constans;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Domain.Enums;
@@ -27,12 +30,14 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
         private readonly IGenericRepository<FoodDonation> _foodDonationRepository;
         private readonly IGenericRepository<PersonInVulnerableSituation> _personRepository;
         private readonly IGenericRepository<Food> _foodRepository;
+        private readonly UserManager<Collaborator> _userManager;
         public FoodContributionCommandHandler(IMapper mapper,
             IJwtFactory jwtFactory,
             IHttpContextAccessor httpContextAccessor,
             IGenericRepository<PersonInVulnerableSituation> personRepository,
             IGenericRepository<Food> foodRepository,
-            IGenericRepository<FoodDonation> foodDonationRepository)
+            IGenericRepository<FoodDonation> foodDonationRepository,
+            UserManager<Collaborator> userManager)
         {
             _mapper = mapper;
             _jwtFactory = jwtFactory;
@@ -40,6 +45,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             _foodDonationRepository = foodDonationRepository;
             _foodRepository = foodRepository;
             _personRepository = personRepository;
+            _userManager = userManager;
         }
         public async Task<CustomResponse<Contribution>> Handle(FoodContributionCommand command, CancellationToken cancellationToken)
         {
@@ -50,6 +56,11 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             var jwt = _httpContextAccessor.HttpContext.Request.Headers.Authorization;
 
             (string collaboradorId, _) = _jwtFactory.GetClaims(jwt);
+
+            var collaborator = await _userManager.FindByIdAsync(collaboradorId);
+
+            if (collaborator?.Address is null)
+                throw new ApiCustomException(ServiceConstans.AddressRequiredMessage, HttpStatusCode.BadRequest);
 
             var foodDonation = new FoodDonation()
             {
