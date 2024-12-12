@@ -49,12 +49,15 @@ export default function LocationSuggestions({
 
       const data = await response.json();
       const locations = data.data.locations;
+      console.log(locations);
 
       const detailedLocations = await Promise.all(
         locations.map(async (location) => {
           try {
+            const encodedLat = encodeURIComponent(location.latitude);
+            const encodedLng = encodeURIComponent(location.longitude);
             const geocodeResponse = await fetch(
-              `https://api.opencagedata.com/geocode/v1/json?q=${location.latitude},${location.longitude}&key=${config.OPEN_CAGE_API_KEY}`
+              `https://api.opencagedata.com/geocode/v1/json?q=${encodedLat}+${encodedLng}&key=${config.OPEN_CAGE_API_KEY}`
             );
             const geocodeData = await geocodeResponse.json();
 
@@ -69,6 +72,7 @@ export default function LocationSuggestions({
           }
         })
       );
+      console.log(detailedLocations);
 
       setSuggestions(detailedLocations);
     } catch (error) {
