@@ -33,7 +33,7 @@ import { bulkContribAction } from "./pages/contributions/BulkContributions";
 import { userLoader } from "./utils/auth";
 import { contributionLoader } from "./loaders/contributionsLoader";
 import { profileLoader } from "./loaders/profileLoader";
-import { rewardsLoader } from "./loaders/rewardsLoader";
+import { benefitsLoader } from "./loaders/benefitsLoader";
 import { fridgesLoader, fridgeLoader } from "./loaders/fridgesLoader";
 import { coefficientsLoader } from "./loaders/coefficientsLoader";
 import { bulkContribLoader } from "./loaders/bulkContribLoader";
@@ -95,7 +95,7 @@ const router = createBrowserRouter([
       {
         path: "rewards",
         element: <RewardsListPage />,
-        loader: rewardsLoader,
+        loader: benefitsLoader,
       },
       {
         path: "fridges",

@@ -2,7 +2,7 @@ import { fetchUser } from "../utils/http";
 import { config } from "../config";
 import { json } from "react-router-dom";
 
-export async function rewardsLoader() {
+export async function benefitsLoader() {
   const user = await fetchUser();
 
   try {
@@ -15,8 +15,8 @@ export async function rewardsLoader() {
       );
     }
     const data = await response.json();
-    const rewards = data.data.rewards;
-    return { user, rewards };
+    const benefits = data.data.benefits;
+    return { user, benefits };
   } catch (error) {
     throw json(
       {
