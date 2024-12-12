@@ -44,9 +44,20 @@ export default function ContributionDetail() {
     );
   } else if (type === "FoodDonation") {
     const exp_date = new Date(attributes.expiration_date).toLocaleDateString();
+    const status =
+      attributes.status === "Requested"
+        ? { name: "Pendiente", cssColor: "text-yellow-500 bg-yellow-100" }
+        : attributes.status === "Done"
+        ? { name: "Confirmada", cssColor: "text-emerald-500 bg-emerald-100" }
+        : { name: "", cssColor: "" };
     content = (
       <>
-        <h1 className="text-xl">Donacion de Comida</h1>
+        <div className="flex justify-between items-end">
+          <h1 className="text-xl">Donacion de Comida</h1>
+          <h1 className={`font-bold px-2 py-1 rounded-md ${status.cssColor}`}>
+            {status.name}
+          </h1>
+        </div>
         <hr className="my-3" />
         <DescriptionGrid>
           <DescriptionGrid.Item
@@ -66,9 +77,21 @@ export default function ContributionDetail() {
       </>
     );
   } else if (type === "FoodDelivery") {
+    const status =
+      attributes.status === "Requested"
+        ? { name: "Pendiente", cssColor: "text-yellow-500 bg-yellow-100" }
+        : attributes.status === "Done"
+        ? { name: "Confirmada", cssColor: "text-emerald-500 bg-emerald-100" }
+        : { name: "", cssColor: "" };
+
     content = (
       <>
-        <h1 className="text-xl">Distribucion de viandas</h1>
+        <div className="flex justify-between items-end">
+          <h1 className="text-xl">Distribucion de viandas</h1>
+          <h1 className={`font-bold px-2 py-1 rounded-md ${status.cssColor}`}>
+            {status.name}
+          </h1>
+        </div>
         <hr className="my-3" />
         <DescriptionGrid>
           <DescriptionGrid.Item
