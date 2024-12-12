@@ -16,6 +16,8 @@ export async function fetchUser() {
     }
   );
   if (response.status === 401) {
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("jwt");
     throw redirect("/users/login");
   }
 
