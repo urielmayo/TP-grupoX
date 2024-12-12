@@ -11,13 +11,16 @@ namespace TPDDSBackend.Aplication.Services
     {
         private readonly Dictionary<string, IContributionStrategy> _strategies;
         private readonly IBenefitCoefficientsRepository _coefficientRepository;
+        private readonly IBenefitExchangesRepository _exchangesRepository;
         public AccumulatedPointsCalculator(Dictionary<string, IContributionStrategy> strategies,
-            IBenefitCoefficientsRepository coefficientRepository) 
+            IBenefitCoefficientsRepository coefficientRepository,
+             IBenefitExchangesRepository exchangesRepository) 
         {
             _strategies = strategies;
             _coefficientRepository = coefficientRepository;
+            _exchangesRepository = exchangesRepository;
         } 
-        public async Task<decimal> CalculateAccumulatedPoints(List<Contribution> contributions)
+        public async Task<decimal> CalculateAccumulatedPoints(List<Contribution> contributions, string collaboratorId)
         {
 
             var coefficients = await _coefficientRepository.GetValidCoeficients();
@@ -35,8 +38,9 @@ namespace TPDDSBackend.Aplication.Services
 
                 accumulatedPoints += strategy.GetPoints(contribution, coefficients!);
             }
-            
-           return accumulatedPoints;
+
+            var totalPointsSpent = await _exchangesRepository.GetTotalAmountSpent(collaboratorId);
+           return accumulatedPoints - totalPointsSpent;
         }
     }
 }

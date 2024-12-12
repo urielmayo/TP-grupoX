@@ -8,7 +8,7 @@ namespace TPDDSBackend.Domain.Entities
 
         public string Category { get; set; }
 
-        public int RequiredPoints { get; set; }
+        public decimal RequiredPoints { get; set; }
 
         public string ImagePath {  get; set; }
 
