@@ -1,26 +1,21 @@
 /* eslint-disable react/prop-types */
 import { config } from "../../config";
-import { replace, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function BenefitCard({ benefit }) {
   const navigate = useNavigate();
+
   const handleClick = async () => {
     try {
-      const jwt = sessionStorage.getItem("jwt"); // Obtiene el token JWT desde el sessionStorage
-      if (!jwt) {
-        alert("Error: No se encontró un token de autenticación.");
-        return;
-      }
-
       const response = await fetch(
         `${config.BACKEND_URL}/Collaborator/exchange-benefit`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${jwt}`, // Incluye el JWT en el header
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
           },
-          body: JSON.stringify({ benefitId: benefit.id }), // Construye el cuerpo del POST
+          body: JSON.stringify({ benefitId: benefit.id }),
         }
       );
 
@@ -59,7 +54,7 @@ export default function BenefitCard({ benefit }) {
         </p>
         <button
           onClick={handleClick}
-          className="bg-blue-600 rounded-full px-3 py-1 text-sm font-semibold text-white mt-2"
+          className="bg-blue-600 hover:bg-blue-700 rounded-md px-3 py-1 text-sm font-semibold text-white mt-2"
         >
           Canjear
         </button>
