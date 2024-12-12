@@ -8,7 +8,7 @@ export default function ProductContribForm() {
       <input type="hidden" name="type" value="benefit" />
       <Field
         label={"Nombre del producto"}
-        name={"name"}
+        name={"description"}
         type={"text"}
         required
       />
@@ -19,12 +19,7 @@ export default function ProductContribForm() {
         type={"number"}
         required
       />
-      <Field
-        label={"URL de la imagen"}
-        name={"image"}
-        type={"file"}
-        accept=".png"
-      />
+      <Field label={"URL de la imagen"} name={"imagePath"} type={"url"} />
       <SubmitButton text={"Publicar"} />
     </Form>
   );

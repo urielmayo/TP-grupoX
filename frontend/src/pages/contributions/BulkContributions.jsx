@@ -16,8 +16,9 @@ export async function bulkContribAction({ request }) {
 
   try {
     const uploadResponse = await fetch(
-      `${config.BACKEND_URL}/Contributions/upload`,
+      `${config.BACKEND_URL}/Collaborator/process-file`,
       {
+        headers: { Authorization: `Bearer ${sessionStorage.getItem("jwt")}` },
         method: "POST",
         body: formData,
       }

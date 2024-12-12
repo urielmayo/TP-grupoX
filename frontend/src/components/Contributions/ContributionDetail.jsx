@@ -33,14 +33,12 @@ export default function ContributionDetail() {
       </>
     );
   } else if (type === "FridgeOwner") {
-    const exp_date = new Date(attributes.expiration_date).toLocaleDateString();
     content = (
       <>
         <h1 className="text-xl">Heladera</h1>
         <hr className="my-3" />
         <DescriptionGrid>
           <DescriptionGrid.Item label="Nombre" value={attributes.name} />
-          <DescriptionGrid.Item label="Fecha de expiracion" value={exp_date} />
         </DescriptionGrid>
       </>
     );
