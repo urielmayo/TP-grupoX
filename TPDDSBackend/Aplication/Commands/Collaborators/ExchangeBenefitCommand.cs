@@ -61,13 +61,13 @@ namespace TPDDSBackend.Aplication.Commands.Collaborators
 
             (string collaboradorId, _) = _jwtFactory.GetClaims(jwt);
 
-            var user = _userManager.FindByIdAsync(collaboradorId);
+            var user = await _userManager.FindByIdAsync(collaboradorId);
 
             var contributions = await _contributionRepository.GetAllByCollaborador(collaboradorId);
 
-            decimal accumulatedPoints = await _accumulatedPointsCalculator.CalculateAccumulatedPoints(contributions);
+            decimal accumulatedPoints = await _accumulatedPointsCalculator.CalculateAccumulatedPoints(contributions, collaboradorId);
 
-            if(accumulatedPoints >= benefit.RequiredPoints)
+            if(accumulatedPoints <= benefit.RequiredPoints)
             {
                 throw new ApiCustomException("No tienes puntos suficientes para cambiar ese beneficio", HttpStatusCode.BadRequest);
             }
