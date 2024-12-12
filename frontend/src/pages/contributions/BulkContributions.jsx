@@ -29,7 +29,8 @@ export async function bulkContribAction({ request }) {
       return { error: errorData.message || "Error al subir el archivo." };
     }
 
-    return { success: true };
+    const responseData = await uploadResponse.json();
+    return responseData;
   } catch (error) {
     console.error("Error al subir el archivo:", error);
     return {
