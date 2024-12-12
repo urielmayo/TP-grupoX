@@ -146,6 +146,33 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
+    options.Events = new JwtBearerEvents
+    {
+        OnChallenge = async context =>
+        {
+            context.HandleResponse();
+
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            context.Response.ContentType = "application/json";
+            var errorResponse = new
+            {
+                error = "Unauthorized",
+                message = "El token es inválido o ha expirado."
+            };
+            await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(errorResponse));
+        },
+        OnForbidden = async context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            context.Response.ContentType = "application/json";
+            var errorResponse = new
+            {
+                error = "Forbidden",
+                message = "No tienes permisos para acceder a este recurso."
+            };
+            await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(errorResponse));
+        }
+    };
 });
 
 builder.Services.AddCors(options =>
