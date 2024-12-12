@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using System.Net;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
@@ -27,17 +28,20 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IGenericRepository<FoodDelivery> _foodDeliveryRepository;
         private readonly IGenericRepository<Fridge> _fridgeRepository;
+        private readonly UserManager<Collaborator> _userManager;
         public FoodDeliveryContributionCommandHandler(IMapper mapper,
             IJwtFactory jwtFactory,
             IHttpContextAccessor httpContextAccessor,
             IGenericRepository<FoodDelivery> foodDeliveryRepository,
-            IGenericRepository<Fridge> fridgeRepository)
+            IGenericRepository<Fridge> fridgeRepository,
+            UserManager<Collaborator> userManager)
         {
             _mapper = mapper;
             _jwtFactory = jwtFactory;
             _httpContextAccessor = httpContextAccessor;
             _foodDeliveryRepository = foodDeliveryRepository;
             _fridgeRepository = fridgeRepository;
+            _userManager = userManager;
         }
         public async Task<CustomResponse<Contribution>> Handle(FoodDeliveryContributionCommand command, CancellationToken cancellationToken)
         {
@@ -57,6 +61,11 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             var jwt = _httpContextAccessor.HttpContext.Request.Headers.Authorization;
 
             (string collaboradorId, _) = _jwtFactory.GetClaims(jwt);
+
+            var collaborator = await _userManager.FindByIdAsync(collaboradorId);
+
+            if (collaborator?.Address is null)
+                throw new ApiCustomException(ServiceConstans.AddressRequiredMessage, HttpStatusCode.BadRequest);
 
             var foodDelivery = _mapper.Map<FoodDelivery>(command.Request);
 

@@ -61,7 +61,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             var collaborator = await _userManager.FindByIdAsync(collaboradorId);
 
             if (collaborator?.Address is null)
-                throw new ApiCustomException("El colaborador debe tener una direccion registrada", HttpStatusCode.BadRequest);
+                throw new ApiCustomException(ServiceConstans.AddressRequiredMessage, HttpStatusCode.BadRequest);
 
 
             var person = _mapper.Map<PersonInVulnerableSituation>(command.Request);

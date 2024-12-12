@@ -37,6 +37,7 @@ namespace TPDDSBackend.Controllers
         [HttpPost("food")]
         [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         [SwaggerResponse(StatusCodes.Status200OK, ServiceConstans.MessageSuccessDonation, typeof(CustomResponse<Contribution>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, ServiceConstans.AddressRequiredMessage, typeof(CustomResponse<string>))]
         [Authorize]
         public async Task<IActionResult> DonateFood(FoodContributionRequest request)
         {
@@ -47,6 +48,7 @@ namespace TPDDSBackend.Controllers
         [HttpPost("food-distribution")]
         [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "No existe esa heladera", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, ServiceConstans.AddressRequiredMessage, typeof(CustomResponse<string>))]
         [SwaggerResponse(StatusCodes.Status200OK, ServiceConstans.MessageSuccessDonation, typeof(CustomResponse<Contribution>))]
         [Authorize]
         public async Task<IActionResult> Delivery(FoodDeliveryContributionRequest request)
@@ -57,7 +59,7 @@ namespace TPDDSBackend.Controllers
 
         [HttpPost("person-registration")]
         [SwaggerResponse(StatusCodes.Status401Unauthorized)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "El colaborador debe tener una direccion registrada", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, ServiceConstans.AddressRequiredMessage, typeof(CustomResponse<string>))]
         [SwaggerResponse(StatusCodes.Status200OK, ServiceConstans.MessageSuccessDonation, typeof(CustomResponse<Contribution>))]
         [Authorize]
         public async Task<IActionResult> Register(PersonRegistrationContributionRequest request)
