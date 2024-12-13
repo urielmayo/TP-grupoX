@@ -61,7 +61,7 @@ export default function BenefitCard({ benefit }) {
       </div>
       <div className="flex-shrink-0">
         <img
-          className="object-contain h-full w-48"
+          className="object-cover h-full w-48"
           src={benefit.imagePath}
           alt="Imagen del beneficio"
         />
