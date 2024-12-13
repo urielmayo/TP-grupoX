@@ -6,7 +6,7 @@
 
         public string Category { get; set; }
 
-        public int RequiredPoints { get; set; }
+        public decimal RequiredPoints { get; set; }
 
         public required string ImagePath {  get; set; }
     }

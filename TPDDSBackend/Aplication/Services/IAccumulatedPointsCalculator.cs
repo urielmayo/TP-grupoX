@@ -4,6 +4,6 @@ namespace TPDDSBackend.Aplication.Services
 {
     public interface IAccumulatedPointsCalculator
     {
-        Task<decimal> CalculateAccumulatedPoints(List<Contribution> contributions);
+        Task<decimal> CalculateAccumulatedPoints(List<Contribution> contributions, string collaboratorId);
     }
 }
