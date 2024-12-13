@@ -42,6 +42,7 @@ import {
   techniciansLoader,
   technicianLoader,
 } from "./loaders/techniciansLoader";
+import FridgeDetailPage from "./pages/fridges/FridgesDetail";
 
 const router = createBrowserRouter([
   {
@@ -107,7 +108,7 @@ const router = createBrowserRouter([
           },
           {
             path: ":id",
-            element: <p>Heladera</p>,
+            element: <FridgeDetailPage />,
             loader: fridgeLoader,
           },
         ],
