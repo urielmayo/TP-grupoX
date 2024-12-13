@@ -22,7 +22,7 @@ export default function BenefitCard({ benefit }) {
       if (!response.ok) {
         // Manejo de errores de respuesta
         const errorData = await response.json();
-        alert(`Error: ${errorData.message || "No se pudo realizar el canje."}`);
+        alert(errorData.Message || " Error: No se pudo realizar el canje.");
         return;
       }
 
