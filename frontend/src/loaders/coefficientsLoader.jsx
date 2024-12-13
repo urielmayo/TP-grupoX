@@ -10,6 +10,8 @@ export async function coefficientsLoader() {
   });
 
   if (response.status === 401) {
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("jwt");
     throw redirect("/users/login");
   }
   if (!response.ok) {

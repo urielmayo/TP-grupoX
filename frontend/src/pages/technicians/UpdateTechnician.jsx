@@ -24,7 +24,9 @@ export async function updateTechicianAction({ request, params }) {
   );
 
   if (response.status === 401) {
-    return redirect("/users/login");
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("jwt");
+    throw redirect("/users/login");
   }
 
   if (response.status === 500) {

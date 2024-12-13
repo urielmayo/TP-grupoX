@@ -12,6 +12,8 @@ export async function techniciansLoader() {
 
   if (!response.ok) {
     if (response.status === 401) {
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("jwt");
       throw redirect("/users/login");
     }
     throw new Response("Failed to fetch technicians", {
@@ -36,7 +38,8 @@ export async function technicianLoader({ params }) {
     );
 
     if (response.status === 401) {
-      // JWT expirado o no válido
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("jwt");
       throw redirect("/users/login");
     }
 

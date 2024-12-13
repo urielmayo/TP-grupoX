@@ -17,6 +17,8 @@ export async function contributionLoader({ params }) {
   );
 
   if (response.status === 401) {
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("jwt");
     throw redirect("/users/login");
   }
 
