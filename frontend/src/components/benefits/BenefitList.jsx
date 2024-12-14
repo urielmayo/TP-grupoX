@@ -17,7 +17,6 @@ export default function BenefitList() {
           </h1>
         </>
       }
-      columns={3}
       items={benefits}
       renderItem={(benfit) => <BenefitCard key={benfit.id} benefit={benfit} />}
       emptyItem={<EmptyGrid title="No hay productos" />}

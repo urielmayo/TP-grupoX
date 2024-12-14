@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
-export default function Grid({ columns, children }) {
+export default function Grid({ children }) {
   return (
-    <div className={`grid lg:grid-cols-${columns} md:grid-cols-2 gap-3`}>
-      {children}
-    </div>
+    <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-3">{children}</div>
   );
 }
