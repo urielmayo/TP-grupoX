@@ -12,6 +12,7 @@ namespace TPDDSBackend.Aplication.Services.Strategies
             var donation = (FridgeOwner)contribution;
             return new Dictionary<string, object>
             {
+                { "fridgeId", donation.Fridge.Id},
                 { "name", donation.Fridge.Name },
                 { "address", donation.Fridge.Address },
                 { "setup_date", donation.Fridge.Address },
