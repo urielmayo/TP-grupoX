@@ -14,6 +14,8 @@ const moneyDonationMapper = (type) => {
     ? "Distribucion de viandas"
     : type === "VulnerablePersonCard"
     ? "Registro de persona vulnerable"
+    : type === "Benefit"
+    ? "Beneficio"
     : "Otro";
 };
 
