@@ -1,4 +1,4 @@
-import { requireAuth } from "./auth";
+import { authHeaders, requireAuth } from "./auth";
 import { config } from "../config";
 import { redirect, json } from "react-router-dom";
 
@@ -79,4 +79,12 @@ export async function deleteTechnician(id) {
     console.error("Failed to delete technician:", error);
     throw error; // Propagamos el error para manejarlo en el componente
   }
+}
+
+export async function deleteFridge(id) {
+  const response = await fetch(`${config.BACKEND_URL}/Fridge/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  return response;
 }
