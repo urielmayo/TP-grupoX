@@ -46,6 +46,12 @@ namespace TPDDSBackend.Domain.EF.DBContexts
         public DbSet<FridgeModel> FridgeModels { get; set; }
 
         public DbSet<BenefitCoefficients> BenefitCoefficients { get; set; }
+
+        public DbSet<FridgeIncident> FridgeIncidents { get; set; }
+
+        public DbSet<FridgeFailure> FridgeFailures { get; set; }
+
+        public DbSet<FridgeAlert> FridgeAlerts { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
             base(options)
         {

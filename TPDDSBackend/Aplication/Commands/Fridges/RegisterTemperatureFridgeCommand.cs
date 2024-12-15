@@ -2,7 +2,9 @@
 using MediatR;
 using System.Net;
 using TPDDSBackend.Aplication.Exceptions;
+using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Domain.Enums;
 using TPDDSBackend.Infrastructure.Repositories;
 
 namespace TPDDSBackend.Aplication.Commands.Fridges
@@ -21,11 +23,14 @@ namespace TPDDSBackend.Aplication.Commands.Fridges
     public class RegisterTemperatureFridgeCommandHandler : IRequestHandler<RegisterTemperatureFridgeCommand, Unit>
     {
         private readonly IGenericRepository<Fridge> _fridgeRepository;
+        private readonly IGenericRepository<FridgeAlert> _fridgeAlertRepository;
 
 
-        public RegisterTemperatureFridgeCommandHandler(IGenericRepository<Fridge> fridgeRepository)
+        public RegisterTemperatureFridgeCommandHandler(IGenericRepository<Fridge> fridgeRepository,
+            IGenericRepository<FridgeAlert> fridgeAlertRepository)
         {
             _fridgeRepository = fridgeRepository;
+            _fridgeAlertRepository = fridgeAlertRepository;
         }
 
         public async Task<Unit> Handle(RegisterTemperatureFridgeCommand command, CancellationToken ct)
@@ -40,6 +45,21 @@ namespace TPDDSBackend.Aplication.Commands.Fridges
             fridge.LastTemperature = command.Temperature;
 
             _fridgeRepository.Update(fridge);
+
+            if (fridge.LastTemperature < fridge.Model.MinTemperature ||
+                fridge.LastTemperature > fridge.Model.MaxTemperature) 
+            {
+                fridge.Active = false;
+                _fridgeRepository.Update(fridge);
+
+                var alertFridge = new FridgeAlert()
+                {
+                    Date = DateTime.UtcNow,
+                    FridgeId = fridge.Id,
+                    Type = TypeFridgeAlert.Temperature,
+                };
+                await _fridgeAlertRepository.Insert(alertFridge);
+            }
 
             return Unit.Value;
         }
