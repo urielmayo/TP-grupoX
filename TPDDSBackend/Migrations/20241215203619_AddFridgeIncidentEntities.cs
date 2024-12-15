@@ -48,14 +48,12 @@ namespace TPDDSBackend.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_FridgeIncidents_CollaboratorId",
                 table: "FridgeIncidents",
-                column: "CollaboratorId",
-                unique: true);
+                column: "CollaboratorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FridgeIncidents_FridgeId",
                 table: "FridgeIncidents",
-                column: "FridgeId",
-                unique: true);
+                column: "FridgeId");
         }
 
         /// <inheritdoc />

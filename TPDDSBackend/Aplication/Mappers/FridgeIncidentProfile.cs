@@ -14,6 +14,7 @@ namespace TPDDSBackend.Aplication.Mappers
             CreateMap<CreateFridgeFailureRequest, FridgeFailure>()
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => DateTime.UtcNow));
 
+
             CreateMap<FridgeFailure, CreateFridgeFailureResponse>()
                 .ForMember(dest => dest.FridgeName, opt => opt.MapFrom(src => src.Fridge.Name));
         }

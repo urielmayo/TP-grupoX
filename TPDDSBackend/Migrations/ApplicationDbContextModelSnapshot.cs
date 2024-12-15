@@ -300,8 +300,7 @@ namespace TPDDSBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FridgeId")
-                        .IsUnique();
+                    b.HasIndex("FridgeId");
 
                     b.ToTable("FridgeIncidents");
 
@@ -804,8 +803,7 @@ namespace TPDDSBackend.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("text");
 
-                    b.HasIndex("CollaboratorId")
-                        .IsUnique();
+                    b.HasIndex("CollaboratorId");
 
                     b.HasDiscriminator().HasValue("FridgeFailure");
                 });
@@ -1068,8 +1066,8 @@ namespace TPDDSBackend.Migrations
             modelBuilder.Entity("TPDDSBackend.Domain.Entities.FridgeIncident", b =>
                 {
                     b.HasOne("TPDDSBackend.Domain.Entitites.Fridge", "Fridge")
-                        .WithOne()
-                        .HasForeignKey("TPDDSBackend.Domain.Entities.FridgeIncident", "FridgeId")
+                        .WithMany()
+                        .HasForeignKey("FridgeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1167,8 +1165,8 @@ namespace TPDDSBackend.Migrations
             modelBuilder.Entity("TPDDSBackend.Domain.Entities.FridgeFailure", b =>
                 {
                     b.HasOne("TPDDSBackend.Domain.Entitites.Collaborator", "Collaborator")
-                        .WithOne()
-                        .HasForeignKey("TPDDSBackend.Domain.Entities.FridgeFailure", "CollaboratorId")
+                        .WithMany()
+                        .HasForeignKey("CollaboratorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

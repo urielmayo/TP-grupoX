@@ -4,7 +4,7 @@
     {
         public required string CollaboratorId { get; set; }
 
-        public int FridgeName { get; set; }
+        public string FridgeName { get; set; }
 
         public required string Description { get; set; }
 

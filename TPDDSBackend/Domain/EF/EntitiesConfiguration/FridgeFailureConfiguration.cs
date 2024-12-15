@@ -9,7 +9,8 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
         public void Configure(EntityTypeBuilder<FridgeFailure> builder)
         {
             builder.HasOne(x => x.Collaborator)
-               .WithOne();
+               .WithMany()
+               .HasForeignKey(x => x.CollaboratorId);
         }
     }
 

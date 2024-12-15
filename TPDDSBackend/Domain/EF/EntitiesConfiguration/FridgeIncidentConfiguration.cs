@@ -12,7 +12,8 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
             builder.HasKey(f => f.Id);
 
             builder.HasOne(x => x.Fridge)
-               .WithOne();
+               .WithMany()
+               .HasForeignKey(x => x.FridgeId);
         }
     }
 

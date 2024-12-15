@@ -10,7 +10,7 @@ using TPDDSBackend.Aplication.Queries;
 namespace TPDDSBackend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("fridge-incident")]
     public class FridgeIncidentController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -22,6 +22,7 @@ namespace TPDDSBackend.Controllers
         [Authorize]
         [HttpPost("failure")]
         [SwaggerResponse(StatusCodes.Status200OK, "incidente de heladera registado", typeof(CustomResponse<CreateFridgeFailureResponse>))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Heladera no encontrada", typeof(CustomResponse<string>))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateFridgeIncident([FromBody] CreateFridgeFailureRequest request)
         {
