@@ -29,5 +29,16 @@ namespace TPDDSBackend.Controllers
             var result = await _mediator.Send(new CreateFridgeFailureCommand(request));
             return Ok(result);
         }
+
+        [Authorize]
+        [HttpPost("alert")]
+        [SwaggerResponse(StatusCodes.Status204NoContent, "incidente de heladera registado", typeof(CustomResponse<CreateFridgeFailureResponse>))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Heladera no encontrada", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> CreateFridgeAlert([FromBody] CreateFridgeAlertRequest request)
+        {
+            await _mediator.Send(new CreateFridgeAlertCommand(request));
+            return NoContent();
+        }
     }
 }

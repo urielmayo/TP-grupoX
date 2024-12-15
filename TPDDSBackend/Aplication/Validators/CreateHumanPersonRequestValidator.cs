@@ -26,13 +26,5 @@ namespace TPDDSBackend.Aplication.Validators
         {
             return !string.IsNullOrEmpty(request.Email) || !string.IsNullOrEmpty(request.PhoneNumber);
         }
-
-        //private async Task<bool> BeAValidPassword(string password, CancellationToken cancellationToken)
-        //{
-        //    var testUser = new IdentityUser();
-        //    var passwordResult = await _userManager.PasswordValidators.First().ValidateAsync(_userManager, testUser, password);
-
-        //    return passwordResult.Succeeded;
-        //}
     }
 }
