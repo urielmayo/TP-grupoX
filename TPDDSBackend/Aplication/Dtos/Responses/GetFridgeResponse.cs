@@ -1,4 +1,5 @@
-﻿namespace TPDDSBackend.Aplication.Dtos.Responses
+﻿
+namespace TPDDSBackend.Aplication.Dtos.Responses
 {
     public class GetFridgeResponse
     {
@@ -8,5 +9,9 @@
         public decimal Longitud { get; set; }
         public decimal Latitud { get; set; }
         public int MaxFoodCapacity { get; set; }
+
+        public int FoodCapacityAvailable { get; set; }
+
+        public List<GetFridgeIncidentResponse> LastFridgeIncidents { get; set; }
     }
 }

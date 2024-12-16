@@ -9,5 +9,7 @@ namespace TPDDSBackend.Domain.Entities
         public int FridgeId { get; set; }
 
         public DateTime Date { get; set; }
+
+        public string Discriminator { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using TPDDSBackend.Constans;
 using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
@@ -127,9 +128,9 @@ namespace TPDDSBackend
             {
                 var foodStates = new List<FoodState>
             {
-                new FoodState { Description = "Disponible" },
-                new FoodState { Description = "Vencida" },
-                new FoodState { Description = "Entregada" },
+                new FoodState { Description = ServiceConstans.StateFoodAvailable },
+                new FoodState { Description = ServiceConstans.StatusFoodExpired },
+                new FoodState { Description = ServiceConstans.StatusFoodDelivered },
             };
 
                 dbContext.FoodState.AddRange(foodStates);
