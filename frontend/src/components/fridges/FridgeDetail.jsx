@@ -1,9 +1,12 @@
 import { useLoaderData, Link } from "react-router-dom";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { getUserData } from "../../utils/auth";
 
 export default function FridgeDetail() {
   const fridge = useLoaderData();
+  const { role } = getUserData();
   console.log(fridge);
+  console.log(role);
 
   return (
     <div>
@@ -13,7 +16,17 @@ export default function FridgeDetail() {
       <div className="bg-white shadow-lg rounded-2xl p-8 min-w-full mt-3">
         <div className="flex gap-x-10">
           <div className="flex-1">
-            <h1 className="text-4xl">{fridge.name}</h1>
+            <div className="flex justify-between items-baseline">
+              <h1 className="text-4xl">{fridge.name}</h1>
+              {role === "Admin" && (
+                <Link
+                  to="visit"
+                  className="bg-gray-800 hover:bg-gray-700 px-2 py-1 text-white text-xl rounded-lg"
+                >
+                  Programar visita
+                </Link>
+              )}
+            </div>
             <hr className="my-4" />
             <div>
               <address className="text-xl">{fridge.address}</address>
