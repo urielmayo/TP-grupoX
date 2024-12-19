@@ -108,8 +108,17 @@ const router = createBrowserRouter([
           },
           {
             path: ":id",
-            element: <FridgeDetailPage />,
-            loader: fridgeLoader,
+            children: [
+              {
+                index: true,
+                element: <FridgeDetailPage />,
+                loader: fridgeLoader,
+              },
+              {
+                path: "program-visit",
+                element: <p>Programamos una visita</p>,
+              },
+            ],
           },
         ],
       },
