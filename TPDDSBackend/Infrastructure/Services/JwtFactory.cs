@@ -13,6 +13,7 @@ namespace TPDDSBackend.Infrastructure.Services
     {
         private readonly UserManager<Collaborator> _userManager;
         private readonly IConfiguration _configuration;
+        private const int JwtExpirationTimeInMinutes = 120;
 
         public JwtFactory(UserManager<Collaborator> userManager, IConfiguration configuration)
         {
@@ -39,7 +40,7 @@ namespace TPDDSBackend.Infrastructure.Services
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddMinutes(JwtExpirationTimeInMinutes),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

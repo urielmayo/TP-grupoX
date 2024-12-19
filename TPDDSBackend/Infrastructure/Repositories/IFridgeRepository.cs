@@ -7,5 +7,7 @@ namespace TPDDSBackend.Infrastructure.Repositories
         Task<int> GetTotalFoodAvailable(int fridgeId);
 
         Task<Fridge?> GetById(int id);
+
+        Task<List<Food>> GetFoodsByFridge(int fridgeId);
     }
 }

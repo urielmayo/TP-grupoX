@@ -27,13 +27,15 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
         private readonly IJwtFactory _jwtFactory;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IGenericRepository<FoodDelivery> _foodDeliveryRepository;
-        private readonly IGenericRepository<Fridge> _fridgeRepository;
+        private readonly IGenericRepository<FoodXDelivery> _foodXDeliveryRepository;
+        private readonly IFridgeRepository _fridgeRepository;
         private readonly UserManager<Collaborator> _userManager;
         public FoodDeliveryContributionCommandHandler(IMapper mapper,
             IJwtFactory jwtFactory,
             IHttpContextAccessor httpContextAccessor,
             IGenericRepository<FoodDelivery> foodDeliveryRepository,
-            IGenericRepository<Fridge> fridgeRepository,
+            IGenericRepository<FoodXDelivery> foodXDeliveryRepository,
+            IFridgeRepository fridgeRepository,
             UserManager<Collaborator> userManager)
         {
             _mapper = mapper;
@@ -42,6 +44,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             _foodDeliveryRepository = foodDeliveryRepository;
             _fridgeRepository = fridgeRepository;
             _userManager = userManager;
+            _foodXDeliveryRepository = foodXDeliveryRepository;
         }
         public async Task<CustomResponse<Contribution>> Handle(FoodDeliveryContributionCommand command, CancellationToken cancellationToken)
         {
@@ -52,8 +55,8 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
                 throw new ApiCustomException("No existe esa heladera de origen", HttpStatusCode.BadRequest);
             }
 
-            var destinationFridgeId = _fridgeRepository.GetById(command.Request.DestinationFridgeId);
-            if (destinationFridgeId == null)
+            var destinationFridge = _fridgeRepository.GetById(command.Request.DestinationFridgeId);
+            if (destinationFridge == null)
             {
                 throw new ApiCustomException("No existe esa heladera de destino", HttpStatusCode.BadRequest);
             }
@@ -71,7 +74,23 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
 
             foodDelivery.CollaboratorId = collaboradorId;
 
+            var foods = await _fridgeRepository.GetFoodsByFridge(command.Request.OriginFridgeId);
+
+            if(foods.Count < command.Request.Amount)
+            {
+                throw new ApiCustomException("No hay esa cantidad de viandas en la heladera de origen", HttpStatusCode.BadRequest);
+            }
             await _foodDeliveryRepository.Insert(foodDelivery);
+            foreach (var food in foods)
+            {
+                food.FridgeId = command.Request.DestinationFridgeId;
+                var foodXDelivery = new FoodXDelivery()
+                {
+                    FoodId = food.Id,
+                    DeliveryId = foodDelivery.Id
+                };
+                await _foodXDeliveryRepository.Insert(foodXDelivery);
+            }
 
             return new CustomResponse<Contribution>(ServiceConstans.MessageSuccessDonation);
         }

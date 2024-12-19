@@ -27,5 +27,12 @@ namespace TPDDSBackend.Infrastructure.Repositories
              .Select(data => data.FridgeCapacity - data.AvailableFoodCount)
              .FirstOrDefaultAsync();
         }
+
+        public async Task<List<Food>> GetFoodsByFridge(int fridgeId)
+        {
+            return await _dbContext.Food.
+                Where(f => f.FridgeId == fridgeId)
+                .ToListAsync();           
+        }
     }
 }
