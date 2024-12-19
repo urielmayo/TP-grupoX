@@ -1,8 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TPDDSBackend.Aplication.Commands;
+using TPDDSBackend.Aplication.Commands.Fridges;
 using TPDDSBackend.Aplication.Dtos.Requests;
+using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Queries;
 
 namespace TPDDSBackend.Controllers
@@ -59,5 +62,26 @@ namespace TPDDSBackend.Controllers
             await _mediator.Send(new DeleteTechnicianCommand(int.Parse(id)));
             return NoContent();
         }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("visit")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Se programo una visita de tecnico", typeof(CustomResponse<CreateTechnicianVisitResponse>))] 
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> RegisterTechnicianVisit([FromBody] CreateTechnicianVisitRequest request)
+        {
+            var result = await _mediator.Send(new CreateTechnicianVisitCommand(request));
+            return Ok(result);
+        }
+
+        [HttpPatch("visit/{id}")]
+        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "visita no encontrada", typeof(CustomResponse<string>))]
+        public async Task<IActionResult> CompleteTechnicianVisit(int id, [FromBody] CompleteTechnicianVisitRequest request)
+        {
+            var result = await _mediator.Send(new CompleteTechnicianVisitCommand(request, id));
+            return NoContent();
+        }
+
     }
 }
