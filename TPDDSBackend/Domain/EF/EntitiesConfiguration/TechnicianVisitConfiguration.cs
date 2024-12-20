@@ -22,6 +22,11 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
             builder.Property(t => t.FridgeRepaired)
                 .HasDefaultValue(false);
 
+            builder.Property(t => t.UuidToComplete)
+                .IsRequired();
+
+            builder.HasIndex(e => e.UuidToComplete)
+               .IsUnique();
         }
     }
 }
