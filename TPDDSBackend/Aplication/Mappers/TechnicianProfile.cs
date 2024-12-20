@@ -16,7 +16,9 @@ namespace TPDDSBackend.Aplication.Mappers
                 .ForMember(dest => dest.DocumentTypeName, opt => opt.MapFrom(src => src.DocumentType.Description))
                 .ForMember(dest => dest.NeighbourhoodName, opt => opt.MapFrom(src => src.Neighborhood.Name));
 
-            CreateMap<CreateTechnicianVisitRequest, TechnicianVisit>();
+            CreateMap<CreateTechnicianVisitRequest, TechnicianVisit>()
+                .ForMember(dest => dest.UuidToComplete, opt => opt.MapFrom(src => Guid.NewGuid()));
+
             CreateMap<TechnicianVisit, CreateTechnicianVisitResponse>();
 
             CreateMap<CompleteTechnicianVisitRequest, TechnicianVisit>()

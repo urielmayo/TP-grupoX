@@ -74,12 +74,12 @@ namespace TPDDSBackend.Controllers
             return Ok(result);
         }
 
-        [HttpPatch("visit/{id}")]
+        [HttpPatch("visit/{uuid}")]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
         [SwaggerResponse(StatusCodes.Status404NotFound, "visita no encontrada", typeof(CustomResponse<string>))]
-        public async Task<IActionResult> CompleteTechnicianVisit(int id, [FromBody] CompleteTechnicianVisitRequest request)
+        public async Task<IActionResult> CompleteTechnicianVisit(Guid uuid, [FromBody] CompleteTechnicianVisitRequest request)
         {
-            var result = await _mediator.Send(new CompleteTechnicianVisitCommand(request, id));
+            var result = await _mediator.Send(new CompleteTechnicianVisitCommand(request, uuid));
             return NoContent();
         }
 

@@ -12,22 +12,22 @@ namespace TPDDSBackend.Aplication.Commands
     public class CompleteTechnicianVisitCommand : IRequest<Unit>
     {
         public CompleteTechnicianVisitRequest  Request { get; set; }
-        public int Id { get; set; }
-        public CompleteTechnicianVisitCommand(CompleteTechnicianVisitRequest request, int id)
+        public Guid Uuid { get; set; }
+        public CompleteTechnicianVisitCommand(CompleteTechnicianVisitRequest request, Guid uuid)
         {
             Request = request;
-            Id = id;
+            Uuid = uuid;
         }
     }
 
     public class CompleteTechnicianVisitCommandHandler : IRequestHandler<CompleteTechnicianVisitCommand, Unit>
     {
         private readonly IMapper _mapper;
-        private readonly IGenericRepository<TechnicianVisit> _technicianVisitRepository;
+        private readonly ITechnicianVisitRepository _technicianVisitRepository;
 
 
         public CompleteTechnicianVisitCommandHandler(IMapper mapper,
-            IGenericRepository<TechnicianVisit> technicianVisitRepository)
+            ITechnicianVisitRepository technicianVisitRepository)
         {
             _technicianVisitRepository = technicianVisitRepository;
             _mapper = mapper;
@@ -36,7 +36,7 @@ namespace TPDDSBackend.Aplication.Commands
         public async Task<Unit> Handle(CompleteTechnicianVisitCommand command, CancellationToken ct)
         {
 
-            var visit = await _technicianVisitRepository.GetById(command.Id);
+            var visit = await _technicianVisitRepository.GetByUuid(command.Uuid);
 
             if (visit == null) 
             {

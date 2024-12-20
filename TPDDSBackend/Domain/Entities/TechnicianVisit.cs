@@ -17,5 +17,7 @@ namespace TPDDSBackend.Domain.Entities
         public string? Comment { get; set; }
 
         public string? ImagePath { get; set; }
+
+        public Guid UuidToComplete { get; set; }
     }
 }

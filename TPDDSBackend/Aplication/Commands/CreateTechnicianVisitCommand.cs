@@ -47,7 +47,7 @@ namespace TPDDSBackend.Aplication.Commands.Fridges
             await _visitXTechnicianRepository.Insert(visitXTech);
 
             var response = _mapper.Map<CreateTechnicianVisitResponse>(visit);
-            response.LinkToUpload = $"/technician/visit/{Guid.NewGuid()}";
+            response.LinkToUpload = $"/technician/visit/{visit.UuidToComplete}";
 
             return new CustomResponse<CreateTechnicianVisitResponse>("Se programo una visita de tecnico", response);
         }

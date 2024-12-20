@@ -78,6 +78,7 @@ builder.Services.AddScoped<IBenefitCoefficientsRepository, BenefitCoefficientsRe
 builder.Services.AddScoped<IBenefitExchangesRepository, BenefitExchangesRepository>();
 builder.Services.AddScoped<IFridgeIncidentRepository, FridgeIncidentRepository>();
 builder.Services.AddScoped<IFridgeRepository, FridgeRepository>();
+builder.Services.AddScoped<ITechnicianVisitRepository, TechnicianVisitRepository>();
 builder.Services.AddTransient<IGenericRepository<PersonInVulnerableSituation>, PersonInVulnerableSituationRepository>();
 builder.Services.AddScoped<IJwtFactory, JwtFactory>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
