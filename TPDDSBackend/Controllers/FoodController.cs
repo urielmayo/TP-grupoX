@@ -1,9 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TPDDSBackend.Aplication.Commands.Foods;
 using TPDDSBackend.Aplication.Dtos.Requests;
+using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Queries;
+using TPDDSBackend.Constans;
 
 namespace TPDDSBackend.Controllers
 {
@@ -44,6 +47,11 @@ namespace TPDDSBackend.Controllers
         }
 
         [Authorize]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "entidad no encontrada", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [SwaggerResponse(StatusCodes.Status403Forbidden, ServiceConstans.UpdateDeniedMessageByExpires, typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status204NoContent)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFood(string id)
         {

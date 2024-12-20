@@ -1,9 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TPDDSBackend.Aplication.Commands.Fridges;
 using TPDDSBackend.Aplication.Dtos.Requests;
+using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Queries;
+using TPDDSBackend.Constans;
 
 namespace TPDDSBackend.Controllers
 {
@@ -84,6 +87,20 @@ namespace TPDDSBackend.Controllers
             var result = await _mediator.Send(new SuggestFridgeLocatiosCommand(request));
 
             return Ok(result);
+        }
+
+
+        [Authorize]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "entidad no encontrada", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [SwaggerResponse(StatusCodes.Status403Forbidden, ServiceConstans.UpdateDeniedMessageByExpires, typeof(CustomResponse<string>))]
+        [HttpPost("opening")]
+        public async Task<IActionResult> OpenFridge([FromBody] OpeningRequest request)
+        {
+            await _mediator.Send(new OpenFridgeCommand(request));
+
+            return NoContent();
         }
     }
 }

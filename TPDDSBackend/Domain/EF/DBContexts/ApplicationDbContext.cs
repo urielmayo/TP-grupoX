@@ -56,6 +56,8 @@ namespace TPDDSBackend.Domain.EF.DBContexts
         public DbSet<TechnicianVisit> TechnicianVisits { get; set; }
 
         public DbSet<VisitXTechnician> VisitXTechnicians { get; set; }
+
+        public DbSet<FridgeOpening> FridgeOpenings { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
             base(options)
         {

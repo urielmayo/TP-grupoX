@@ -67,7 +67,8 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
                 CollaboratorId = collaboradorId,
                 FoodId = saved.Id,
                 Date = DateTime.UtcNow,
-                Status = ContributionStatus.Requested            
+                Status = ContributionStatus.Requested,
+                FridgeId = saved.FridgeId,
             };
 
             await _foodDonationRepository.Insert(foodDonation);
