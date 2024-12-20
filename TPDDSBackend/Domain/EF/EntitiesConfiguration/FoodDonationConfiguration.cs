@@ -16,6 +16,10 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
             .WithMany()
             .HasForeignKey(x => x.DoneeId);
 
+            builder.HasOne(x => x.Fridge)
+            .WithMany()
+            .HasForeignKey(x => x.FridgeId);
+
             builder.Property(x => x.Status)
             .HasConversion<string>();
         }

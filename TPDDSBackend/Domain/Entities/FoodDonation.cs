@@ -8,6 +8,9 @@ namespace TPDDSBackend.Domain.Entitites
         public int FoodId { get; set; }
         public virtual PersonInVulnerableSituation? Donee { get; set; }
         public int? DoneeId { get; set; }
+        public virtual Fridge Fridge { get; set; }
+
+        public int FridgeId { get; set; }
 
         public ContributionStatus Status { get; set; }
     }

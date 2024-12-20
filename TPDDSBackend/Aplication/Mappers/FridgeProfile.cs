@@ -3,6 +3,8 @@ using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using TPDDSBackend.Domain.Enums;
 
 namespace TPDDSBackend.Aplication.Mappers
 {
@@ -16,6 +18,8 @@ namespace TPDDSBackend.Aplication.Mappers
 
             CreateMap<FridgeModel, SetupTemperaturesResponse>()
                 .ForMember(dest => dest.Model, opt => opt.MapFrom(src => src.Name));
+            CreateMap<OpeningRequest, FridgeOpening>()
+                .ForMember(dest => dest.OpeningFor, opt => opt.MapFrom(src => (OpeningFor)Enum.Parse(typeof(OpeningFor), src.OpeningFor)));
         }
     }
 }
