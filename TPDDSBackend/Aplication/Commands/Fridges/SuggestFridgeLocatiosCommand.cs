@@ -32,22 +32,42 @@ namespace TPDDSBackend.Aplication.Commands.Fridges
         {
             var random = new Random();
             var suggestedLocations = new List<FridgeLocationsResponse>();
+            double minDistanceBetweenPoints = command.Request.RadiusInKm / Math.Sqrt(command.Request.NumberOfPoints);
 
             for (int i = 0; i < command.Request.NumberOfPoints; i++)
             {
-                var randomPoint = GenerateRandomPoint(command.Request.Latitude, 
-                    command.Request.Longitude,
-                    command.Request.RadiusInKm, random);
+                FridgeLocationsResponse newPoint;
+                bool isValidPoint;
 
-                suggestedLocations.Add(new FridgeLocationsResponse
+                do
                 {
-                    Latitude = (decimal)randomPoint.lat,
-                    Longitude = (decimal)randomPoint.lon
-                });
+                    var randomPoint = GenerateRandomPoint(
+                        command.Request.Latitude,
+                        command.Request.Longitude,
+                        command.Request.RadiusInKm,
+                        random);
+
+                    newPoint = new FridgeLocationsResponse
+                    {
+                        Latitude = (decimal)randomPoint.lat,
+                        Longitude = (decimal)randomPoint.lon
+                    };
+
+                    // Verificar si el nuevo punto está suficientemente lejos de los puntos existentes
+                    isValidPoint = suggestedLocations.All(existingPoint =>
+                        HaversineDistance((double)newPoint.Latitude, (double)newPoint.Longitude,
+                                          (double)existingPoint.Latitude, (double)existingPoint.Longitude) >= minDistanceBetweenPoints);
+                }
+                while (!isValidPoint);
+
+                suggestedLocations.Add(newPoint);
             }
 
-            return new CustomResponse<SuggestFridgeLocationsResponse>("Se sugieren los siguientes puntos de ubicacion", new SuggestFridgeLocationsResponse(suggestedLocations));
+            return new CustomResponse<SuggestFridgeLocationsResponse>(
+                "Se sugieren los siguientes puntos de ubicación",
+                new SuggestFridgeLocationsResponse(suggestedLocations));
         }
+        
 
         private (double lat, double lon) GenerateRandomPoint(decimal centerLat, decimal centerLon, double radiusInKm, Random random)
         {
@@ -72,6 +92,26 @@ namespace TPDDSBackend.Aplication.Commands.Fridges
 
             // Convertir de radianes a grados
             return (newLat * 180.0 / Math.PI, newLon * 180.0 / Math.PI);
+        }
+
+        private double HaversineDistance(double lat1, double lon1, double lat2, double lon2)
+        {
+            const double EarthRadiusKm = 6371.0;
+
+            double dLat = DegreesToRadians(lat2 - lat1);
+            double dLon = DegreesToRadians(lon2 - lon1);
+
+            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                       Math.Cos(DegreesToRadians(lat1)) * Math.Cos(DegreesToRadians(lat2)) *
+                       Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            return EarthRadiusKm * c;
+        }
+
+        private double DegreesToRadians(double degrees)
+        {
+            return degrees * Math.PI / 180.0;
         }
     }
 }

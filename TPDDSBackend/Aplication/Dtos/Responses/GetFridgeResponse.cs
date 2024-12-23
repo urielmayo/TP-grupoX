@@ -1,4 +1,6 @@
 ﻿
+using System.Runtime.CompilerServices;
+
 namespace TPDDSBackend.Aplication.Dtos.Responses
 {
     public class GetFridgeResponse
@@ -9,8 +11,13 @@ namespace TPDDSBackend.Aplication.Dtos.Responses
         public decimal Longitud { get; set; }
         public decimal Latitud { get; set; }
         public int MaxFoodCapacity { get; set; }
+        public bool Active { get; set; }
+
+        public DateTime SetUpAt { get; set; }
 
         public int FoodCapacityAvailable { get; set; }
+
+        public float CurrentTemperature { get; set; }
 
         public List<GetFridgeIncidentResponse> LastFridgeIncidents { get; set; }
     }

@@ -80,7 +80,10 @@ namespace TPDDSBackend.Aplication.Queries
                 Latitud = fridge.Latitud,
                 MaxFoodCapacity = fridge.MaxFoodCapacity,
                 FoodCapacityAvailable = await _fridgeRepository.GetTotalFoodAvailable(fridge.Id),
-                LastFridgeIncidents = incidentsResponse
+                LastFridgeIncidents = incidentsResponse,
+                Active = fridge.Active,
+                SetUpAt = fridge.SetUpAt,
+                CurrentTemperature = fridge.LastTemperature
             };
 
             return new CustomResponse<GetFridgeResponse>("heladera encontrada", fridgeResponse);
