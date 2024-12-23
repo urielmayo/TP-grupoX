@@ -19,6 +19,8 @@ import UpdateTechnicianPage from "./pages/technicians/UpdateTechnician";
 import CoefficientsPage from "./pages/Coefficients";
 import BulkContributionsPage from "./pages/contributions/BulkContributions";
 import FridgesListPage from "./pages/fridges/FridgesList";
+import FridgeVisitPage from "./pages/fridges/FridgeVisit";
+import FridgeIncidentPage from "./pages/fridges/FridgeIncident";
 
 // actions
 import { loginAction } from "./pages/Login";
@@ -28,13 +30,18 @@ import { newContribAction } from "./pages/contributions/NewContribution";
 import { updateTechicianAction } from "./pages/technicians/UpdateTechnician";
 import { updateCoefficientAction } from "./pages/Coefficients";
 import { bulkContribAction } from "./pages/contributions/BulkContributions";
-
+import { createFridgeVisitAction } from "./pages/fridges/FridgeVisit";
+import { fridgeIncidentAction } from "./pages/fridges/FridgeIncident";
 // loaders
 import { userLoader } from "./utils/auth";
 import { contributionLoader } from "./loaders/contributionsLoader";
 import { profileLoader } from "./loaders/profileLoader";
 import { benefitsLoader } from "./loaders/benefitsLoader";
-import { fridgesLoader, fridgeLoader } from "./loaders/fridgesLoader";
+import {
+  fridgesLoader,
+  fridgeLoader,
+  fridgeVisitLoader,
+} from "./loaders/fridgesLoader";
 import { coefficientsLoader } from "./loaders/coefficientsLoader";
 import { bulkContribLoader } from "./loaders/bulkContribLoader";
 import {
@@ -108,15 +115,19 @@ const router = createBrowserRouter([
           },
           {
             path: ":id",
+            element: <FridgeDetailPage />,
+            loader: fridgeLoader,
             children: [
               {
-                index: true,
-                element: <FridgeDetailPage />,
-                loader: fridgeLoader,
+                path: "visit",
+                element: <FridgeVisitPage />,
+                loader: fridgeVisitLoader,
+                action: createFridgeVisitAction,
               },
               {
-                path: "program-visit",
-                element: <p>Programamos una visita</p>,
+                path: "incident",
+                element: <FridgeIncidentPage />,
+                action: fridgeIncidentAction,
               },
             ],
           },

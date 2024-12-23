@@ -3,6 +3,11 @@ import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import { getUserData } from "../../utils/auth";
 import IncidentsTable from "./IncidentsTable";
 
+// TODO: mostrar si la heladera esta activa o incativa
+// Mostrar la fecha de inicio de actividad de la heladera
+// Agregar boton y vista para crear falla de la heladera
+// opcional: enviar mail a tecnico con mailto
+
 export default function FridgeDetail() {
   const {
     name,
@@ -14,7 +19,6 @@ export default function FridgeDetail() {
     lastFridgeIncidents,
   } = useLoaderData();
   const { role } = getUserData();
-  console.log(lastFridgeIncidents);
 
   return (
     <div>
@@ -32,6 +36,14 @@ export default function FridgeDetail() {
                   className="bg-gray-800 hover:bg-gray-700 px-2 py-1 text-white text-xl rounded-lg"
                 >
                   Programar visita
+                </Link>
+              )}
+              {role === "Collaborator" && (
+                <Link
+                  to="incident"
+                  className="bg-red-500 hover:bg-red-600 px-2 py-1 text-white text-xl rounded-lg"
+                >
+                  Reportar incidente
                 </Link>
               )}
             </div>
@@ -77,12 +89,6 @@ export default function FridgeDetail() {
                   id=""
                 />{" "}
                 viandas para que la heladera se llene
-                <button className="ml-10 px-2 py-1 bg-blue-600 rounded-md text-white">
-                  Avisame
-                </button>
-              </li>
-              <li>
-                La heladera tenga algun desperfecto
                 <button className="ml-10 px-2 py-1 bg-blue-600 rounded-md text-white">
                   Avisame
                 </button>
