@@ -6,6 +6,6 @@
 
         public string? Comment { get; set; }
 
-        public string? ImagePath { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }
