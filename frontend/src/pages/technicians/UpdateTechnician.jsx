@@ -2,6 +2,7 @@
 import { redirect, json } from "react-router-dom";
 import { config } from "../../config";
 import UpdateTechnician from "../../components/technicians/UpdateTechnician";
+import { authHeaders } from "../../utils/auth";
 
 export default function UpdateTechnicianPage() {
   return <UpdateTechnician />;
@@ -15,10 +16,7 @@ export async function updateTechicianAction({ request, params }) {
     `${config.BACKEND_URL}/Technician/${params.id}`,
     {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-      },
+      headers: authHeaders(),
       body: JSON.stringify(data),
     }
   );
