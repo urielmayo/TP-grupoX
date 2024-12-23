@@ -22,6 +22,7 @@ namespace TPDDSBackend.Aplication.Mappers
             CreateMap<TechnicianVisit, CreateTechnicianVisitResponse>();
 
             CreateMap<CompleteTechnicianVisitRequest, TechnicianVisit>()
+               .ForMember(dest => dest.Image, opt => opt.Ignore())
                         .ForAllMembers(opts =>
                 opts.Condition((src, dest, srcMember) => srcMember != null));
         }

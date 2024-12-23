@@ -42,8 +42,16 @@ namespace TPDDSBackend.Aplication.Commands
             {
                 throw new ApiCustomException("visita no encontrada", HttpStatusCode.NotFound);
             }
-            
+
+            byte[]? fotoBytes = null;
+            if (command.Request.Image != null && command.Request.Image.Length > 0)
+            {
+                using var memoryStream = new MemoryStream();
+                await command.Request.Image.CopyToAsync(memoryStream);
+                fotoBytes = memoryStream.ToArray();
+            }
             _mapper.Map(command.Request, visit);
+            visit.Image = fotoBytes;
 
             _technicianVisitRepository.Update(visit);          
 
