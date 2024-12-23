@@ -70,15 +70,19 @@ export default function FileUploadForm() {
           <div className="mt-4 text-green-500 text-sm">
             Archivo cargado exitosamente.
           </div>
-          <p>
-            A los siguientes usuarios se les envió un mail para que se
-            registren:
-          </p>
-          <ul className="list-disc list-inside">
-            {actionData.data.newUsers.map((user) => (
-              <li key={user}>{user}</li>
-            ))}
-          </ul>
+          {(actionData.data.newUsers.length && (
+            <>
+              <p>
+                A los siguientes usuarios se les envió un mail para que se
+                registren:
+              </p>
+              <ul className="list-disc list-inside">
+                {actionData.data.newUsers.map((user) => (
+                  <li key={user}>{user}</li>
+                ))}
+              </ul>
+            </>
+          )) || <p>No se encontraron usuarios nuevos</p>}
         </>
       )}
     </FormLayout>
