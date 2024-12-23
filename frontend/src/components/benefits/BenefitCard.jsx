@@ -49,9 +49,7 @@ export default function BenefitCard({ benefit }) {
         <p className="text-gray-700 text-base mb-2">
           <strong>Puntos necesarios:</strong> {benefit.requiredPoints}
         </p>
-        <p className="text-gray-700 text-base mb-2">
-          <strong>Empresa:</strong> {benefit.Empresa}
-        </p>
+
         <button
           onClick={handleClick}
           className="bg-blue-600 hover:bg-blue-700 rounded-md px-3 py-1 text-sm font-semibold text-white mt-2"
