@@ -32,5 +32,8 @@ export function requireAdmin() {
 }
 
 export function authHeaders() {
-  return { Authorization: `Bearer ${sessionStorage.getItem("jwt")}` };
+  return {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+  };
 }
