@@ -117,6 +117,12 @@ export default function FridgeContribForm() {
         type={"number"}
         required
       />
+      <Field
+        label={"Puesta en funcionamiento"}
+        name={"setUpAt"}
+        type={"date"}
+        required
+      />
 
       <SubmitButton text={"Cargar heladera"} />
     </Form>
