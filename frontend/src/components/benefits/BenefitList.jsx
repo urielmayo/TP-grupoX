@@ -17,7 +17,7 @@ export default function BenefitList() {
           </h1>
         </>
       }
-      items={benefits}
+      items={benefits.filter((benefit) => benefit.collaboratorId !== user.id)}
       renderItem={(benfit) => <BenefitCard key={benfit.id} benefit={benfit} />}
       emptyItem={<EmptyGrid title="No hay productos" />}
     />
