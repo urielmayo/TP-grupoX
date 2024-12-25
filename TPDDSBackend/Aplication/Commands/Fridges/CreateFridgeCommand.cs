@@ -39,7 +39,7 @@ namespace TPDDSBackend.Aplication.Commands.Fridges
 
             await _repository.Insert(entity);
 
-            var responseDTO = new GetFridgeResponse()
+            var responseDTO = new CreateFridgeResponse()
             {
                 Id = entity.Id,
                 Address = entity.Address,
