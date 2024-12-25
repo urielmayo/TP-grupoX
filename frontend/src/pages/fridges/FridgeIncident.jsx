@@ -1,6 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
 import { config } from "../../config";
-import { authHeaders } from "../../utils/auth";
 import { json } from "react-router-dom";
 import FridgeIncident from "../../components/fridges/FridgeIncident";
 
@@ -9,16 +8,24 @@ export default function FridgeIncidentPage() {
 }
 
 export async function fridgeIncidentAction({ request, params }) {
-  const form = await request.formData();
-  const data = Object.fromEntries(form.entries());
-  data["fridgeId"] = params.id;
+  const formData = await request.formData();
+  const data = {
+    fridgeId: params.id,
+    description: formData.get("description"),
+    imagePath: formData.get("file"),
+  };
 
+  console.log(data);
+
+  if (!data.imagePath) {
+    return { error: "Debe seleccionar un archivo." };
+  }
   try {
     const response = await fetch(
       `${config.BACKEND_URL}/fridge-incident/failure`,
       {
         method: "POST",
-        headers: authHeaders(),
+        headers: { Authorization: `Bearer ${sessionStorage.getItem("jwt")}` },
         body: JSON.stringify(data),
       }
     );
