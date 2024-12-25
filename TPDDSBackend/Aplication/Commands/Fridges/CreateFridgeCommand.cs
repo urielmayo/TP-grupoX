@@ -35,10 +35,11 @@ namespace TPDDSBackend.Aplication.Commands.Fridges
         public async Task<CustomResponse<CreateFridgeResponse>> Handle(CreateFridgeCommand command, CancellationToken ct)
         {
             var entity = _mapper.Map<Fridge>(command.Request);
+            entity.Active = true;
 
             await _repository.Insert(entity);
 
-            var responseDTO = new CreateFridgeResponse()
+            var responseDTO = new GetFridgeResponse()
             {
                 Id = entity.Id,
                 Address = entity.Address,
