@@ -170,5 +170,3 @@ const router = createBrowserRouter([
 export default function App() {
   return <RouterProvider router={router} />;
 }
-
-// TODO: vista de perfil, carga masiva

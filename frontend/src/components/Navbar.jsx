@@ -23,8 +23,6 @@ export default function Navbar() {
   const dropdownCssClass = "block px-4 py-2 hover:bg-gray-500 hover:rounded-lg";
   const isLogged = user !== null;
 
-  // TODO: Hacer que el usuario admin tenga los links: carga masiva, tecnicos
-
   return (
     <nav className="bg-gray-900 text-white p-4 justify-between flex w-full sticky top-0">
       <div className="flex justify-start gap-x-4">
