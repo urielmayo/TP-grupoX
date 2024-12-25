@@ -45,6 +45,14 @@ namespace TPDDSBackend.Aplication.Commands.Fridges
         public async Task<CustomResponse<CreateFridgeFailureResponse>> Handle(CreateFridgeFailureCommand command, CancellationToken ct)
         {
             var entity = _mapper.Map<FridgeFailure>(command.Request);
+            byte[]? imageBytes = null;
+            if (command.Request.Image != null && command.Request.Image.Length > 0)
+            {
+                using var memoryStream = new MemoryStream();
+                await command.Request.Image.CopyToAsync(memoryStream);
+                imageBytes = memoryStream.ToArray();
+            }
+            entity.Image = imageBytes;
 
             var fridge = await _fridgeRepository.GetById(entity.FridgeId);
 
