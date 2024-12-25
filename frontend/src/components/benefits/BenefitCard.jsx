@@ -40,7 +40,7 @@ export default function BenefitCard({ benefit }) {
   };
 
   return (
-    <div className="flex overflow-hidden rounded-2xl shadow-lg bg-white">
+    <div className="flex overflow-hidden rounded-2xl h-60 bg-white">
       <div className="flex-1 px-6 py-4">
         <div className="font-bold text-xl mb-2">{benefit.description}</div>
         <p className="text-gray-700 text-base mb-2">

@@ -28,8 +28,8 @@ export default function ContributionList() {
       )}
       emptyItem={
         <EmptyGrid
-          title="No hay tecnicos registrados"
-          text="Dar de alta tecnicos"
+          title="No hay contribuciones registradas"
+          text="Ingresa tu primera contribucion"
         />
       }
     />
