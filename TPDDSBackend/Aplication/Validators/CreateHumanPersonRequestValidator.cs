@@ -19,7 +19,11 @@ namespace TPDDSBackend.Aplication.Validators
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("La contraseña es obligatoria.");
-               
+
+            RuleFor(x => x.CardCode)
+                .NotEmpty().WithMessage("El codigo de la tarjeta es obligatorio.")
+                .Length(11).WithMessage("El codigo de la tarjeta tiene que ser de 11 caracteres");
+
         }
 
         private bool HaveAtLeastOneContactMethod(CreateHumanPersonRequest request)
