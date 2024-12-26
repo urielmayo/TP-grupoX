@@ -12,7 +12,8 @@ namespace TPDDSBackend.Aplication.Mappers
         {
 
             CreateMap<CreateFridgeFailureRequest, FridgeFailure>()
-                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => DateTime.UtcNow));
+                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => DateTime.UtcNow))
+                .ForMember(dest => dest.Image, opt => opt.Ignore());
 
 
             CreateMap<FridgeFailure, CreateFridgeFailureResponse>()
