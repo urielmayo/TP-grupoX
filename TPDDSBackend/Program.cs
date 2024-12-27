@@ -8,7 +8,6 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using TPDDSBackend;
 using TPDDSBackend.Aplication;
-using TPDDSBackend.Aplication.Managers;
 using TPDDSBackend.Aplication.Services;
 using TPDDSBackend.Aplication.Services.Strategies;
 using TPDDSBackend.Aplication.Validators;
@@ -79,6 +78,7 @@ builder.Services.AddScoped<IBenefitExchangesRepository, BenefitExchangesReposito
 builder.Services.AddScoped<IFridgeIncidentRepository, FridgeIncidentRepository>();
 builder.Services.AddScoped<IFridgeRepository, FridgeRepository>();
 builder.Services.AddScoped<ITechnicianVisitRepository, TechnicianVisitRepository>();
+builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddTransient<IGenericRepository<PersonInVulnerableSituation>, PersonInVulnerableSituationRepository>();
 builder.Services.AddScoped<IJwtFactory, JwtFactory>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -122,6 +122,7 @@ builder.Services.AddScoped<BenefitContributionStrategy>();
 
 builder.Services.AddScoped<IFileProcessorService,FileProcessorService>();
 builder.Services.AddScoped<IAccumulatedPointsCalculator, AccumulatedPointsCalculator>();
+builder.Services.AddScoped<IFridgeOpeningService, FridgeOpeningService>();
 
 builder.Services.AddScoped<Dictionary<string, IContributionStrategy>>(provider => new Dictionary<string, IContributionStrategy>
 {

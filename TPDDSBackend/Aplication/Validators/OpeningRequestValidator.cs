@@ -13,12 +13,9 @@ namespace TPDDSBackend.Aplication.Validators
             RuleFor(x => x.FridgeId)
                 .NotEmpty().WithMessage("El id de heladera es obligatoria.");
 
-            RuleFor(x => x.CardId)
-                .NotEmpty().WithMessage("El id de tarjeta es obligatoria."); 
-
             RuleFor(x => x.OpeningFor)
                  .Must(BeAValidEnum<OpeningFor>)
-                 .WithMessage("OpeningFor invalido. Por favor usa una de las siguientes: EnterFood, TakeOutFood.");
+                 .WithMessage("OpeningFor invalido. Por favor usa una de las siguientes: EnterFood, DistributeFood, TakeOutFood.");
         }
 
         private bool BeAValidEnum<TEnum>(string value) where TEnum : struct
