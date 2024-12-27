@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TPDDSBackend.Domain.EF.DBContexts;
@@ -11,9 +12,11 @@ using TPDDSBackend.Domain.EF.DBContexts;
 namespace TPDDSBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241225224622_ChangeImageFridgeFailure")]
+    partial class ChangeImageFridgeFailure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,7 +250,7 @@ namespace TPDDSBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cards");
+                    b.ToTable("Card");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entities.CollaboratorCard", b =>
@@ -270,7 +273,7 @@ namespace TPDDSBackend.Migrations
                     b.HasIndex("CollaboratorId")
                         .IsUnique();
 
-                    b.ToTable("CollaboratorCards");
+                    b.ToTable("CollaboratorCard");
                 });
 
             modelBuilder.Entity("TPDDSBackend.Domain.Entities.FridgeIncident", b =>

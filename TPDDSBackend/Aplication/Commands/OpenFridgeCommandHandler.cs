@@ -5,6 +5,7 @@ using TPDDSBackend.Aplication.Commands.Contributions;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
+using TPDDSBackend.Aplication.Services.Strategies;
 using TPDDSBackend.Constans;
 using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entities;
@@ -12,6 +13,7 @@ using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Domain.Enums;
 using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace TPDDSBackend.Aplication.Commands.Fridges
 {
@@ -26,32 +28,27 @@ namespace TPDDSBackend.Aplication.Commands.Fridges
 
     public class OpenFridgeCommandHandler : IRequestHandler<OpenFridgeCommand, Unit>
     {
-        private readonly IMapper _mapper;
-        private readonly IGenericRepository<FridgeOpening> _fridgeOpeningRepository;
-        private readonly IGenericRepository<Card> _cardRepository;
+        private readonly ICardRepository _cardRepository;
         private readonly IGenericRepository<Fridge> _fridgeRepository;
-        private readonly IContributionRepository _contributionRepository;
         private readonly IJwtFactory _jwtFactory;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IMediator _mediator;
+        private readonly IFridgeOpeningService _fridgeOpeningService;
+        private readonly IGenericRepository<PersonInVulnerableSituation> _personRepository;
 
-        public OpenFridgeCommandHandler(IMapper mapper,
-            IGenericRepository<FridgeOpening> fridgeOpeningRepository,
-            IGenericRepository<Card> cardRepository,
+        public OpenFridgeCommandHandler(    
+            ICardRepository cardRepository,
             IGenericRepository<Fridge> fridgeRepository,
-            IContributionRepository contributionRepository,
             IJwtFactory jwtFactory,
             IHttpContextAccessor httpContextAccessor,
-            IMediator mediator)
+            IFridgeOpeningService fridgeOpeningService,
+            IGenericRepository<PersonInVulnerableSituation> personRepository)
         {
-            _mapper = mapper;
-            _fridgeOpeningRepository = fridgeOpeningRepository;
             _fridgeRepository = fridgeRepository;
             _cardRepository = cardRepository;    
-            _contributionRepository = contributionRepository;
             _jwtFactory = jwtFactory;
             _httpContextAccessor = httpContextAccessor;
-            _mediator = mediator;
+            _fridgeOpeningService = fridgeOpeningService;
+            _personRepository = personRepository;
         }
 
         public async Task<Unit> Handle(OpenFridgeCommand command, CancellationToken ct)
@@ -61,34 +58,39 @@ namespace TPDDSBackend.Aplication.Commands.Fridges
             if (fridge == null)
                 throw new ApiCustomException("Heladera no encontrada", HttpStatusCode.NotFound);
 
-            var card = await _cardRepository.GetById(command.Request.CardId);
-
-            if (card == null)
-                throw new ApiCustomException("Tarjeta no encontrada", HttpStatusCode.NotFound);
-
-            var entity = _mapper.Map<FridgeOpening>(command.Request);  
-                    
             var jwt = _httpContextAccessor.HttpContext.Request.Headers.Authorization;
-
             (string collaboradorId, _) = _jwtFactory.GetClaims(jwt);
 
-            var contribution = await _contributionRepository.GetRequestedContribution(collaboradorId, fridge.Id);
+            var openingForEnum =  (OpeningFor)Enum.Parse(typeof(OpeningFor), command.Request.OpeningFor);
 
-            if (contribution == null)
-                throw new ApiCustomException("No se encontro una solicitud para esa heladera", HttpStatusCode.NotFound);
+            if (command.Request.PersonInVulnerableSituationId is not null)
+            {
+                var person = await _personRepository.GetById((int)command.Request.PersonInVulnerableSituationId);
+                if(person is null)
+                    throw new ApiCustomException("la persona vulnerable solo puede retirar vianda para comer", HttpStatusCode.NotFound);
 
-            var request = new UpdateRequestContributionRequest() { NewState = "Done" };
-           if (contribution.Discriminator == "FoodDonation")
-           {
-              await _mediator.Send(new UpdateFoodDonationCommand(request, contribution.Id));
-           }
-           else
-           {
-              await _mediator.Send(new UpdateFoodDeliveryCommand(request, contribution.Id));
-           }            
+                if (openingForEnum != OpeningFor.TakeOutFood)
+                    throw new ApiCustomException("la persona vulnerable solo puede retirar vianda para comer", HttpStatusCode.UnprocessableContent);
 
-            await _fridgeOpeningRepository.Insert(entity);
+                var card = await _cardRepository.GetPersonCard(person.Id);
+                
+                if(card == null)
+                     throw new ApiCustomException("La persona debe tener una tarjeta asociada", HttpStatusCode.UnprocessableContent);
+                
+                await _fridgeOpeningService.RegisterOpeningForVulnerablePerson(fridge.Id, person, 
+                    card.Id, openingForEnum);
+            }
+            else
+            {
+                var card = await _cardRepository.GetCollaboratorCard(collaboradorId);
 
+                if (card == null)
+                {
+                    throw new ApiCustomException("el colaborador debe tener una tarjeta asociada", HttpStatusCode.UnprocessableContent);
+                }
+                await _fridgeOpeningService.RegisterOpeningForCollaborator(fridge.Id, collaboradorId, 
+                    card.Id, openingForEnum);
+            }
             return Unit.Value;
         }
     }

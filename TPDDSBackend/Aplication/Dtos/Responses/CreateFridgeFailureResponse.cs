@@ -7,7 +7,5 @@
         public string FridgeName { get; set; }
 
         public required string Description { get; set; }
-
-        public string? ImagePath { get; set; }
     }
 }

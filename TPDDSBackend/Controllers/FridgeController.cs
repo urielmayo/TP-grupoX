@@ -95,6 +95,7 @@ namespace TPDDSBackend.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound, "entidad no encontrada", typeof(CustomResponse<string>))]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
         [SwaggerResponse(StatusCodes.Status403Forbidden, ServiceConstans.UpdateDeniedMessageByExpires, typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "no se puede continuar procesando", typeof(CustomResponse<string>))]
         [HttpPost("opening")]
         public async Task<IActionResult> OpenFridge([FromBody] OpeningRequest request)
         {

@@ -35,7 +35,7 @@ namespace TPDDSBackend.Domain.EF.DBContexts
 
         public DbSet<MoneyDonation> MoneyDonations { get; set; }
 
-        public DbSet<VulnerablePersonCard> Cards { get; set; }
+        public DbSet<VulnerablePersonCard> PersonCards { get; set; }
         public DbSet<PersonInVulnerableSituation> PersonInVulnerableSituations { get; set; }
         public DbSet<Technician> Technicians { get; set; }
         public DbSet<Neighborhood> Neighborhoods { get; set; }
@@ -58,6 +58,10 @@ namespace TPDDSBackend.Domain.EF.DBContexts
         public DbSet<VisitXTechnician> VisitXTechnicians { get; set; }
 
         public DbSet<FridgeOpening> FridgeOpenings { get; set; }
+
+        public DbSet<Card> Cards { get; set; }
+
+        public DbSet<CollaboratorCard> CollaboratorCards { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
             base(options)
         {

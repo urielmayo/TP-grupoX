@@ -3,6 +3,7 @@
     public enum OpeningFor
     {
         EnterFood,
+        DistributeFood,
         TakeOutFood
     }
 }
