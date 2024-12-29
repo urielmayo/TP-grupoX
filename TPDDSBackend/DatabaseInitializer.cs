@@ -6,6 +6,7 @@ using TPDDSBackend.Constans;
 using TPDDSBackend.Domain.EF.DBContexts;
 using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Domain.Enums;
 using TPDDSBackend.Infrastructure.Repositories;
 
 namespace TPDDSBackend
@@ -34,8 +35,10 @@ namespace TPDDSBackend
                     CreateFoodStatesAsync(dbContextFactory),
                     CreateNeighborhoodsAsync(dbContextFactory),
                     CreateDefaultCoefficientsAsync(dbContextFactory),
+                    CreateCommunicationMediaAsync(dbContextFactory)
                 };
                 await Task.WhenAll(tasks);
+                await CreateDefaultSuscriptionMessageAsync(dbContextFactory);
             }
             
         }
@@ -238,6 +241,67 @@ namespace TPDDSBackend
                 await dbContext.SaveChangesAsync();
 
                 Console.WriteLine("Se crearon coeficientes de beneficio por defecto");
+            }
+        }
+        private static async Task CreateCommunicationMediaAsync(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        {
+            await using var dbContext = dbContextFactory.CreateDbContext();
+
+            if (!dbContext.CommunicationMedias.Any())
+            {
+                var communicationMedias = new List<CommunicationMedia>
+            {
+                new CommunicationMedia { Name = CommunicationMediaName.Mail },
+                new CommunicationMedia { Name = CommunicationMediaName.WhatsApp },
+                new CommunicationMedia { Name = CommunicationMediaName.Telegram }
+            };
+
+                dbContext.CommunicationMedias.AddRange(communicationMedias);
+                await dbContext.SaveChangesAsync();
+
+                Console.WriteLine("Se crearon medios de comunicacion");
+            }
+        }
+
+        private static async Task CreateDefaultSuscriptionMessageAsync(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        {
+            await using var dbContext = dbContextFactory.CreateDbContext();
+            
+            if (!dbContext.SubscriptionMessages.Any())
+            {
+                string defaultMessage = "Tiene una notificacion pendientes de heladera";
+                var subscriptionMessages = new List<SubscriptionMessage>
+            {
+                new SubscriptionMessage 
+                { 
+                    CreatedAt = DateTime.UtcNow,
+                    ValidFrom = DateTime.UtcNow,
+                    ValidUntil = DateTime.UtcNow.AddYears(1),
+                    Message = defaultMessage,
+                    CommunicationMedia = dbContext.CommunicationMedias.Where(m => m.Name == CommunicationMediaName.Mail).First()
+                },
+                new SubscriptionMessage 
+                {
+                    CreatedAt = DateTime.UtcNow,
+                    ValidFrom = DateTime.UtcNow,
+                    ValidUntil = DateTime.UtcNow.AddYears(1),
+                    Message = defaultMessage,
+                    CommunicationMedia = dbContext.CommunicationMedias.Where(m => m.Name == CommunicationMediaName.Telegram).First()
+                },
+                new SubscriptionMessage 
+                {
+                    CreatedAt = DateTime.UtcNow,
+                    ValidFrom = DateTime.UtcNow,
+                    ValidUntil = DateTime.UtcNow.AddYears(1),
+                    Message = defaultMessage,
+                    CommunicationMedia = dbContext.CommunicationMedias.Where(m => m.Name == CommunicationMediaName.WhatsApp).First()
+                }
+            };
+
+                dbContext.SubscriptionMessages.AddRange(subscriptionMessages);
+                await dbContext.SaveChangesAsync();
+
+                Console.WriteLine("Se crearon mensajes por defecto para los medio de comunicacion");
             }
         }
     }

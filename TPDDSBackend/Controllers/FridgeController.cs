@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using TPDDSBackend.Aplication.Commands;
 using TPDDSBackend.Aplication.Commands.Fridges;
 using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
@@ -101,6 +102,29 @@ namespace TPDDSBackend.Controllers
         {
             await _mediator.Send(new OpenFridgeCommand(request));
 
+            return NoContent();
+        }
+
+
+        [Authorize]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "entidad no encontrada", typeof(CustomResponse<string>))]
+        [SwaggerResponse(StatusCodes.Status200OK, "se ha creado una nueva suscripcion", typeof(CustomResponse<CreateFridgeSubscriptionResponse>))]
+        [HttpPost("subscription")]
+        public async Task<IActionResult> CreateFridgeSuscription([FromBody] CreateFridgeSubscriptionRequest request)
+        {
+            var result = await _mediator.Send(new CreateFridgeSubscriptionCommand(request));
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPatch("subscription/{id}")]
+        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "entidad no encontrada", typeof(CustomResponse<string>))]
+        public async Task<IActionResult> UpdateFridgeSuscription(int id, [FromBody] UpdateFridgeSuscriptionRequest request)
+        {
+            var result = await _mediator.Send(new UpdateFridgeSuscriptionCommand(request, id));
             return NoContent();
         }
     }
