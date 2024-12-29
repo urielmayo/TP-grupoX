@@ -20,6 +20,13 @@ namespace TPDDSBackend.Aplication.Mappers
                 .ForMember(dest => dest.Model, opt => opt.MapFrom(src => src.Name));
             CreateMap<OpeningRequest, FridgeOpening>()
                 .ForMember(dest => dest.OpeningFor, opt => opt.MapFrom(src => (OpeningFor)Enum.Parse(typeof(OpeningFor), src.OpeningFor)));
+
+            CreateMap<CreateFridgeSubscriptionRequest, FridgeSubscription>()
+                 .ForAllMembers(opts =>
+                opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<FridgeSubscription, CreateFridgeSubscriptionResponse>()
+                .ForMember(dest => dest.CommunicationMedia, opt => opt.MapFrom(src => src.CommunicationMediaDesired.Name));
         }
     }
 }

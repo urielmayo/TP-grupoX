@@ -62,6 +62,12 @@ namespace TPDDSBackend.Domain.EF.DBContexts
         public DbSet<Card> Cards { get; set; }
 
         public DbSet<CollaboratorCard> CollaboratorCards { get; set; }
+
+        public DbSet<FridgeSubscription> FridgeSubscriptions { get; set; }
+
+        public DbSet<CommunicationMedia> CommunicationMedias { get; set; }
+
+        public DbSet<SubscriptionMessage> SubscriptionMessages { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
             base(options)
         {
