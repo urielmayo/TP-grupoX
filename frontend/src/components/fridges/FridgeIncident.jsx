@@ -3,17 +3,27 @@ import { useState } from "react";
 import Modal from "../UI/Modal";
 import FormTitle from "../UI/form/FormTitle";
 import Field from "../UI/form/Field";
+import FormError from "../UI/form/FormError";
 import SubmitButton from "../UI/form/SubmitButton";
 
 export default function FridgeIncident() {
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
   const data = useActionData();
-  console.log(data);
 
   return (
     <Modal onClose={() => navigate("../")}>
       <Form method="POST">
+        {data?.errors && (
+          <FormError>
+            <ul>
+              {Object.keys(data.errors).map((key) =>
+                data.errors[key].map((item) => <li key={item}>{item}</li>)
+              )}
+            </ul>
+          </FormError>
+        )}
+
         <FormTitle text="Reportar incidente de heladera" />
         <br />
         <div className="flex items-center justify-center w-full">
