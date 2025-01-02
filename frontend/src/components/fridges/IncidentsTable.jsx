@@ -1,5 +1,17 @@
 /* eslint-disable react/prop-types */
+
+function translateIncidentType(incidentType) {
+  console.log(incidentType);
+  console.log(incidentType === "FridgeFailure");
+
+  if (incidentType === "FridgeFailure") {
+    return "Falla";
+  }
+}
+
 export default function IncidentsTable({ incidents }) {
+  console.log(incidents);
+
   return (
     <table className="table-fixed border-collapse ">
       <thead>
@@ -17,9 +29,11 @@ export default function IncidentsTable({ incidents }) {
         {incidents.map((incident) => (
           <tr key={incident.id}>
             <td className="border py-1 px-10">
-              {new Date(incident.date).toDateString()}
+              {new Date(incident.date).toLocaleDateString("es-AR")}
             </td>
-            <td className="border py-1 px-10 ">{incident.type}</td>
+            <td className="border py-1 px-10 ">
+              {translateIncidentType(incident.type)}
+            </td>
             <td className="border py-1 px-10">{incident.description}</td>
           </tr>
         ))}
