@@ -21,6 +21,9 @@ import BulkContributionsPage from "./pages/contributions/BulkContributions";
 import FridgesListPage from "./pages/fridges/FridgesList";
 import FridgeVisitPage from "./pages/fridges/FridgeVisit";
 import FridgeIncidentPage from "./pages/fridges/FridgeIncident";
+import ReportsPage from "./pages/Reports";
+import FridgeDetailPage from "./pages/fridges/FridgesDetail";
+import TechnicianVisitPage from "./pages/technicians/TechnicianVisit";
 
 // actions
 import { loginAction } from "./pages/Login";
@@ -32,11 +35,14 @@ import { updateCoefficientAction } from "./pages/Coefficients";
 import { bulkContribAction } from "./pages/contributions/BulkContributions";
 import { createFridgeVisitAction } from "./pages/fridges/FridgeVisit";
 import { fridgeIncidentAction } from "./pages/fridges/FridgeIncident";
+import { reportsAction } from "./pages/Reports";
+import { technicianVisitAction } from "./pages/technicians/TechnicianVisit";
 // loaders
 import { userLoader } from "./utils/auth";
 import { contributionLoader } from "./loaders/contributionsLoader";
 import { profileLoader } from "./loaders/profileLoader";
 import { benefitsLoader } from "./loaders/benefitsLoader";
+import { reportsLoader } from "./loaders/reportsLoader";
 import {
   fridgesLoader,
   fridgeLoader,
@@ -49,7 +55,6 @@ import {
   techniciansLoader,
   technicianLoader,
 } from "./loaders/techniciansLoader";
-import FridgeDetailPage from "./pages/fridges/FridgesDetail";
 
 const router = createBrowserRouter([
   {
@@ -106,6 +111,12 @@ const router = createBrowserRouter([
         loader: benefitsLoader,
       },
       {
+        path: "reports",
+        element: <ReportsPage />,
+        loader: reportsLoader,
+        action: reportsAction,
+      },
+      {
         path: "fridges",
         children: [
           {
@@ -132,6 +143,11 @@ const router = createBrowserRouter([
             ],
           },
         ],
+      },
+      {
+        path: "visit/:uuid",
+        element: <TechnicianVisitPage />,
+        action: technicianVisitAction,
       },
       {
         path: "technicians",
