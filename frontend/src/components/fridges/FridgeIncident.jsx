@@ -4,7 +4,6 @@ import Modal from "../UI/Modal";
 import FormTitle from "../UI/form/FormTitle";
 import Field from "../UI/form/Field";
 import SubmitButton from "../UI/form/SubmitButton";
-import FormError from "../UI/form/FormError";
 
 export default function FridgeIncident() {
   const [file, setFile] = useState(null);
@@ -67,7 +66,11 @@ export default function FridgeIncident() {
         {data?.error && (
           <div className="text-red-500 text-sm mt-2">{data.error}</div>
         )}
-        <SubmitButton text="Reportar" />
+        {(data?.succeded && (
+          <div className="mt-4 font-bold text-sm">
+            Su falla se ha reportado exitosamente.
+          </div>
+        )) || <SubmitButton text="Reportar" />}
       </Form>
     </Modal>
   );

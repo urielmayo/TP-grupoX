@@ -2,6 +2,7 @@
 import { config } from "../../config";
 import { json } from "react-router-dom";
 import FridgeIncident from "../../components/fridges/FridgeIncident";
+import { authHeaders } from "../../utils/auth";
 
 export default function FridgeIncidentPage() {
   return <FridgeIncident />;
@@ -25,7 +26,7 @@ export async function fridgeIncidentAction({ request, params }) {
       `${config.BACKEND_URL}/fridge-incident/failure`,
       {
         method: "POST",
-        headers: { Authorization: `Bearer ${sessionStorage.getItem("jwt")}` },
+        headers: authHeaders(),
         body: JSON.stringify(data),
       }
     );
