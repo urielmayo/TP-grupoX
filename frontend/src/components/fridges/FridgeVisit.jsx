@@ -39,7 +39,10 @@ export default function FridgeVisit() {
             <h1 className="font-bold">{formData.message}</h1>
             <p>
               Compartir el siguiete{" "}
-              <Link to={uuid} className="text-blue-600 hover:underline">
+              <Link
+                to={`/visit/${uuid}`}
+                className="text-blue-600 hover:underline"
+              >
                 link
               </Link>{" "}
               para completar la informacion de la visita
