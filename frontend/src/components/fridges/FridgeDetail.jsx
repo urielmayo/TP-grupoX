@@ -34,21 +34,22 @@ export default function FridgeDetail() {
           <div className="flex-1">
             <div className="flex justify-between items-baseline">
               <h1 className="text-4xl">{name}</h1>
+
               {(!active && (
                 <div className="mb-2">
+                  {role === "Admin" && (
+                    <Link
+                      to="visit"
+                      className="bg-gray-800 hover:bg-gray-700 px-2 py-1 text-white text-xl rounded-lg mr-2"
+                    >
+                      Programar visita
+                    </Link>
+                  )}
                   <span className="px-2 py-1 bg-auto bg-red-300 rounded-md text-xl font-bold">
                     Esta heladera se encuentra inactiva
                   </span>
                 </div>
               )) ||
-                (role === "Admin" && (
-                  <Link
-                    to="visit"
-                    className="bg-gray-800 hover:bg-gray-700 px-2 py-1 text-white text-xl rounded-lg"
-                  >
-                    Programar visita
-                  </Link>
-                )) ||
                 (role === "Collaborator" && (
                   <Link
                     to="incident"
