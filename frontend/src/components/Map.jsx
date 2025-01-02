@@ -9,7 +9,7 @@ export default function Map({ fridges }) {
       className="z-0"
       center={UTN_COORDS}
       zoom={12}
-      style={{ height: "750px", width: "100%", zIndex: 0 }}
+      style={{ height: "750px", width: "100%" }}
       scrollWheelZoom={true}
     >
       <TileLayer

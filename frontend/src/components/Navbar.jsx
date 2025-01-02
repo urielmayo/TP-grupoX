@@ -24,7 +24,7 @@ export default function Navbar() {
   const isLogged = user !== null;
 
   return (
-    <nav className="bg-gray-900 text-white p-4 justify-between flex w-full sticky top-0">
+    <nav className="bg-gray-900 text-white p-4 justify-between flex w-full sticky top-0 z-50">
       <div className="flex justify-start gap-x-4">
         <NavLink to="" className="hover:underline">
           SiMAA
@@ -52,6 +52,9 @@ export default function Navbar() {
                 </NavLink>
                 <NavLink to="technicians" className="hover:underline">
                   Técnicos
+                </NavLink>
+                <NavLink to="reports" className="hover:underline">
+                  Reportes
                 </NavLink>
               </>
             )}
