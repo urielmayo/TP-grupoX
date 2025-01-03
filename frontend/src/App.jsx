@@ -24,6 +24,7 @@ import FridgeIncidentPage from "./pages/fridges/FridgeIncident";
 import ReportsPage from "./pages/Reports";
 import FridgeDetailPage from "./pages/fridges/FridgesDetail";
 import TechnicianVisitPage from "./pages/technicians/TechnicianVisit";
+import FridgeUpdatePage from "./pages/fridges/FridgeUpdate";
 
 // actions
 import { loginAction } from "./pages/Login";
@@ -37,6 +38,7 @@ import { createFridgeVisitAction } from "./pages/fridges/FridgeVisit";
 import { fridgeIncidentAction } from "./pages/fridges/FridgeIncident";
 import { reportsAction } from "./pages/Reports";
 import { technicianVisitAction } from "./pages/technicians/TechnicianVisit";
+import { updateFridgeAction } from "./pages/fridges/FridgeUpdate";
 // loaders
 import { userLoader } from "./utils/auth";
 import { contributionLoader } from "./loaders/contributionsLoader";
@@ -88,8 +90,19 @@ const router = createBrowserRouter([
           },
           {
             path: ":id",
-            element: <ContributionDetailPage />,
+            id: "contributionDetail",
             loader: contributionLoader,
+            children: [
+              {
+                index: true,
+                element: <ContributionDetailPage />,
+              },
+              {
+                path: "update",
+                element: <FridgeUpdatePage />,
+                action: updateFridgeAction,
+              },
+            ],
           },
         ],
       },

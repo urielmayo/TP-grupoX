@@ -6,7 +6,6 @@ import ContributionCard from "./ContributionCard";
 
 export default function ContributionList() {
   const { type: userType, contributions } = useLoaderData();
-  console.log(userType);
 
   const [activeType, setActiveType] = useState("all");
 

@@ -1,4 +1,6 @@
-import { useLoaderData, Link } from "react-router-dom";
+import { useLoaderData, Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { config } from "../../config";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import { getUserData } from "../../utils/auth";
 import IncidentsTable from "./IncidentsTable";
@@ -20,9 +22,63 @@ export default function FridgeDetail() {
     active,
     setUpAt,
     currentTemperature,
+    subscription,
   } = useLoaderData();
+
   const { role } = getUserData();
+
   const setUpDate = new Date(setUpAt);
+  const params = useParams();
+
+  const [availableValue, setAvailableValue] = useState("");
+  const [fullValue, setFullValue] = useState("");
+
+  const isValidAvailable = availableValue !== "" && Number(availableValue) >= 0;
+  const isValidFull = fullValue !== "" && Number(fullValue) >= 0;
+
+  async function handleSubscription(type) {
+    const subscriptionData = {
+      availableFoodsQuantity: 0,
+      fullFoodsQuantity: 0,
+      incident: false,
+      communicationMedia: "email",
+    };
+
+    switch (type) {
+      case "availableFoodsQuantity":
+        subscriptionData.availableFoodsQuantity = Number(availableValue);
+        break;
+      case "fullFoodsQuantity":
+        subscriptionData.fullFoodsQuantity = Number(fullValue);
+        break;
+      case "incident":
+        subscriptionData.incident = true;
+        break;
+    }
+
+    let url = `${config.BACKEND_URL}/Fridge/subscription`;
+    if (subscription === null) {
+      subscriptionData.fridgeId = Number(params.id);
+    } else {
+      url = `${url}/${params.id}`;
+    }
+
+    try {
+      const response = await fetch(url, {
+        method: subscription === null ? "POST" : "PATCH",
+        body: JSON.stringify(subscriptionData),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) {
+        throw new Error("Error al procesar la suscripción");
+      }
+    } catch (error) {
+      throw new Error("Error al procesar la suscripción");
+    }
+
+    // Re-fetch data using the loader to update the page
+    window.location.reload();
+  }
 
   return (
     <div>
@@ -37,6 +93,9 @@ export default function FridgeDetail() {
 
               {(!active && (
                 <div className="mb-2">
+                  <span className="px-2 py-1 bg-auto text-red-500 rounded-md text-xl">
+                    Esta heladera se encuentra inactiva
+                  </span>
                   {role === "Admin" && (
                     <Link
                       to="visit"
@@ -45,9 +104,6 @@ export default function FridgeDetail() {
                       Programar visita
                     </Link>
                   )}
-                  <span className="px-2 py-1 bg-auto bg-red-300 rounded-md text-xl font-bold">
-                    Esta heladera se encuentra inactiva
-                  </span>
                 </div>
               )) ||
                 (role === "Collaborator" && (
@@ -79,42 +135,71 @@ export default function FridgeDetail() {
             {(lastFridgeIncidents.length && (
               <IncidentsTable incidents={lastFridgeIncidents} />
             )) || (
-              <p className="font-thin text-sm">
-                Esta heladera no tiene incidentes reportados
-              </p>
+              <p className="font-thin text-sm">Sin incidentes reportados</p>
             )}
             <br />
             {active && (
               <>
                 <h1 className="text-xl">Avisarme cuando ...</h1>
-                <ul className="list-disc list-inside mt-3">
-                  <li className="mb-2">
+                <div className="grid grid-cols-[1fr,auto] gap-4 mt-3">
+                  <div className="flex items-center">
                     Queden{" "}
                     <input
-                      className="border rounded-sm max-w-10"
+                      className="border rounded-sm max-w-10 mx-2"
                       type="number"
-                      name=""
-                      id=""
+                      name="availableFoodsQuantity"
+                      value={availableValue}
+                      onChange={(e) => setAvailableValue(e.target.value)}
+                      min="0"
                     />{" "}
                     viandas para que la heladera quede vacia
-                    <button className="ml-10 px-2 py-1 bg-blue-600 rounded-md text-white">
-                      Avisame
-                    </button>
-                  </li>
-                  <li className="mb-2">
+                  </div>
+                  <button
+                    className={`px-2 py-1 rounded-md text-white ${
+                      isValidAvailable
+                        ? "bg-blue-600"
+                        : "bg-gray-400 cursor-not-allowed"
+                    }`}
+                    onClick={() => handleSubscription("availableFoodsQuantity")}
+                    disabled={!isValidAvailable}
+                  >
+                    Avisame
+                  </button>
+
+                  <div className="flex items-center">
                     Queden{" "}
                     <input
-                      className="border rounded-sm max-w-10"
+                      className="border rounded-sm max-w-10 mx-2"
                       type="number"
-                      name=""
-                      id=""
+                      name="fullFoodsQuantity"
+                      value={fullValue}
+                      onChange={(e) => setFullValue(e.target.value)}
+                      min="0"
                     />{" "}
                     viandas para que la heladera se llene
-                    <button className="ml-10 px-2 py-1 bg-blue-600 rounded-md text-white">
-                      Avisame
-                    </button>
-                  </li>
-                </ul>
+                  </div>
+                  <button
+                    className={`px-2 py-1 rounded-md text-white ${
+                      isValidFull
+                        ? "bg-blue-600"
+                        : "bg-gray-400 cursor-not-allowed"
+                    }`}
+                    onClick={() => handleSubscription("fullFoodsQuantity")}
+                    disabled={!isValidFull}
+                  >
+                    Avisame
+                  </button>
+
+                  <div className="flex items-center">
+                    Se reporte un incidente
+                  </div>
+                  <button
+                    className="px-2 py-1 bg-blue-600 rounded-md text-white"
+                    onClick={() => handleSubscription("incident")}
+                  >
+                    Avisame
+                  </button>
+                </div>
               </>
             )}
           </div>

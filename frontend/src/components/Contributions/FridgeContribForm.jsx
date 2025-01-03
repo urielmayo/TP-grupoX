@@ -5,9 +5,12 @@ import Field from "../UI/form/Field";
 import SubmitButton from "../UI/form/SubmitButton";
 import LocationSuggestions from "./LocationSuggestions";
 
-export default function FridgeContribForm() {
-  const [address, setAddress] = useState("");
-  const [coordinates, setCoordinates] = useState({ lat: "", lng: "" });
+export default function FridgeContribForm({ attributes }) {
+  const [address, setAddress] = useState(attributes?.address);
+  const [coordinates, setCoordinates] = useState({
+    lat: attributes?.latitude,
+    lng: attributes?.longitude,
+  });
   const [showSuggestionFields, setShowSuggestionFields] = useState(false);
 
   const handleChange = (e) => {
@@ -55,14 +58,18 @@ export default function FridgeContribForm() {
   };
 
   return (
-    <Form method="post">
-      <input type="hidden" name="type" value="fridge" />
+    <Form method={!attributes ? "post" : "put"}>
+      {!attributes && <input type="hidden" name="type" value="fridge" />}
+      {attributes?.fridgeId && (
+        <input type="hidden" name="fridgeId" value={attributes.fridgeId} />
+      )}
       <Field
         label={"Nombre"}
         name={"name"}
         type={"text"}
         placeholder={"Ingresar nombre representativo"}
         required
+        defaultValue={attributes?.name}
       />
       <Field
         label={"direccion"}
@@ -115,6 +122,7 @@ export default function FridgeContribForm() {
         label={"Cantidad maxima de viandas"}
         name={"maxFoodCapacity"}
         type={"number"}
+        defaultValue={attributes?.capacity}
         required
       />
       <Field
@@ -122,9 +130,16 @@ export default function FridgeContribForm() {
         name={"setUpAt"}
         type={"date"}
         required
+        defaultValue={
+          attributes?.setup_date
+            ? new Date(attributes.setup_date).toISOString().split("T")[0]
+            : ""
+        }
       />
 
-      <SubmitButton text={"Cargar heladera"} />
+      <SubmitButton
+        text={attributes?.fridgeId ? "Actualizar heladera" : "Cargar heladera"}
+      />
     </Form>
   );
 }
