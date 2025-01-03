@@ -22,5 +22,7 @@ namespace TPDDSBackend.Aplication.Dtos.Responses
         public List<GetFridgeIncidentResponse> LastFridgeIncidents { get; set; }
 
         public GetFridgeSubscriptionResponse? Subscription { get; set; }
+
+        public IList<GetOpeningResponse> LastOpenings { get; set; }
     }
 }

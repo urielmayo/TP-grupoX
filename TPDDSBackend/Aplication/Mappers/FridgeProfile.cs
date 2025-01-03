@@ -31,6 +31,10 @@ namespace TPDDSBackend.Aplication.Mappers
 
             CreateMap<FridgeSubscription, GetFridgeSubscriptionResponse>()
                 .ForMember(dest => dest.CommunicationMedia, opt => opt.MapFrom(src => src.CommunicationMediaDesired.Name));
+
+            CreateMap<FridgeOpening, GetOpeningResponse>()
+                .ForMember(dest => dest.CardCode, opt => opt.MapFrom(src => src.Card.Code))
+                .ForMember(dest => dest.OpeningFor, opt => opt.MapFrom(src => src.OpeningFor.ToString()));
         }
     }
 }
