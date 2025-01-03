@@ -83,6 +83,10 @@ namespace TPDDSBackend.Aplication.Queries
                     Description = description,
                 });
             }
+            var fridgeOpenings = await _fridgeRepository.GetOpeningsByFridge(fridge.Id);
+
+            var getOpenings = _mapper.Map<IList<GetOpeningResponse>>(fridgeOpenings);
+
             var jwt = _httpContextAccessor.HttpContext.Request.Headers.Authorization;
 
             (string collaboradorId, _) = _jwtFactory.GetClaims(jwt);
@@ -102,6 +106,7 @@ namespace TPDDSBackend.Aplication.Queries
                 Active = fridge.Active,
                 SetUpAt = fridge.SetUpAt,
                 CurrentTemperature = fridge.LastTemperature,
+                LastOpenings = getOpenings,
             };
 
             if (subscription is not null)

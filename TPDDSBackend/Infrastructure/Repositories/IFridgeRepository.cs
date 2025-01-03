@@ -1,4 +1,5 @@
-﻿using TPDDSBackend.Domain.Entitites;
+﻿using TPDDSBackend.Domain.Entities;
+using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Infrastructure.Repositories
 {
@@ -9,5 +10,7 @@ namespace TPDDSBackend.Infrastructure.Repositories
         Task<Fridge?> GetById(int id);
 
         Task<List<Food>> GetFoodsByFridge(int fridgeId);
+
+        Task<List<FridgeOpening>> GetOpeningsByFridge(int fridgeId);
     }
 }
