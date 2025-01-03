@@ -15,7 +15,9 @@ namespace TPDDSBackend.Aplication.Services.Strategies
                 { "fridgeId", donation.Fridge.Id},
                 { "name", donation.Fridge.Name },
                 { "address", donation.Fridge.Address },
-                { "setup_date", donation.Fridge.Address },
+                { "setup_date", donation.Fridge.SetUpAt },
+                { "latitude", donation.Fridge.Latitud },
+                { "longitude", donation.Fridge.Longitud },
                 { "capacity", donation.Fridge.MaxFoodCapacity },
             };
         }
