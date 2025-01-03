@@ -20,5 +20,7 @@ namespace TPDDSBackend.Aplication.Dtos.Responses
         public float CurrentTemperature { get; set; }
 
         public List<GetFridgeIncidentResponse> LastFridgeIncidents { get; set; }
+
+        public GetFridgeSubscriptionResponse? Subscription { get; set; }
     }
 }
