@@ -1,17 +1,12 @@
 /* eslint-disable react/prop-types */
 
 function translateIncidentType(incidentType) {
-  console.log(incidentType);
-  console.log(incidentType === "FridgeFailure");
-
   if (incidentType === "FridgeFailure") {
     return "Falla";
   }
 }
 
 export default function IncidentsTable({ incidents }) {
-  console.log(incidents);
-
   return (
     <table className="table-fixed border-collapse ">
       <thead>
