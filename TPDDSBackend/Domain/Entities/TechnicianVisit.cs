@@ -19,5 +19,7 @@ namespace TPDDSBackend.Domain.Entities
         public byte[]? Image { get; set; }
 
         public Guid UuidToComplete { get; set; }
+
+        public bool Completed { get; set; }
     }
 }
