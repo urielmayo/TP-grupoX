@@ -5,6 +5,7 @@ using TPDDSBackend.Aplication.Dtos.Requests;
 using TPDDSBackend.Aplication.Dtos.Responses;
 using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Domain.Entities;
+using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 
 namespace TPDDSBackend.Aplication.Commands
@@ -24,13 +25,16 @@ namespace TPDDSBackend.Aplication.Commands
     {
         private readonly IMapper _mapper;
         private readonly ITechnicianVisitRepository _technicianVisitRepository;
+        private readonly IGenericRepository<Fridge> _fridgeRepository;
 
 
         public CompleteTechnicianVisitCommandHandler(IMapper mapper,
-            ITechnicianVisitRepository technicianVisitRepository)
+            ITechnicianVisitRepository technicianVisitRepository,
+            IGenericRepository<Fridge> fridgeRepository)
         {
             _technicianVisitRepository = technicianVisitRepository;
             _mapper = mapper;
+            _fridgeRepository = fridgeRepository;
         }
 
         public async Task<Unit> Handle(CompleteTechnicianVisitCommand command, CancellationToken ct)
@@ -38,9 +42,13 @@ namespace TPDDSBackend.Aplication.Commands
 
             var visit = await _technicianVisitRepository.GetByUuid(command.Uuid);
 
-            if (visit == null) 
+            if (visit == null)  
             {
                 throw new ApiCustomException("visita no encontrada", HttpStatusCode.NotFound);
+            }
+            if (visit.Completed)
+            {
+                throw new ApiCustomException("Ya fue completada esa visita", HttpStatusCode.UnprocessableEntity);
             }
 
             byte[]? fotoBytes = null;
@@ -52,8 +60,16 @@ namespace TPDDSBackend.Aplication.Commands
             }
             _mapper.Map(command.Request, visit);
             visit.Image = fotoBytes;
+            visit.Completed = true;
 
-            _technicianVisitRepository.Update(visit);          
+            _technicianVisitRepository.Update(visit);
+
+            if (visit.FridgeRepaired)
+            {
+                var fridge = await _fridgeRepository.GetById(visit.FridgeId);
+                fridge!.Active = true;
+                _fridgeRepository.Update(fridge);
+            }
 
             return Unit.Value;
         }

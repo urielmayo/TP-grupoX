@@ -36,7 +36,7 @@ namespace TPDDSBackend.Aplication.Commands.Fridges
         {
             
             var visit = _mapper.Map<TechnicianVisit>(command.Request);
-
+            visit.Completed = false;
             await _technicianVisitRepository.Insert(visit);
 
             var visitXTech = new VisitXTechnician()
