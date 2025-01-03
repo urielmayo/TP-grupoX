@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TPDDSBackend.Constans;
 using TPDDSBackend.Domain.EF.DBContexts;
+using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
 
 namespace TPDDSBackend.Infrastructure.Repositories
@@ -33,6 +34,13 @@ namespace TPDDSBackend.Infrastructure.Repositories
             return await _dbContext.Food.
                 Where(f => f.FridgeId == fridgeId)
                 .ToListAsync();           
+        }
+
+        public async Task<List<FridgeOpening>> GetOpeningsByFridge(int fridgeId)
+        {
+            return await _dbContext.FridgeOpenings 
+                .Where(f => f.FridgeId == fridgeId)
+                .ToListAsync();
         }
     }
 }
