@@ -7,6 +7,7 @@ using TPDDSBackend.Aplication.Managers;
 using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
+using TPDDSBackend.Infrastructure.Services;
 
 namespace TPDDSBackend.Aplication.Queries
 {
@@ -27,15 +28,27 @@ namespace TPDDSBackend.Aplication.Queries
         private readonly IFridgeIncidentRepository _fridgeIncidentRepository;
         private readonly IGenericRepository<FridgeFailure> _fridgeFailureRepository;
         private readonly IGenericRepository<FridgeAlert> _fridgeAlertRepository;
+        private readonly IFridgeSubscriptionRepository _fridgeSubscriptionRepository;
+        private readonly IMapper _mapper;
+        private readonly IJwtFactory _jwtFactory;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public GetFridgeQueryHandler(IFridgeRepository fridgeRepository,
              IFridgeIncidentRepository fridgeIncidentRepository,
              IGenericRepository<FridgeFailure> fridgeFailureRepository,
-             IGenericRepository<FridgeAlert> fridgeAlertRepository)
+             IGenericRepository<FridgeAlert> fridgeAlertRepository,
+             IFridgeSubscriptionRepository fridgeSubscriptionRepository,
+             IMapper mapper,
+             IJwtFactory jwtFactory,
+             IHttpContextAccessor httpContextAccessor)
         {
             _fridgeRepository = fridgeRepository;
             _fridgeFailureRepository = fridgeFailureRepository;
             _fridgeAlertRepository = fridgeAlertRepository;
             _fridgeIncidentRepository = fridgeIncidentRepository;
+            _fridgeSubscriptionRepository = fridgeSubscriptionRepository;
+            _mapper = mapper;
+            _jwtFactory = jwtFactory;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<CustomResponse<GetFridgeResponse>> Handle(GetFridgeQuery query, CancellationToken ct)
@@ -70,6 +83,11 @@ namespace TPDDSBackend.Aplication.Queries
                     Description = description,
                 });
             }
+            var jwt = _httpContextAccessor.HttpContext.Request.Headers.Authorization;
+
+            (string collaboradorId, _) = _jwtFactory.GetClaims(jwt);
+
+            var subscription = await _fridgeSubscriptionRepository.GetByFridgeAndCollaboratorAsync(fridge.Id, collaboradorId);
 
             var fridgeResponse = new GetFridgeResponse()
             {
@@ -83,8 +101,13 @@ namespace TPDDSBackend.Aplication.Queries
                 LastFridgeIncidents = incidentsResponse,
                 Active = fridge.Active,
                 SetUpAt = fridge.SetUpAt,
-                CurrentTemperature = fridge.LastTemperature
+                CurrentTemperature = fridge.LastTemperature,
             };
+
+            if (subscription is not null)
+            {
+                fridgeResponse.Subscription = _mapper.Map<GetFridgeSubscriptionResponse>(subscription);
+            }
 
             return new CustomResponse<GetFridgeResponse>("heladera encontrada", fridgeResponse);
             
