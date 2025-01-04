@@ -63,8 +63,7 @@ namespace TPDDSBackend.Aplication.Commands.Fridges
 
 
             if (command?.Request?.SetUpAt is not null)
-                entity.SetUpAt = (DateTime)command.Request.SetUpAt;
-
+                entity.SetUpAt = DateTime.SpecifyKind((DateTime)command.Request.SetUpAt, DateTimeKind.Utc);
 
             if (command?.Request?.MaxFoodCapacity is not null)
                 entity.MaxFoodCapacity = (int)command.Request.MaxFoodCapacity;
