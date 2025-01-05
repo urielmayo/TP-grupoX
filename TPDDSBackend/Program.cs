@@ -81,6 +81,7 @@ builder.Services.AddScoped<ITechnicianVisitRepository, TechnicianVisitRepository
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<ICommunicationMediaRepository, CommunicationMediaRepository>();
 builder.Services.AddScoped<IFridgeSubscriptionRepository, FridgeSubscriptionRepository>();
+builder.Services.AddScoped<ICollaboratorRepository, CollaboratorRepository>();
 builder.Services.AddTransient<IGenericRepository<PersonInVulnerableSituation>, PersonInVulnerableSituationRepository>();
 builder.Services.AddScoped<IJwtFactory, JwtFactory>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
