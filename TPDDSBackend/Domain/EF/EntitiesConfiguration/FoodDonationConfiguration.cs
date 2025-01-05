@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TPDDSBackend.Domain.Entitites;
+using TPDDSBackend.Domain.Enums;
 
 namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
 {
@@ -21,7 +22,8 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
             .HasForeignKey(x => x.FridgeId);
 
             builder.Property(x => x.Status)
-            .HasConversion<string>();
+            .HasConversion<string>()
+            .HasDefaultValue(ContributionStatus.Done);
         }
     }
 }
