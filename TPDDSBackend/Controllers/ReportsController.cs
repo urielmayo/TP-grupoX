@@ -24,42 +24,48 @@ namespace TPDDSBackend.Controllers
 
         [HttpGet("fridge-failures")]
         [Authorize(Roles = "Admin")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Cantidad de fallas por heladera", typeof(CustomResponse<List<FridgeIncidentCountDto>>))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Cantidad de fallas por heladera", typeof(List<FridgeIncidentCountDto>))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Bad Request", typeof(CustomResponse<string>))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         [SwaggerResponse(StatusCodes.Status403Forbidden)]
+        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [Produces("application/json", "text/csv", "application/pdf")]
         public async Task<IActionResult> GetTotalFailuresByFridge([FromQuery] DateTime? from, [FromQuery] DateTime? to)
         {
             var result = await _mediator.Send(new GetFridgeFailureReportQuery(from,to));
 
-            return Ok(result);
+            return Ok(result.Data);
         }
 
 
         [HttpGet("fridge-movements")]
         [Authorize(Roles = "Admin")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Cantidad de viandas retiradas y colocadas por heladera", typeof(CustomResponse<List<FridgeIncidentCountDto>>))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Cantidad de viandas retiradas y colocadas por heladera", typeof(List<FridgeIncidentCountDto>))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Bad Request", typeof(CustomResponse<string>))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         [SwaggerResponse(StatusCodes.Status403Forbidden)]
+        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [Produces("application/json", "text/csv", "application/pdf")]
         public async Task<IActionResult> GetTotalFoodsInOutByFridge([FromQuery] DateTime? from, [FromQuery] DateTime? to)
         {
             var result = await _mediator.Send(new GetFridgeMovementsReportQuery(from, to));
 
-            return Ok(result);
+            return Ok(result.Data);
         }
 
         [HttpGet("foods-by-collaborator")]
         [Authorize(Roles = "Admin")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Cantidad de viandas retiradas y colocadas por heladera", typeof(CustomResponse<List<FridgeIncidentCountDto>>))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Cantidad de viandas retiradas y colocadas por heladera", typeof(List<FridgeIncidentCountDto>))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Bad Request", typeof(CustomResponse<string>))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         [SwaggerResponse(StatusCodes.Status403Forbidden)]
+        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [Produces("application/json", "text/csv", "application/pdf")]
         public async Task<IActionResult> GetTotalDonatedFoodsByCollaborator([FromQuery] DateTime? from, [FromQuery] DateTime? to)
         {
             var result = await _mediator.Send(new GetTotalDonatedFoodReportQuery(from, to));
 
-            return Ok(result);
+            return Ok(result.Data);
         }
     }
 }

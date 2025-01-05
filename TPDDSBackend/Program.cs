@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using QuestPDF.Infrastructure;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using TPDDSBackend;
 using TPDDSBackend.Aplication;
+using TPDDSBackend.Aplication.Formatters;
 using TPDDSBackend.Aplication.Services;
 using TPDDSBackend.Aplication.Services.Strategies;
 using TPDDSBackend.Aplication.Validators;
@@ -17,6 +19,8 @@ using TPDDSBackend.Domain.Interfaces;
 using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
 using TPDDSBackend.Middlewares;
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,12 +46,19 @@ builder.Services.AddIdentity<Collaborator, IdentityRole>(options =>
     .AddDefaultTokenProviders()
     .AddPasswordValidator<CommonPasswordValidator>();
 
+builder.Services.AddControllers(options =>
+{
+    options.RespectBrowserAcceptHeader = true;
 
-builder.Services.AddControllers()
-        .AddFluentValidation(fv =>
-        {
-            fv.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
-        });
+    // Otros formatters
+    options.OutputFormatters.Add(new CsvOutputFormatter());
+    options.OutputFormatters.Add(new PdfOutputFormatter());
+}).AddFluentValidation(fv =>
+   {
+     fv.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
+    }
+);
+
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 
