@@ -138,7 +138,7 @@ export default function FridgeDetail() {
               <p className="font-thin text-sm">Sin incidentes reportados</p>
             )}
             <br />
-            {active && (
+            {active && role === "Collaborator" && (
               <>
                 <h1 className="text-xl">Avisarme cuando ...</h1>
                 <div className="grid grid-cols-[1fr,auto] gap-4 mt-3">
