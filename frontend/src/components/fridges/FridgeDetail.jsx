@@ -4,11 +4,6 @@ import { getUserData } from "../../utils/auth";
 import IncidentsTable from "./IncidentsTable";
 import NotificationSubscriptions from "./NotificationSubscriptions";
 
-// TODO: mostrar si la heladera esta activa o incativa
-// Mostrar la fecha de inicio de actividad de la heladera
-// Agregar boton y vista para crear falla de la heladera
-// opcional: enviar mail a tecnico con mailto
-
 export default function FridgeDetail() {
   const {
     name,
@@ -93,6 +88,7 @@ export default function FridgeDetail() {
 
           <div className="flex-shrink-0">
             <MapContainer
+              className="z-0"
               center={[latitud, longitud]}
               zoom={15}
               style={{ height: "100%", width: "500px" }}

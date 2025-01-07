@@ -33,11 +33,14 @@ export default function TechnicianVisit() {
           name="file"
           disabled={data?.success}
         />
-        {!data?.success && <SubmitButton text="Registrar visita" />}
+        {!data && <SubmitButton text="Registrar visita" />}
         {data?.success && (
           <p className="mt-4 text-green-500 text-sm">
             Visita cargada con éxito
           </p>
+        )}
+        {!data?.success && (
+          <p className="mt-4 text-red-500 text-sm">{data?.message}</p>
         )}
       </FormLayout>
     </Form>

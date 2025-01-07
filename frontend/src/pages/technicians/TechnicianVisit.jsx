@@ -23,12 +23,14 @@ export async function technicianVisitAction({ request, params }) {
         body: dataToSend,
       }
     );
-    if (!response.ok) {
-      throw json({ message: "Error al registrar la visita" }, { status: 400 });
-    }
     if (response.status === 204) {
       return { success: true };
     }
+    if (response.status === 422) {
+      const data = await response.json();
+      return { success: false, message: data.Errors[0] };
+    }
+    throw json({ message: "Error al registrar la visita" }, { status: 500 });
   } catch (error) {
     console.error(error);
     throw json({ message: "Error al registrar la visita" }, { status: 500 });
