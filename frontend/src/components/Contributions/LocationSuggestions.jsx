@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Field from "../UI/form/Field";
 import { config } from "../../config";
+import { authHeaders } from "../../utils/auth";
 
 export default function LocationSuggestions({ onSelectSuggestion }) {
   const [suggestions, setSuggestions] = useState([]);
@@ -58,10 +59,7 @@ export default function LocationSuggestions({ onSelectSuggestion }) {
         `${config.BACKEND_URL}/Fridge/suggested-locations`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-          },
+          headers: authHeaders(),
           body: JSON.stringify({
             latitude: parseFloat(coordinates.lat),
             longitude: parseFloat(coordinates.lng),
