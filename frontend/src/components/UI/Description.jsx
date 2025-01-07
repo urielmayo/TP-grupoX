@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
-import { forwardRef } from "react";
-const DescriptionGridItem = forwardRef(function DescriptionGridItem(
-  { label, value, editable, inputName, inputType, selectOptions },
-  ref
-) {
+function DescriptionGridItem({
+  label,
+  value,
+  editable,
+  inputName,
+  inputType,
+  selectOptions,
+}) {
   let content;
   if (!editable) {
     content = <p>{value}</p>;
@@ -15,7 +18,6 @@ const DescriptionGridItem = forwardRef(function DescriptionGridItem(
           type={inputType}
           name={inputName}
           defaultValue={value}
-          ref={ref}
         />
       );
     } else {
@@ -32,12 +34,12 @@ const DescriptionGridItem = forwardRef(function DescriptionGridItem(
   }
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between gap-x-4">
       <h1 className="font-bold">{label}:</h1>
       {content}
     </div>
   );
-});
+}
 
 export default function DescriptionGrid({ children }) {
   return <div className="grid gap-y-3">{children}</div>;
