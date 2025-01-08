@@ -25,6 +25,8 @@ namespace TPDDSBackend
                 var userManager = services.GetRequiredService<UserManager<Collaborator>>();
                 var dbContextFactory = services.GetRequiredService<IDbContextFactory<ApplicationDbContext>>();
 
+                MigrateDatabase(dbContextFactory);
+
                 await CreateRolesAsync(roleManager);
                 await CreateAdminUserAsync(userManager);
 
@@ -41,6 +43,12 @@ namespace TPDDSBackend
                 await CreateDefaultSuscriptionMessageAsync(dbContextFactory);
             }
             
+        }
+
+        private static void MigrateDatabase(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        {
+            var dbContext = dbContextFactory.CreateDbContext();
+            dbContext.Database.Migrate();
         }
 
         private static async Task CreateRolesAsync(RoleManager<IdentityRole> roleManager)
