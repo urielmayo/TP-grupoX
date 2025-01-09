@@ -3,28 +3,53 @@
 import { useState } from "react";
 import Field from "../UI/form/Field";
 import { config } from "../../config";
+import { authHeaders } from "../../utils/auth";
 
-export default function LocationSuggestions({
-  onSelectSuggestion,
-  initialCoordinates,
-}) {
+export default function LocationSuggestions({ onSelectSuggestion }) {
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionInput, setSuggestionInput] = useState({
-    lat: initialCoordinates?.lat || "",
-    lng: initialCoordinates?.lng || "",
+    address: "",
     radiusInKm: "",
     numberOfPoints: "",
   });
+  const [coordinates, setCoordinates] = useState(null);
 
   const handleSuggestionInputChange = (e) => {
     const { name, value } = e.target;
     setSuggestionInput({ ...suggestionInput, [name]: value });
   };
 
-  const fetchSuggestions = async () => {
-    const { lat, lng, radiusInKm, numberOfPoints } = suggestionInput;
+  const handleAddressBlur = async () => {
+    if (suggestionInput.address) {
+      try {
+        const geocodeUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
+          suggestionInput.address
+        )}&key=${config.OPEN_CAGE_API_KEY}`;
 
-    if (!lat || !lng || !radiusInKm || !numberOfPoints) {
+        const response = await fetch(geocodeUrl);
+        const data = await response.json();
+
+        if (data.results.length > 0) {
+          const location = data.results[0].geometry;
+          setCoordinates({
+            lat: location.lat,
+            lng: location.lng,
+          });
+        } else {
+          console.error("Geocode error: No results found");
+          setCoordinates(null);
+        }
+      } catch (error) {
+        console.error("Error fetching geocode:", error);
+        setCoordinates(null);
+      }
+    }
+  };
+
+  const fetchSuggestions = async () => {
+    const { radiusInKm, numberOfPoints } = suggestionInput;
+
+    if (!coordinates || !radiusInKm || !numberOfPoints) {
       alert("Por favor completa todos los campos de sugerencias.");
       return;
     }
@@ -34,13 +59,10 @@ export default function LocationSuggestions({
         `${config.BACKEND_URL}/Fridge/suggested-locations`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-          },
+          headers: authHeaders(),
           body: JSON.stringify({
-            latitude: parseFloat(lat),
-            longitude: parseFloat(lng),
+            latitude: parseFloat(coordinates.lat),
+            longitude: parseFloat(coordinates.lng),
             radiusInKm: parseFloat(radiusInKm),
             numberOfPoints: parseInt(numberOfPoints, 10),
           }),
@@ -49,7 +71,6 @@ export default function LocationSuggestions({
 
       const data = await response.json();
       const locations = data.data.locations;
-      console.log(locations);
 
       const detailedLocations = await Promise.all(
         locations.map(async (location) => {
@@ -72,7 +93,6 @@ export default function LocationSuggestions({
           }
         })
       );
-      console.log(detailedLocations);
 
       setSuggestions(detailedLocations);
     } catch (error) {
@@ -82,47 +102,47 @@ export default function LocationSuggestions({
 
   return (
     <div className="bg-slate-50 rounded-md p-4 mb-2">
-      <div className="grid grid-cols-2 gap-x-4">
+      <div className="grid grid-cols-1 gap-4">
         <Field
-          label="Latitud"
-          name="lat"
+          label="Dirección"
+          name="address"
           type="text"
-          placeholder="Latitud inicial"
-          value={suggestionInput.lat}
+          placeholder="Ingrese una dirección"
+          value={suggestionInput.address}
           onChange={handleSuggestionInputChange}
+          onBlur={handleAddressBlur}
         />
-        <Field
-          label="Longitud"
-          name="lng"
-          type="text"
-          placeholder="Longitud inicial"
-          value={suggestionInput.lng}
-          onChange={handleSuggestionInputChange}
-        />
-        <Field
-          label="Radio (km)"
-          name="radiusInKm"
-          type="number"
-          placeholder="Radio en kilómetros"
-          onChange={handleSuggestionInputChange}
-        />
-        <Field
-          label="Número de puntos"
-          name="numberOfPoints"
-          type="number"
-          placeholder="Cantidad de puntos"
-          onChange={handleSuggestionInputChange}
-        />
+        {coordinates && (
+          <div className="text-sm text-gray-600">
+            Coordenadas: {coordinates.lat}, {coordinates.lng}
+          </div>
+        )}
+        <div className="grid grid-cols-2 gap-x-4">
+          <Field
+            label="Radio (km)"
+            name="radiusInKm"
+            type="number"
+            placeholder="Radio en kilómetros"
+            onChange={handleSuggestionInputChange}
+          />
+          <Field
+            label="Número de puntos"
+            name="numberOfPoints"
+            type="number"
+            placeholder="Cantidad de puntos"
+            onChange={handleSuggestionInputChange}
+          />
+        </div>
       </div>
       <button
         type="button"
         onClick={fetchSuggestions}
-        className="bg-slate-200 hover:bg-slate-300 py-1 px-2 rounded-md"
+        className="bg-slate-200 hover:bg-slate-300 py-1 px-2 rounded-md mt-4"
       >
         Buscar
       </button>
       {suggestions.length > 0 && (
-        <ul className="list-disc list-inside">
+        <ul className="list-disc list-inside mt-4">
           {suggestions.map((suggestion, index) => (
             <li key={index}>
               <button

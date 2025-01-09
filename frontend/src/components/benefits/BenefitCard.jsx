@@ -40,7 +40,7 @@ export default function BenefitCard({ benefit }) {
   };
 
   return (
-    <div className="flex overflow-hidden rounded-2xl shadow-lg bg-white">
+    <div className="flex overflow-hidden rounded-2xl h-60 bg-white">
       <div className="flex-1 px-6 py-4">
         <div className="font-bold text-xl mb-2">{benefit.description}</div>
         <p className="text-gray-700 text-base mb-2">
@@ -49,9 +49,7 @@ export default function BenefitCard({ benefit }) {
         <p className="text-gray-700 text-base mb-2">
           <strong>Puntos necesarios:</strong> {benefit.requiredPoints}
         </p>
-        <p className="text-gray-700 text-base mb-2">
-          <strong>Empresa:</strong> {benefit.Empresa}
-        </p>
+
         <button
           onClick={handleClick}
           className="bg-blue-600 hover:bg-blue-700 rounded-md px-3 py-1 text-sm font-semibold text-white mt-2"

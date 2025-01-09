@@ -1,9 +1,27 @@
 import { useLoaderData, Link } from "react-router-dom";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { getUserData } from "../../utils/auth";
+import IncidentsTable from "./IncidentsTable";
+import NotificationSubscriptions from "./NotificationSubscriptions";
 
 export default function FridgeDetail() {
-  const fridge = useLoaderData();
-  console.log(fridge);
+  const {
+    name,
+    address,
+    maxFoodCapacity,
+    foodCapacityAvailable,
+    latitud,
+    longitud,
+    lastFridgeIncidents,
+    active,
+    setUpAt,
+    currentTemperature,
+    subscription,
+  } = useLoaderData();
+
+  const { role } = getUserData();
+
+  const setUpDate = new Date(setUpAt);
 
   return (
     <div>
@@ -13,61 +31,73 @@ export default function FridgeDetail() {
       <div className="bg-white shadow-lg rounded-2xl p-8 min-w-full mt-3">
         <div className="flex gap-x-10">
           <div className="flex-1">
-            <h1 className="text-4xl">{fridge.name}</h1>
+            <div className="flex justify-between items-baseline">
+              <h1 className="text-4xl">{name}</h1>
+
+              {(!active && (
+                <div className="mb-2">
+                  <span className="px-2 py-1 bg-auto text-red-500 rounded-md text-xl">
+                    Esta heladera se encuentra inactiva
+                  </span>
+                  {role === "Admin" && (
+                    <Link
+                      to="visit"
+                      className="bg-gray-800 hover:bg-gray-700 px-2 py-1 text-white text-xl rounded-lg mr-2"
+                    >
+                      Programar visita
+                    </Link>
+                  )}
+                </div>
+              )) ||
+                (role === "Collaborator" && (
+                  <Link
+                    to="incident"
+                    className="bg-red-500 hover:bg-red-600 px-2 py-1 text-white text-xl rounded-lg"
+                  >
+                    Reportar incidente
+                  </Link>
+                ))}
+            </div>
             <hr className="my-4" />
+
             <div>
-              <address className="text-xl">{fridge.address}</address>
-              <p className="mt-2">Capacidad maxima: {fridge.maxFoodCapacity}</p>
+              <address className="text-xl">{address}</address>
+              <p className="mt-2">
+                Puesta en funcionamiento:{" "}
+                {setUpDate.toLocaleDateString("es-AR")}
+              </p>
+              <p className="mt-2">
+                Espacios disponibles: {foodCapacityAvailable}/{maxFoodCapacity}
+              </p>
+              <p className="mt-2">
+                Ultima temperatura registrada: {currentTemperature}° C
+              </p>
             </div>
             <br />
-            <h1 className="text-2xl">Avisarme cuando ...</h1>
-            <ul className="list-disc list-inside mt-3">
-              <li className="mb-2">
-                Queden{" "}
-                <input
-                  className="border rounded-sm max-w-10"
-                  type="number"
-                  name=""
-                  id=""
-                />{" "}
-                viandas para que la heladera quede vacia
-                <button className="ml-10 px-2 py-1 bg-blue-600 rounded-md text-white">
-                  Avisame
-                </button>
-              </li>
-              <li className="mb-2">
-                Queden{" "}
-                <input
-                  className="border rounded-sm max-w-10"
-                  type="number"
-                  name=""
-                  id=""
-                />{" "}
-                viandas para que la heladera se llene
-                <button className="ml-10 px-2 py-1 bg-blue-600 rounded-md text-white">
-                  Avisame
-                </button>
-              </li>
-              <li>
-                La heladera tenga algun desperfecto
-                <button className="ml-10 px-2 py-1 bg-blue-600 rounded-md text-white">
-                  Avisame
-                </button>
-              </li>
-            </ul>
+            <h1 className="text-xl mb-2">Ultimos incidentes reportados</h1>
+            {(lastFridgeIncidents.length && (
+              <IncidentsTable incidents={lastFridgeIncidents} />
+            )) || (
+              <p className="font-thin text-sm">Sin incidentes reportados</p>
+            )}
+            <br />
+            {active && role === "Collaborator" && (
+              <NotificationSubscriptions subscription={subscription} />
+            )}
           </div>
 
-          <div className="flex-1">
+          <div className="flex-shrink-0">
             <MapContainer
-              center={[fridge.latitud, fridge.longitud]}
+              className="z-0"
+              center={[latitud, longitud]}
               zoom={15}
-              style={{ height: "500px", width: "100%" }}
+              style={{ height: "100%", width: "500px" }}
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               />
-              <Marker position={[fridge.latitud, fridge.longitud]}></Marker>
+              <Marker position={[latitud, longitud]}></Marker>
             </MapContainer>
           </div>
         </div>

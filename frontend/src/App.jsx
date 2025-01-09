@@ -19,6 +19,12 @@ import UpdateTechnicianPage from "./pages/technicians/UpdateTechnician";
 import CoefficientsPage from "./pages/Coefficients";
 import BulkContributionsPage from "./pages/contributions/BulkContributions";
 import FridgesListPage from "./pages/fridges/FridgesList";
+import FridgeVisitPage from "./pages/fridges/FridgeVisit";
+import FridgeIncidentPage from "./pages/fridges/FridgeIncident";
+import ReportsPage from "./pages/Reports";
+import FridgeDetailPage from "./pages/fridges/FridgesDetail";
+import TechnicianVisitPage from "./pages/technicians/TechnicianVisit";
+import FridgeUpdatePage from "./pages/fridges/FridgeUpdate";
 
 // actions
 import { loginAction } from "./pages/Login";
@@ -28,13 +34,22 @@ import { newContribAction } from "./pages/contributions/NewContribution";
 import { updateTechicianAction } from "./pages/technicians/UpdateTechnician";
 import { updateCoefficientAction } from "./pages/Coefficients";
 import { bulkContribAction } from "./pages/contributions/BulkContributions";
-
+import { createFridgeVisitAction } from "./pages/fridges/FridgeVisit";
+import { fridgeIncidentAction } from "./pages/fridges/FridgeIncident";
+import { reportsAction } from "./pages/Reports";
+import { technicianVisitAction } from "./pages/technicians/TechnicianVisit";
+import { updateFridgeAction } from "./pages/fridges/FridgeUpdate";
 // loaders
 import { userLoader } from "./utils/auth";
 import { contributionLoader } from "./loaders/contributionsLoader";
 import { profileLoader } from "./loaders/profileLoader";
 import { benefitsLoader } from "./loaders/benefitsLoader";
-import { fridgesLoader, fridgeLoader } from "./loaders/fridgesLoader";
+import { reportsLoader } from "./loaders/reportsLoader";
+import {
+  fridgesLoader,
+  fridgeLoader,
+  fridgeVisitLoader,
+} from "./loaders/fridgesLoader";
 import { coefficientsLoader } from "./loaders/coefficientsLoader";
 import { bulkContribLoader } from "./loaders/bulkContribLoader";
 import {
@@ -42,7 +57,6 @@ import {
   techniciansLoader,
   technicianLoader,
 } from "./loaders/techniciansLoader";
-import FridgeDetailPage from "./pages/fridges/FridgesDetail";
 
 const router = createBrowserRouter([
   {
@@ -76,8 +90,19 @@ const router = createBrowserRouter([
           },
           {
             path: ":id",
-            element: <ContributionDetailPage />,
+            id: "contributionDetail",
             loader: contributionLoader,
+            children: [
+              {
+                index: true,
+                element: <ContributionDetailPage />,
+              },
+              {
+                path: "update",
+                element: <FridgeUpdatePage />,
+                action: updateFridgeAction,
+              },
+            ],
           },
         ],
       },
@@ -99,6 +124,12 @@ const router = createBrowserRouter([
         loader: benefitsLoader,
       },
       {
+        path: "reports",
+        element: <ReportsPage />,
+        loader: reportsLoader,
+        action: reportsAction,
+      },
+      {
         path: "fridges",
         children: [
           {
@@ -110,8 +141,26 @@ const router = createBrowserRouter([
             path: ":id",
             element: <FridgeDetailPage />,
             loader: fridgeLoader,
+            children: [
+              {
+                path: "visit",
+                element: <FridgeVisitPage />,
+                loader: fridgeVisitLoader,
+                action: createFridgeVisitAction,
+              },
+              {
+                path: "incident",
+                element: <FridgeIncidentPage />,
+                action: fridgeIncidentAction,
+              },
+            ],
           },
         ],
+      },
+      {
+        path: "visit/:uuid",
+        element: <TechnicianVisitPage />,
+        action: technicianVisitAction,
       },
       {
         path: "technicians",
@@ -150,5 +199,3 @@ const router = createBrowserRouter([
 export default function App() {
   return <RouterProvider router={router} />;
 }
-
-// TODO: vista de perfil, carga masiva

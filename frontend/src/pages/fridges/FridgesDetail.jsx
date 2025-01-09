@@ -1,7 +1,11 @@
 import FridgeDetail from "../../components/fridges/FridgeDetail";
-
-FridgeDetail;
+import { Outlet } from "react-router-dom";
 
 export default function FridgeDetailPage() {
-  return <FridgeDetail />;
+  return (
+    <>
+      <Outlet />
+      <FridgeDetail />
+    </>
+  );
 }

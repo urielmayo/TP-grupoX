@@ -23,11 +23,13 @@ export default function FoodContribForm() {
         required
       />
       <SelectField label={"Heladera"} name={"fridgeId"}>
-        {fridges.map((fridge) => (
-          <option key={fridge.id} value={fridge.id}>
-            {fridge.name}
-          </option>
-        ))}
+        {fridges
+          .filter((fridge) => fridge.active)
+          .map((fridge) => (
+            <option key={fridge.id} value={fridge.id}>
+              {fridge.name}
+            </option>
+          ))}
       </SelectField>
       <Field
         label={"Valor energetico en Kcal."}

@@ -2,6 +2,7 @@
 import { redirect, json } from "react-router-dom";
 import { config } from "../../config";
 import NewContribution from "../../components/Contributions/NewContribution";
+import { authHeaders } from "../../utils/auth";
 
 export default function NewContributionPage() {
   return <NewContribution />;
@@ -17,10 +18,7 @@ export async function newContribAction({ request }) {
 
   const response = await fetch(`${config.BACKEND_URL}/Contribution/${type}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-    },
+    headers: authHeaders(),
     body: JSON.stringify(data),
   });
   if (response.status === 500) {

@@ -1,6 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useLoaderData, useNavigate, useRevalidator } from "react-router-dom";
-import { useRef, useState } from "react";
+import {
+  Link,
+  useNavigate,
+  useRevalidator,
+  useRouteLoaderData,
+} from "react-router-dom";
+import { useState } from "react";
 import Modal from "../UI/Modal";
 import DescriptionGrid from "../UI/Description";
 import { deleteFridge } from "../../utils/http";
@@ -58,10 +63,17 @@ export function FoodDonation({ attributes }) {
 }
 
 export function FridgeOwner({ attributes }) {
-  const maxCapacityRef = useRef();
-  const [status, setStatus] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
   const revalidator = useRevalidator();
+  const setup_date = new Date(attributes.setup_date).toLocaleDateString(
+    "es-AR",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+  );
 
   async function handleDelete() {
     try {
@@ -79,11 +91,6 @@ export function FridgeOwner({ attributes }) {
     }
   }
 
-  function handleUpdate() {
-    console.log("editando");
-    console.log(maxCapacityRef.current.value);
-  }
-
   return (
     <>
       <h1 className="text-xl">Heladera</h1>
@@ -94,33 +101,32 @@ export function FridgeOwner({ attributes }) {
         <DescriptionGrid.Item
           label="Capacidad Máxima"
           value={attributes.capacity}
-          editable={status === "editing"}
-          ref={maxCapacityRef}
         />
+        <DescriptionGrid.Item label="Fecha de instalación" value={setup_date} />
       </DescriptionGrid>
       <br />
       <div className="flex gap-x-3 items-end">
-        {status === null && (
+        {!isDeleting && (
           <>
-            <button
+            <Link
+              to="update"
               className="text-blue-500 hover:bg-blue-100 rounded-md p-2"
-              onClick={() => setStatus("editing")}
             >
               Editar
-            </button>
+            </Link>
             <button
               className="text-red-500 hover:bg-red-100 rounded-md p-2"
-              onClick={() => setStatus("deleting")}
+              onClick={() => setIsDeleting(true)}
             >
               Eliminar
             </button>
           </>
         )}
-        {status === "deleting" && (
+        {isDeleting && (
           <>
             <button
               className="text-blue-500 hover:underline rounded-md p-2"
-              onClick={() => setStatus(null)}
+              onClick={() => setIsDeleting(false)}
             >
               Cancelar
             </button>
@@ -131,22 +137,6 @@ export function FridgeOwner({ attributes }) {
               Confirmar
             </button>
             <p className="text-">¿Esta seguro?</p>
-          </>
-        )}
-        {status === "editing" && (
-          <>
-            <button
-              className="text-blue-500 hover:underline rounded-md p-2"
-              onClick={() => setStatus(null)}
-            >
-              Cancelar
-            </button>
-            <button
-              className="bg-blue-500 text-white rounded-md p-2"
-              onClick={handleUpdate}
-            >
-              Confirmar
-            </button>
           </>
         )}
       </div>
@@ -247,7 +237,8 @@ export function Benefit({ attributes }) {
 
 export default function ContributionDetail() {
   const navigate = useNavigate();
-  const { type, attributes } = useLoaderData();
+  const { type, attributes } = useRouteLoaderData("contributionDetail");
+  console.log(attributes);
 
   let content;
   if (type == "MoneyDonation") {
