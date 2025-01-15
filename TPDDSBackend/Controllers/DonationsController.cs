@@ -20,8 +20,9 @@ namespace TPDDSBackend.Controllers
             _mediator = mediator;
         }
 
-        [Authorize]
         [HttpPost]
+        [SwaggerResponse(StatusCodes.Status200OK, "Locaciones sugeridas para donar", typeof(List<FridgeLocationsResponse>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Bad Request", typeof(CustomResponse<string>))]
         public async Task<IActionResult> GetDonationLocations(SuggestFridgeLocationsRequest request)
         {
             var result = await _mediator.Send(new SuggestFridgeLocatiosCommand(request));
