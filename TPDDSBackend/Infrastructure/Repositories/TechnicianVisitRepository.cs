@@ -12,6 +12,11 @@ namespace TPDDSBackend.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<List<TechnicianVisit>?> GetByTechnicianName(string name)=>
+             await _dbContext.TechnicianVisits.Where(t => t.Technician.Name == name
+            && t.Completed == false).ToListAsync();
+        
+
         public async Task<TechnicianVisit?> GetByUuid(Guid uuid)=>      
             await _dbContext.TechnicianVisits.FirstOrDefaultAsync(e => e.UuidToComplete == uuid);
         

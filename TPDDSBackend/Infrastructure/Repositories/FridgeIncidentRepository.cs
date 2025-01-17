@@ -31,5 +31,11 @@ namespace TPDDSBackend.Infrastructure.Repositories
                     })
                     .ToListAsync();
 
+        public async Task<List<FridgeIncident>> GetActiveIncidents()=>
+            await _dbContext.FridgeIncidents
+                .Include(incident => incident.Fridge) 
+                .Where(incident => !incident.Fridge.Active)
+                .ToListAsync();
+
     }
 }

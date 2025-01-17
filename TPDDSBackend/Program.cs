@@ -7,8 +7,11 @@ using Microsoft.OpenApi.Models;
 using QuestPDF.Infrastructure;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using Telegram.Bot;
 using TPDDSBackend;
 using TPDDSBackend.Aplication;
+using TPDDSBackend.Aplication.BackgroundServices;
+using TPDDSBackend.Aplication.BackgroundServices.Services;
 using TPDDSBackend.Aplication.Formatters;
 using TPDDSBackend.Aplication.Services;
 using TPDDSBackend.Aplication.Services.Strategies;
@@ -58,7 +61,16 @@ builder.Services.AddControllers(options =>
      fv.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
     }
 );
-
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<ITechnicianRepository, TechnicianRepository>();
+builder.Services.AddScoped<VisitRegistrationService>();
+builder.Services.AddScoped<ChangeWorkAreaService>();
+builder.Services.AddScoped<AlertReceivingService>();
+builder.Services.AddHttpClient<ITelegramBotClient, TelegramBotClient>(client =>
+    new TelegramBotClient(builder.Configuration["TelegramBot:Token"])
+);
+builder.Services.AddSingleton<TelegramBotHandler>();
+builder.Services.AddHostedService<TelegramBotBackgroundService>();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 
@@ -205,7 +217,6 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
