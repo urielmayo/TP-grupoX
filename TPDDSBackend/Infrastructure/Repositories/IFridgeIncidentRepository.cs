@@ -8,5 +8,7 @@ namespace TPDDSBackend.Infrastructure.Repositories
         Task<List<FridgeIncident>> GetAllByFridge(int fridgeId);
 
         Task<List<FridgeIncidentCountDto>> GetTotalIncidentsByFridge(DateTime from, DateTime to);
+
+        Task<List<FridgeIncident>> GetActiveIncidents();
     }
 }

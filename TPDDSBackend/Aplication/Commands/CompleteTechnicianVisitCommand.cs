@@ -26,15 +26,18 @@ namespace TPDDSBackend.Aplication.Commands
         private readonly IMapper _mapper;
         private readonly ITechnicianVisitRepository _technicianVisitRepository;
         private readonly IGenericRepository<Fridge> _fridgeRepository;
+        private readonly IFridgeIncidentRepository _fridgeIncidentRepository;
 
 
         public CompleteTechnicianVisitCommandHandler(IMapper mapper,
             ITechnicianVisitRepository technicianVisitRepository,
-            IGenericRepository<Fridge> fridgeRepository)
+            IGenericRepository<Fridge> fridgeRepository, 
+            IFridgeIncidentRepository fridgeIncidentRepository)
         {
             _technicianVisitRepository = technicianVisitRepository;
             _mapper = mapper;
             _fridgeRepository = fridgeRepository;
+            _fridgeIncidentRepository = fridgeIncidentRepository;
         }
 
         public async Task<Unit> Handle(CompleteTechnicianVisitCommand command, CancellationToken ct)
@@ -66,9 +69,10 @@ namespace TPDDSBackend.Aplication.Commands
 
             if (visit.FridgeRepaired)
             {
-                var fridge = await _fridgeRepository.GetById(visit.FridgeId);
+                var fridge = await _fridgeRepository.GetById(visit.FridgeId);             
                 fridge!.Active = true;
                 _fridgeRepository.Update(fridge);
+                var incidents = _fridgeIncidentRepository.GetAllByFridge(visit.FridgeId);
             }
 
             return Unit.Value;

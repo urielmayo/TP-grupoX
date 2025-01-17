@@ -7,5 +7,7 @@ namespace TPDDSBackend.Infrastructure.Repositories
         Task<TechnicianVisit?> GetByUuid(Guid uuid);
 
         void Update(TechnicianVisit technicianVisit);
+
+        Task<List<TechnicianVisit>?> GetByTechnicianName(string name);
     }
 }
