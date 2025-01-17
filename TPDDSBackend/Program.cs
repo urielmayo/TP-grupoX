@@ -64,6 +64,8 @@ builder.Services.AddControllers(options =>
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<ITechnicianRepository, TechnicianRepository>();
 builder.Services.AddScoped<VisitRegistrationService>();
+builder.Services.AddScoped<ChangeWorkAreaService>();
+builder.Services.AddScoped<AlertReceivingService>();
 builder.Services.AddHttpClient<ITelegramBotClient, TelegramBotClient>(client =>
     new TelegramBotClient(builder.Configuration["TelegramBot:Token"])
 );

@@ -1,9 +1,13 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using System;
+using System.Linq;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using TPDDSBackend.Aplication.BackgroundServices.Services;
+using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
+using static System.Collections.Specialized.BitVector32;
 
 namespace TPDDSBackend.Aplication.BackgroundServices
 {
@@ -17,7 +21,7 @@ namespace TPDDSBackend.Aplication.BackgroundServices
             {
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("⚠️ Alerta", "/alerta"),
+                    InlineKeyboardButton.WithCallbackData("⚠️ Alertas", "/alerta"),
                     InlineKeyboardButton.WithCallbackData("📍 Cambiar Zona", "/cambiar-zona"),
                 },
                 new[]
@@ -54,10 +58,10 @@ namespace TPDDSBackend.Aplication.BackgroundServices
                             // Muestra el mensaje recibido
                             Console.WriteLine($"Mensaje recibido: {messageText} de {chatId}");
 
-                            (_, bool isUserAuthenticated) = IsUserAuthenticated(chatId);
+                            (Technician? technician, bool isUserAuthenticated) = IsUserAuthenticated(chatId);
                             if (isUserAuthenticated)
                             {
-                                await HandleAuthenticatedUserActions(messageText, chatId);                           
+                                await HandleAuthenticatedUserActions(messageText, chatId, technician);                           
                             }
                             else
                             {
@@ -79,10 +83,10 @@ namespace TPDDSBackend.Aplication.BackgroundServices
                         {
                             string action = update.CallbackQuery.Data.Trim().ToString();
                             var chatId = update.CallbackQuery.Message.Chat.Id;
-                            (_, bool isUserAuthenticated) = IsUserAuthenticated(chatId);
+                            (Technician? technician, bool isUserAuthenticated) = IsUserAuthenticated(chatId);
                             if (isUserAuthenticated)
                             {
-                                await HandleAuthenticatedUserActions(action, chatId);
+                                await HandleAuthenticatedUserActions(action, chatId, technician);
                                 
                             }
                             else
@@ -96,7 +100,7 @@ namespace TPDDSBackend.Aplication.BackgroundServices
                     }
 
                     // Espera un poco antes de realizar la siguiente consulta para no hacer demasiadas solicitudes en corto tiempo
-                    await Task.Delay(1000); // 1 segundo de espera
+                    await Task.Delay(500); // 1/2 segundo de espera
                 }
             }
             catch (Exception ex)
@@ -106,15 +110,15 @@ namespace TPDDSBackend.Aplication.BackgroundServices
         }
 
         // Maneja las acciones de un usuario autenticado
-        private async Task HandleAuthenticatedUserActions(string action, long chatId)
+        private async Task HandleAuthenticatedUserActions(string action, long chatId, Technician technician)
         {
             if (action.Contains("/alerta"))
             {
                 await SendAlertAsync(chatId);
             }
-            else if (action.Contains("/cambiar-zona"))
+            else if (action.Contains("/cambiar-zona") ||action.Contains("/select-area"))
             {
-                await ChangeWorkZoneAsync(chatId);
+                await ChangeWorkZoneAsync(chatId, action, technician);
             }
             else if (action.Contains("/registrar-visita") || action.Contains("/select-fridge"))
             {
@@ -142,12 +146,12 @@ namespace TPDDSBackend.Aplication.BackgroundServices
                 var technicianRepository = scope.ServiceProvider.GetRequiredService<ITechnicianRepository>();
 
                 // Consultamos en la base de datos si existe el usuario con el nombre y workerId
-                var user = await technicianRepository.GetByNameAndWorkerNumber(name, workerId);
+                var technician = await technicianRepository.GetByNameAndWorkerNumber(name, workerId);
 
-                if (user != null)
+                if (technician != null)
                 {
                     // El usuario existe, lo almacenamos en el caché
-                    _memoryCache.Set(chatId, user.Name, TimeSpan.FromMinutes(ExpiredSessionInMinutes));
+                    _memoryCache.Set(chatId, technician, TimeSpan.FromMinutes(ExpiredSessionInMinutes));
                     await _botClient.SendMessage(chatId, $"✅ Usuario {name} autenticado correctamente. ¡Bienvenido! 😊");
                     await _botClient.SendMessage(
                        chatId: chatId,
@@ -174,15 +178,27 @@ namespace TPDDSBackend.Aplication.BackgroundServices
         // Acción para enviar una alerta
         private async Task SendAlertAsync(long chatId)
         {
-            // Aquí agregas la lógica para enviar alertas a través del bot
-            await _botClient.SendMessage(chatId, "Se ha enviado una alerta.");
+            using var scope = _scopeFactory.CreateScope();
+            var alertReceivingService = scope.ServiceProvider.GetRequiredService<AlertReceivingService>();
+            await alertReceivingService.HandlerReceivingAlert(chatId);
         }
 
         // Acción para cambiar la zona de trabajo
-        private async Task ChangeWorkZoneAsync(long chatId)
+        private async Task ChangeWorkZoneAsync(long chatId, string action, Technician technician)
         {
-            // Aquí agregas la lógica para cambiar la zona de trabajo
-            await _botClient.SendMessage(chatId, "La zona de trabajo ha sido cambiada.");
+            using var scope = _scopeFactory.CreateScope();
+            var changeWorkAreaService = scope.ServiceProvider.GetRequiredService<ChangeWorkAreaService>();
+            if (action.Contains("/cambiar-zona"))
+            {
+                await changeWorkAreaService.ShowWorkAreas(chatId);
+                return;
+            }
+            else if (action.Contains("/select-area"))
+            {
+                string[] parts = action.Split(' ');
+                await changeWorkAreaService.ChangeArea(chatId, parts[1], technician);
+                return;
+            }
         }
 
         // Acción para registrar una visita a una heladera
@@ -214,10 +230,10 @@ namespace TPDDSBackend.Aplication.BackgroundServices
             );
         }
 
-        private (string? username, bool isAuthenticated) IsUserAuthenticated(long chatId)
+        private (Technician? technician, bool isAuthenticated) IsUserAuthenticated(long chatId)
         {
-            var result = _memoryCache.TryGetValue(chatId, out string? username);
-            return (username, result);
+            var result = _memoryCache.TryGetValue(chatId, out Technician? technician);
+            return (technician, result);
         }
     }
   }
