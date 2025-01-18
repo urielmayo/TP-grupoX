@@ -30,7 +30,6 @@ namespace TPDDSBackend.Controllers
             return Ok(result);
         }
 
-        [Authorize]
         [HttpPost("alert")]
         [SwaggerResponse(StatusCodes.Status204NoContent, "incidente de heladera registado", typeof(CustomResponse<CreateFridgeFailureResponse>))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Heladera no encontrada", typeof(CustomResponse<string>))]

@@ -4,6 +4,6 @@
     {
         public int FridgeId { get; set; }
 
-        public required string Type { get; set; }
+        public string Type { get; set; }
     }
 }
