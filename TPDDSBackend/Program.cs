@@ -71,7 +71,11 @@ builder.Services.AddHttpClient<ITelegramBotClient, TelegramBotClient>(client =>
 );
 builder.Services.AddSingleton<TelegramBotHandler>();
 builder.Services.AddHostedService<TelegramBotBackgroundService>();
-
+builder.Services.AddHttpClient<FridgeMonitoringBackgroundService>(client =>
+{
+   
+});
+builder.Services.AddHostedService<FridgeMonitoringBackgroundService>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 
 builder.Services.AddAutoMapper(typeof(Program));
