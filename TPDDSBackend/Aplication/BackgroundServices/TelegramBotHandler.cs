@@ -122,7 +122,7 @@ namespace TPDDSBackend.Aplication.BackgroundServices
             }
             else if (action.Contains("/registrar-visita") || action.Contains("/select-fridge"))
             {
-                await RegisterFridgeVisitAsync(chatId, action);
+                await RegisterFridgeVisitAsync(chatId, action, technician);
             }          
             else
             {
@@ -202,14 +202,14 @@ namespace TPDDSBackend.Aplication.BackgroundServices
         }
 
         // Acción para registrar una visita a una heladera
-        private async Task RegisterFridgeVisitAsync(long chatId, string action)
+        private async Task RegisterFridgeVisitAsync(long chatId, string action, Technician technician)
         {
             // Aquí agregas la lógica para registrar la visita
             using var scope = _scopeFactory.CreateScope();  
             var visitRegistrationService = scope.ServiceProvider.GetRequiredService<VisitRegistrationService>();
             if (action.Contains("registrar-visita"))
             {
-                await visitRegistrationService.HandlerFindActiveVisit(chatId);
+                await visitRegistrationService.HandlerFindActiveVisit(chatId, technician.Name);
                 return;
             }
             else if (action.Contains("/select-fridge"))

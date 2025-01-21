@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 using TPDDSBackend.Domain.Entities;
@@ -9,23 +10,23 @@ namespace TPDDSBackend.Aplication.BackgroundServices.Services
     public class VisitRegistrationService
     {
         private readonly ITelegramBotClient _botClient;
-        private readonly IMemoryCache _memoryCache;
         private readonly ITechnicianVisitRepository _technicianVisitRepository;
+        private readonly IServer _server;
 
         public VisitRegistrationService(ITelegramBotClient botClient, 
-            IMemoryCache memoryCache,
-            ITechnicianVisitRepository technicianVisitRepository)
+            ITechnicianVisitRepository technicianVisitRepository,
+            IHttpContextAccessor httpContextAccessor,
+            IServer server)
         {
             _botClient = botClient;
-            _memoryCache = memoryCache;
             _technicianVisitRepository = technicianVisitRepository;
+            _server = server;
         }
 
 
-        public async Task HandlerFindActiveVisit(long chatId)
+        public async Task HandlerFindActiveVisit(long chatId, string technicianName)
         {
-            var result = _memoryCache.TryGetValue(chatId, out string? username);
-            var visits = await _technicianVisitRepository.GetByTechnicianName(username);
+            var visits = await _technicianVisitRepository.GetByTechnicianName(technicianName);
             if (visits?.Count == 0)
             {
                 await _botClient.SendMessage(chatId, "No tienes visitas pendientes disponibles. 😔");
@@ -46,11 +47,13 @@ namespace TPDDSBackend.Aplication.BackgroundServices.Services
 
         public async Task HandlerCompleteVisit(long chatId, string uuidToComplete)
         {
-
+            var fullAddress = _server.Features.Get<IServerAddressesFeature>()?.Addresses.LastOrDefault();
+            var uri = new Uri(fullAddress);
+            string host = $"{uri.Scheme}://{uri.Host}";
             await _botClient.SendMessage(
                 chatId,
                 "👷‍♂️ Para completar la visita, haz clic en el siguiente enlace 📎 y carga el formulario: " +
-                $"👉 http://localhost:5173/visit/{uuidToComplete} 📝 (Copia y pega la URL si no funciona)"
+                $"👉 {host}:5173/visit/{uuidToComplete} 📝 (Copia y pega la URL si no funciona)"
             );
             return;
         }
