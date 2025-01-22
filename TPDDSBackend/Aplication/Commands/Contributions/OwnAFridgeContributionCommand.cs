@@ -51,6 +51,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
             (string collaboradorId, _) = _jwtFactory.GetClaims(jwt);
 
             var fridge = _mapper.Map<Fridge>(command.Request);
+            fridge.Active = true;
             fridge.SetUpAt = DateTime.SpecifyKind(fridge.SetUpAt, DateTimeKind.Utc);
 
             var fridgeSaved = await _fridgeRepository.Insert(fridge);
