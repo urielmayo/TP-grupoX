@@ -36,6 +36,7 @@ namespace TPDDSBackend.Aplication.Commands.Fridges
         {
             var entity = _mapper.Map<Fridge>(command.Request);
             entity.Active = true;
+            entity.SetUpAt = DateTime.SpecifyKind(entity.SetUpAt, DateTimeKind.Utc); 
 
             await _repository.Insert(entity);
 
