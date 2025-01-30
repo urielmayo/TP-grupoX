@@ -96,8 +96,16 @@ export default function SignupForm() {
               name={"surName"}
               placeholder={"Ingrese el apellido"}
             />
+            <Field label={"Fecha de Nacimiento"} type={"date"} name={"date"} />
+            <Field
+              label={"Número de tarjeta"}
+              type={"text"}
+              name={"cardCode"}
+              placeholder={"XXXXXXXXXXXX"}
+              pattern={"[0-9]{11}"}
+              required
+            />
           </div>
-          <Field label={"Fecha de Nacimiento"} type={"date"} name={"date"} />
         </>
       )}
 
