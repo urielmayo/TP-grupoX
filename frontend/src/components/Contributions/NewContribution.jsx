@@ -20,7 +20,10 @@ export default function NewContribution() {
     <Modal onClose={() => navigate("../")}>
       <FormTitle text={"Realizar una contribucion"} />
       <br />
-      <ContributionType onSelect={setContributionType} />
+      <ContributionType
+        onSelect={setContributionType}
+        contributionType={contributionType}
+      />
 
       {(errors && (
         <FormError>
