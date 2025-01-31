@@ -81,7 +81,7 @@ export default function FridgeDetail() {
               <p className="font-thin text-sm">Sin incidentes reportados</p>
             )}
             <br />
-            {active && role === "Collaborator" && (
+            {role === "Collaborator" && (
               <NotificationSubscriptions subscription={subscription} />
             )}
           </div>
