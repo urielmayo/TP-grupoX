@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useRouteLoaderData } from "react-router-dom";
 
 export default function ContributionType({ contributionType, onSelect }) {

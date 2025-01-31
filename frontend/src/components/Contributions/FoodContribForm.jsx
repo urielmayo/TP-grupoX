@@ -4,7 +4,7 @@ import SelectField from "../UI/form/SelectField";
 import SubmitButton from "../UI/form/SubmitButton";
 
 export default function FoodContribForm() {
-  const fridges = useLoaderData();
+  const activeFridges = useLoaderData().filter((fridge) => fridge.active);
 
   return (
     <Form method="post">
@@ -22,14 +22,13 @@ export default function FoodContribForm() {
         name={"expirationDate"}
         required
       />
-      <SelectField label={"Heladera"} name={"fridgeId"}>
-        {fridges
-          .filter((fridge) => fridge.active)
-          .map((fridge) => (
+      <SelectField label={"Heladera"} name={"fridgeId"} required>
+        {(activeFridges.length &&
+          activeFridges.map((fridge) => (
             <option key={fridge.id} value={fridge.id}>
               {fridge.name}
             </option>
-          ))}
+          ))) || <option disabled>no hay heladeras activas</option>}
       </SelectField>
       <Field
         label={"Valor energetico en Kcal."}

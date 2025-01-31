@@ -4,24 +4,30 @@ import SelectField from "../UI/form/SelectField";
 import SubmitButton from "../UI/form/SubmitButton";
 
 export default function DistributionContribForm() {
-  const fridges = useLoaderData();
+  const activeFridges = useLoaderData().filter((fridge) => fridge.active);
   return (
     <div>
       <Form method="post">
         <input type="hidden" name="type" value="food-distribution" />
-        <SelectField label={"Heladera origen"} name={"originFridgeId"}>
-          {fridges.map((fridge) => (
-            <option key={fridge.id} value={fridge.id}>
-              {fridge.name}
-            </option>
-          ))}
+        <SelectField label={"Heladera origen"} name={"originFridgeId"} required>
+          {(activeFridges.length &&
+            activeFridges.map((fridge) => (
+              <option key={fridge.id} value={fridge.id}>
+                {fridge.name}
+              </option>
+            ))) || <option disabled>no hay heladeras activas</option>}
         </SelectField>
-        <SelectField label={"Heladera destino"} name={"destinationFridgeId"}>
-          {fridges.map((fridge) => (
-            <option key={fridge.id} value={fridge.id}>
-              {fridge.name}
-            </option>
-          ))}
+        <SelectField
+          label={"Heladera destino"}
+          name={"destinationFridgeId"}
+          required
+        >
+          {(activeFridges.length &&
+            activeFridges.map((fridge) => (
+              <option key={fridge.id} value={fridge.id}>
+                {fridge.name}
+              </option>
+            ))) || <option disabled>no hay heladeras activas</option>}
         </SelectField>
         <Field
           label={"Cantidad de viandas a mover"}

@@ -16,6 +16,7 @@ export default function NewContribution() {
   const [contributionType, setContributionType] = useState("money");
   const navigate = useNavigate();
   const errors = useActionData();
+
   return (
     <Modal onClose={() => navigate("../")}>
       <FormTitle text={"Realizar una contribucion"} />
