@@ -35,14 +35,6 @@ export default function PersonContribForm() {
         />
       </div>
       <Field label={"Menores a cargo"} type={"number"} name={"minorsInCare"} />
-      <Field
-        label={"Código de tarjeta"}
-        type={"text"}
-        name={"cardCode"}
-        placeholder={"XXXXXXXXXXXX"}
-        pattern={"[0-9]{11}"}
-        required
-      />
       <SubmitButton text={"Registrar"} />
     </Form>
   );
