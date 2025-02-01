@@ -10,6 +10,7 @@ using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
+using TPDDSBackend.Domain.Utilities;
 
 namespace TPDDSBackend.Aplication.Commands.Contributions
 {
@@ -65,7 +66,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
 
 
             var person = _mapper.Map<PersonInVulnerableSituation>(command.Request);
-            
+
             if (command.Request?.DocumentType is not null)
             {
                 var documentType = await _documentypeRepository.GetByDescription(command.Request.DocumentType);
@@ -75,9 +76,12 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
 
             await _personRepository.Insert(person);
 
+            // Generate the card code here
+            var cardCode = await CardCodeGenerator.GenerateUniqueCardCode(_cardRepository);
+
             var card = new Card()
             {
-                Code = command.Request!.CardCode
+                Code = cardCode // Set the generated card code
             };
 
             await _cardRepository.Insert(card);
@@ -89,7 +93,7 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
                 CardId = card.Id,
                 Date = DateTime.UtcNow,
             };
-            
+
             await _vulnerablePersonCardRepository.Insert(vulnerablePersonCard);
 
             return new CustomResponse<Contribution>(ServiceConstans.MessageSuccessDonation);

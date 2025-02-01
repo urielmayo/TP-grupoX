@@ -36,5 +36,10 @@ namespace TPDDSBackend.Infrastructure.Repositories
 
             return count;
         }
+
+        public async Task<bool> ExistsAsync(string code)
+        {
+            return await _dbContext.Cards.AnyAsync(c => c.Code == code);
+        }
     }
 }

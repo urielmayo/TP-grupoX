@@ -7,5 +7,6 @@ namespace TPDDSBackend.Infrastructure.Repositories
         Task<Card?> GetCollaboratorCard(string collaboratorId);
         Task<int> GetNumberOfOpeningsForCurrentDay(int cardId);
         Task<Card?> GetPersonCard(int personId);
+        Task<bool> ExistsAsync(string code);
     }
 }

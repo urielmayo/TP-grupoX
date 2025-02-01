@@ -1,4 +1,6 @@
-﻿namespace TPDDSBackend.Aplication.Dtos.Requests
+﻿using TPDDSBackend.Domain.Utilities;
+
+namespace TPDDSBackend.Aplication.Dtos.Requests
 {
     public class PersonRegistrationContributionRequest
     {
@@ -15,7 +17,5 @@
         public string? DocumentNumber { get; set; }
 
         public int MinorsInCare { get; set; }
-
-        public string CardCode { get; set; }
     }
 }
