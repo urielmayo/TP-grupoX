@@ -17,5 +17,7 @@
        public IList<ContributionByCollaboratorResponse> Contributions { get; set; }
 
        public decimal AccumulatedPoints {  get; set; }
+
+       public string CardCode { get; set; }
     }
 }

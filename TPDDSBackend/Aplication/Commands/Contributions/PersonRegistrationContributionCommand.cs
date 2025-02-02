@@ -10,7 +10,6 @@ using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
 using TPDDSBackend.Infrastructure.Services;
-using TPDDSBackend.Domain.Utilities;
 
 namespace TPDDSBackend.Aplication.Commands.Contributions
 {
@@ -73,15 +72,11 @@ namespace TPDDSBackend.Aplication.Commands.Contributions
                 person.DocumentType = documentType;
             }
 
-
             await _personRepository.Insert(person);
-
-            // Generate the card code here
-            var cardCode = await CardCodeGenerator.GenerateUniqueCardCode(_cardRepository);
 
             var card = new Card()
             {
-                Code = cardCode // Set the generated card code
+                Code = command.Request!.CardCode
             };
 
             await _cardRepository.Insert(card);

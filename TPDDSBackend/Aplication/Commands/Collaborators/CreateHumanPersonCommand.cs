@@ -8,7 +8,7 @@ using TPDDSBackend.Aplication.Exceptions;
 using TPDDSBackend.Domain.Entities;
 using TPDDSBackend.Domain.Entitites;
 using TPDDSBackend.Infrastructure.Repositories;
-using TPDDSBackend.Domain.Utilities;
+using TPDDSBackend.Aplication.Services;
 
 namespace TPDDSBackend.Aplication.Commands.Collaborators
 {
@@ -27,22 +27,23 @@ namespace TPDDSBackend.Aplication.Commands.Collaborators
         private readonly UserManager<Collaborator> _userManager;
         private readonly IGenericRepository<Card> _cardRepository;
         private readonly IGenericRepository<CollaboratorCard> _collaboratorCardRepository;
+        private readonly ICardCodeGenerator _cardCodeGenerator;
         public CreateHumanPersonCommandHandler(IMapper mapper,
             UserManager<Collaborator> userManager,
             IGenericRepository<Card> cardRepository,
-            IGenericRepository<CollaboratorCard> collaboratorCardRepository)
+            IGenericRepository<CollaboratorCard> collaboratorCardRepository,
+            ICardCodeGenerator cardCodeGenerator )
         {
             _mapper = mapper;
             _userManager = userManager;
             _cardRepository = cardRepository;
             _collaboratorCardRepository = collaboratorCardRepository;
+            _cardCodeGenerator = cardCodeGenerator;
         }
 
         public async Task<CustomResponse<CreateCollaboratorResponse>> Handle(CreateHumanPersonCommand command, CancellationToken ct)
         {
             var person = _mapper.Map<HumanPerson>(command.Request);
-
-            var cardCode = await CardCodeGenerator.GenerateUniqueCardCode(_cardRepository);
 
             var passwordResults = await Task.WhenAll(_userManager.PasswordValidators
                 .Select(validator => validator.ValidateAsync(_userManager, person, command.Request.Password)));
@@ -67,7 +68,7 @@ namespace TPDDSBackend.Aplication.Commands.Collaborators
             await _userManager.AddToRoleAsync(person, "Collaborator");
 
             var cardEntity = _mapper.Map<Card>(command.Request);
-            cardEntity.Code = cardCode;
+            cardEntity.Code = await _cardCodeGenerator.GenerateUniqueCardCode();
 
             await _cardRepository.Insert(cardEntity);
 

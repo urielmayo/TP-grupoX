@@ -12,7 +12,9 @@ namespace TPDDSBackend.Domain.EF.EntitiesConfiguration
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Code)
-                .IsRequired(true)
+                .IsRequired(true);
+
+            builder.HasIndex(x => x.Code)
                 .IsUnique();
         }
     }

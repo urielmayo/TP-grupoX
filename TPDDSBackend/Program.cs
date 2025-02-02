@@ -160,6 +160,8 @@ builder.Services.AddScoped<BenefitContributionStrategy>();
 builder.Services.AddScoped<IFileProcessorService,FileProcessorService>();
 builder.Services.AddScoped<IAccumulatedPointsCalculator, AccumulatedPointsCalculator>();
 builder.Services.AddScoped<IFridgeOpeningService, FridgeOpeningService>();
+builder.Services.AddScoped<ICardCodeGenerator, CardCodeGenerator>();
+
 
 builder.Services.AddScoped<Dictionary<string, IContributionStrategy>>(provider => new Dictionary<string, IContributionStrategy>
 {

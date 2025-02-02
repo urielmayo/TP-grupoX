@@ -28,15 +28,18 @@ namespace TPDDSBackend.Aplication.Queries
         private readonly UserManager<Collaborator> _userManager;
         private readonly IContributionRepository _contributionRepository;
         private readonly IAccumulatedPointsCalculator _accumulatedPointsCalculator;
+        private readonly ICardRepository _cardRepository;
         public GetCollaboratorQueryHandler(IMapper mapper,
             UserManager<Collaborator> userManager,
             IContributionRepository contributionRepository,
-            IAccumulatedPointsCalculator accumulatedPointsCalculator)
+            IAccumulatedPointsCalculator accumulatedPointsCalculator,
+            ICardRepository cardRepository)
         {
             _mapper = mapper;
             _userManager = userManager;
             _contributionRepository = contributionRepository;
             _accumulatedPointsCalculator = accumulatedPointsCalculator;
+            _cardRepository = cardRepository;
         }
 
         public async Task<CustomResponse<GetCollaboratorResponse>> Handle(GetCollaboratorQuery query, CancellationToken ct)
@@ -55,6 +58,8 @@ namespace TPDDSBackend.Aplication.Queries
 
             var destinationList = _mapper.Map<IList<ContributionByCollaboratorResponse>>(contributions);
 
+            var card = await _cardRepository.GetCollaboratorCard(user.Id);
+
             var userResponse = new GetCollaboratorResponse()
             {
                 Id = user.Id,
@@ -64,7 +69,8 @@ namespace TPDDSBackend.Aplication.Queries
                 Rol = rol.FirstOrDefault(),
                 Type = user.Discriminator,
                 Contributions = destinationList,
-                AccumulatedPoints = Math.Round(accumulatedPoints, 2) // Redondea a dos decimales
+                AccumulatedPoints = Math.Round(accumulatedPoints, 2), // Redondea a dos decimales
+                CardCode = card?.Code
             };
             
             return new CustomResponse<GetCollaboratorResponse>("usuario encontrado", userResponse);

@@ -10,8 +10,7 @@ namespace TPDDSBackend.Aplication.Mappers
         public CollaboratorProfile()
         {
             CreateMap<CreateHumanPersonRequest, HumanPerson>();
-            CreateMap<CreateHumanPersonRequest, Card>()
-                 .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.CardCode));
+            CreateMap<CreateHumanPersonRequest, Card>();    
             CreateMap<CreateLegalPersonRequest, LegalPerson>();
             CreateMap<Neighborhood, LegalPerson>();
         }
