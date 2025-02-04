@@ -19,5 +19,7 @@
        public decimal AccumulatedPoints {  get; set; }
 
        public string CardCode { get; set; }
+
+       public string Address {get; set; }
     }
 }

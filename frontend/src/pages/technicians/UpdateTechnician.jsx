@@ -30,9 +30,9 @@ export async function updateTechicianAction({ request, params }) {
   if (response.status === 500) {
     throw json({ message: "could not save event" }, { status: 500 });
   }
+
   if (!response.ok) {
     const errors = await response.json();
-    console.log(errors);
     return errors.errors;
   }
   return redirect("..");

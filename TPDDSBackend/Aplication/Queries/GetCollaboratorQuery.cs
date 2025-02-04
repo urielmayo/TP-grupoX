@@ -70,11 +70,12 @@ namespace TPDDSBackend.Aplication.Queries
                 Type = user.Discriminator,
                 Contributions = destinationList,
                 AccumulatedPoints = Math.Round(accumulatedPoints, 2), // Redondea a dos decimales
-                CardCode = card?.Code
+                CardCode = card?.Code,
+                Address = user.Address
             };
-            
+
             return new CustomResponse<GetCollaboratorResponse>("usuario encontrado", userResponse);
-            
+
         }
     }
 }

@@ -39,6 +39,7 @@ import { fridgeIncidentAction } from "./pages/fridges/FridgeIncident";
 import { reportsAction } from "./pages/Reports";
 import { technicianVisitAction } from "./pages/technicians/TechnicianVisit";
 import { updateFridgeAction } from "./pages/fridges/FridgeUpdate";
+import { updateProfileAction } from "./pages/Profile";
 // loaders
 import { userLoader } from "./utils/auth";
 import { contributionLoader } from "./loaders/contributionsLoader";
@@ -73,7 +74,12 @@ const router = createBrowserRouter([
           { path: "login", element: <LoginPage />, action: loginAction },
           { path: "signup", element: <SignupPage />, action: signupAction },
           { path: "logout", action: LogoutAction },
-          { path: "me", element: <ProfilePage />, loader: profileLoader },
+          {
+            path: "me",
+            element: <ProfilePage />,
+            loader: profileLoader,
+            action: updateProfileAction,
+          },
         ],
       },
       {
