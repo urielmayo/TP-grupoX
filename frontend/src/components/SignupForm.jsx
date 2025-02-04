@@ -59,15 +59,22 @@ export default function SignupForm() {
           placeholder={"Reingresar contraseña"}
           required
         />
+        <Field
+          label={"Dirección"}
+          name={"address"}
+          type={"text"}
+          placeholder={"Ingrese la dirección"}
+          required
+        />
+        <Field
+          label="Telefono"
+          name="phoneNumber"
+          type="text"
+          placeholder="Ingrese un numero de contacto"
+          required
+        />
       </div>
 
-      <Field
-        label={"Dirección"}
-        name={"address"}
-        type={"text"}
-        placeholder={"Ingrese la dirección"}
-        required
-      />
       <h1 className="text-xl font-bold text-gray-500 mb-4">
         Datos de colaborador
       </h1>
