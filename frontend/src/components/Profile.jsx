@@ -48,6 +48,12 @@ export default function Profile() {
           <h1 className="font-bold">Dirección:</h1>
           <p>{user.address}</p>
         </div>
+        {user.type === "HumanPerson" && (
+          <div className="flex gap-x-3">
+            <h1 className="font-bold">Código de tarjeta:</h1>
+            <p>{user.cardCode}</p>
+          </div>
+        )}
         <div className="flex gap-x-3">
           <h1 className="font-bold">Cantidad de contribuciones:</h1>
           <p>{user.contributions.length}</p>
