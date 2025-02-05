@@ -37,3 +37,25 @@ export function authHeaders() {
     Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
   };
 }
+
+export function extractErrors(response) {
+  const allErrors = [];
+
+  // Check if the response has an 'errors' object
+  if (response.errors && typeof response.errors === "object") {
+    for (const [key, value] of Object.entries(response.errors)) {
+      if (Array.isArray(value)) {
+        allErrors.push(...value); // Spread the array into allErrors
+      } else {
+        allErrors.push(value); // If it's not an array, just push the value
+      }
+    }
+  }
+
+  // Check if the response has an 'Errors' array
+  if (Array.isArray(response.Errors)) {
+    allErrors.push(...response.Errors); // Spread the Errors array into allErrors
+  }
+
+  return allErrors; // Return the combined array of errors
+}
