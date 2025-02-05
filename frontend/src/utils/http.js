@@ -1,4 +1,4 @@
-import { authHeaders, requireAuth } from "./auth";
+import { authHeaders, requireAuth, requireAdmin } from "./auth";
 import { config } from "../config";
 import { redirect, json } from "react-router-dom";
 
@@ -39,6 +39,12 @@ export async function fetchUser() {
 export async function fetchNeighborhoods() {
   const response = await fetch(`${config.BACKEND_URL}/Neighborhood`);
 
+  if (response.status === 401) {
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("jwt");
+    throw redirect("/users/login");
+  }
+
   if (!response.ok) {
     throw new Response("Failed to fetch neighborhood", {
       status: response.status,
@@ -50,18 +56,7 @@ export async function fetchNeighborhoods() {
 }
 
 export async function deleteTechnician(id) {
-  const user = requireAuth();
-
-  // Verificar que el usuario sea un Admin
-  if (user.role !== "Admin") {
-    throw json(
-      {
-        title: "Acceso indebido",
-        message: "No esta permitida la accion para este rol",
-      },
-      { status: 403 }
-    );
-  }
+  requireAdmin();
 
   try {
     const response = await fetch(`${config.BACKEND_URL}/Technician/${id}`, {
@@ -71,6 +66,13 @@ export async function deleteTechnician(id) {
         Authorization: `bearer ${sessionStorage.getItem("jwt")}`,
       },
     });
+
+    if (response.status === 401) {
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("jwt");
+      throw redirect("/users/login");
+    }
+
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
@@ -86,5 +88,12 @@ export async function deleteFridge(id) {
     method: "DELETE",
     headers: authHeaders(),
   });
+
+  if (response.status === 401) {
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("jwt");
+    throw redirect("/users/login");
+  }
+
   return response;
 }
