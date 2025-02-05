@@ -2,7 +2,7 @@
 import { redirect, json } from "react-router-dom";
 import { config } from "../../config";
 import NewContribution from "../../components/Contributions/NewContribution";
-import { authHeaders } from "../../utils/auth";
+import { authHeaders, extractErrors } from "../../utils/auth";
 
 export default function NewContributionPage() {
   return <NewContribution />;
@@ -24,10 +24,9 @@ export async function newContribAction({ request }) {
   if (response.status === 500) {
     throw json({ message: "could not save event" }, { status: 500 });
   }
-  if (!response.ok) {
-    const errors = await response.json();
-    console.log(errors);
-    return errors.errors;
+  if (response.status === 400) {
+    const json = await response.json();
+    return extractErrors(json);
   }
   return redirect("..");
 }

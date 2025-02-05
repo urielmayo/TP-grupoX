@@ -2,7 +2,7 @@
 import { redirect } from "react-router-dom";
 import { config } from "../../config";
 import NewTechnician from "../../components/technicians/NewTechnician";
-import { authHeaders } from "../../utils/auth";
+import { authHeaders, extractErrors } from "../../utils/auth";
 
 export default function NewTechnicianPage() {
   return <NewTechnician />;
@@ -18,8 +18,8 @@ export async function newTechnicianAction({ request }) {
     body: JSON.stringify(data),
   });
   if (!response.ok) {
-    const errors = await response.json();
-    return errors.errors;
+    const json = await response.json();
+    return extractErrors(json);
   }
   return redirect("..");
 }

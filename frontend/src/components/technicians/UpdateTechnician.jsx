@@ -36,15 +36,15 @@ export default function UpdateTechnician() {
   return (
     <Modal onClose={() => navigate("../")}>
       <div className="min-w-96 min-h-48">
-        {errors && (
+        {(errors && (
           <FormError>
             <ul>
-              {Object.keys(errors).map((key) =>
-                errors[key].map((item) => <li key={item}>{item}</li>)
-              )}
+              {errors.map((error) => (
+                <li key={error}>{error}</li>
+              ))}
             </ul>
           </FormError>
-        )}
+        )) || <br />}
         <h1 className="text-xl">Editar tecnico</h1>
         <hr className="my-3" />
         <Form method="PUT">

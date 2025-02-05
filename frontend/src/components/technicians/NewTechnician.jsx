@@ -27,9 +27,9 @@ export default function NewTechnician() {
         {(errors && (
           <FormError>
             <ul>
-              {Object.keys(errors).map((key) =>
-                errors[key].map((item) => <li key={item}>{item}</li>)
-              )}
+              {errors.map((error) => (
+                <li key={error}>{error}</li>
+              ))}
             </ul>
           </FormError>
         )) || <br />}

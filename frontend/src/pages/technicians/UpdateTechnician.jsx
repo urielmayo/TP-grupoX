@@ -2,7 +2,7 @@
 import { redirect, json } from "react-router-dom";
 import { config } from "../../config";
 import UpdateTechnician from "../../components/technicians/UpdateTechnician";
-import { authHeaders } from "../../utils/auth";
+import { authHeaders, extractErrors } from "../../utils/auth";
 
 export default function UpdateTechnicianPage() {
   return <UpdateTechnician />;
@@ -32,8 +32,8 @@ export async function updateTechicianAction({ request, params }) {
   }
 
   if (!response.ok) {
-    const errors = await response.json();
-    return errors.errors;
+    const json = await response.json();
+    return extractErrors(json);
   }
   return redirect("..");
 }
