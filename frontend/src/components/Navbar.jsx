@@ -64,7 +64,11 @@ export default function Navbar() {
 
       <div className="flex justify-end pl-3 gap-x-4">
         {(!isLogged && (
-          <NavLink to="users/login" className="hover:underline">
+          <NavLink
+            to="users/login"
+            className="hover:underline"
+            onClick={() => setDropdownOpen(false)}
+          >
             Iniciar Sesion
           </NavLink>
         )) || (
