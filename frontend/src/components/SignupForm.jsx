@@ -64,7 +64,7 @@ export default function SignupForm() {
           name={"address"}
           type={"text"}
           placeholder={"Ingrese la dirección"}
-          required
+          required={tipoColaborador === "human-person"}
         />
         <Field
           label="Telefono"
